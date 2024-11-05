@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Personnel_Management.Data.EntityRepository
 {
-	internal interface INhanVienRepository
+	public interface INhanVienRepository
 	{
         Task<List<NhanVien>> GetAllNhanViensAsync();
         Task<NhanVien> GetNhanVienByIdAsync(int id);
