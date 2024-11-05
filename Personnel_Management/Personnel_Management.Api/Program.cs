@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
+using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
 using System.Text;
 
@@ -26,6 +27,7 @@ namespace Personnel_Management.Api
 
 			builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 			builder.Services.AddScoped<INhanVienService, NhanVienService>();
+            builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
 
 
 
@@ -33,10 +35,9 @@ namespace Personnel_Management.Api
 
 
 
+            // Authentication
 
-			// Authentication
-
-			builder.Services.AddAuthentication(options =>
+            builder.Services.AddAuthentication(options =>
 			{
 				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
