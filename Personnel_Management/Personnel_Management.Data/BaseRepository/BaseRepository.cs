@@ -1,41 +1,132 @@
-﻿using System;
+﻿using Personnel_Management.Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Security.Cryptography;
+
 
 namespace Personnel_Management.Data.BaseRepository
 {
 	public class BaseRepository<T> : IBaseRepository<T> where T : class
 	{
-		public Task AddAsync(T entity)
-		{
-			throw new NotImplementedException();
-		}
+		protected readonly QuanLyNhanSuContext _context;
+		protected readonly DbSet<T> _dbSet;
 
-		public Task DeleteAsync(Guid id)
+		public BaseRepository(QuanLyNhanSuContext context)
 		{
-			throw new NotImplementedException();
+			_context = context;
+			var typeOfDbSet = typeof(DbSet<T>);
+			foreach (var prop in context.GetType().GetProperties())
+			{
+				if (typeOfDbSet == prop.PropertyType)
+				{
+					_dbSet = prop.GetValue(context, null) as DbSet<T>;
+					break;
+				}
+			}
+
+			if (_dbSet == null)
+			{
+				_dbSet = context.Set<T>();
+			}
 		}
 
 		public IEnumerable<T> GetAll()
 		{
-			throw new NotImplementedException();
+			return _dbSet.ToList();
 		}
 
-		public Task<T> GetByEmailAsync(string email)
+		public async Task<IEnumerable<T>> GetAllAsync()
 		{
-			throw new NotImplementedException();
+			return await _dbSet.ToListAsync();
 		}
 
-		public Task<T> GetByIdAsync(Guid id)
+		public T? GetById(int id)
 		{
-			throw new NotImplementedException();
+			return _dbSet.Find(id);
 		}
 
-		public Task UpdateAsync(T entity)
+		public async Task<T?> GetByIdAsync(int id)
 		{
-			throw new NotImplementedException();
+			return await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
 		}
+
+		public void Add(T entity)
+		{
+			_dbSet.Add(entity);
+		}
+
+		public void Update(T entity)
+		{
+			_context.Entry(entity).State = EntityState.Modified;
+		}
+
+		public void Delete(int id)
+		{
+			var entity = _dbSet.Find(id);
+			if (entity != null)
+			{
+				_dbSet.Remove(entity);
+			}
+		}
+
+		public void Delete(T entity)
+		{
+			_dbSet.Remove(entity);
+		}
+
+		public IQueryable<T> GetQuery()
+		{
+			return _dbSet.AsQueryable();
+		}
+
+		public IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate)
+		{
+			return _dbSet.Where(predicate);
+		}
+
+		public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
+		{
+			IQueryable<T> query = _dbSet;
+
+			if (filter != null)
+			{
+				query = query.Where(filter);
+			}
+
+			foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+			{
+				query = query.Include(includeProperty);
+			}
+
+			if (orderBy != null)
+			{
+				return orderBy(query);
+			}
+
+			return query;
+		}
+
+		public void Detach(T entity)
+		{
+			_context.Entry(entity).State = EntityState.Detached;
+		}
+
+
+		public string HashPassword(string password)
+		{
+			using (var sha256 = SHA256.Create())
+			{
+				var bytes = Encoding.UTF8.GetBytes(password);
+				var hash = sha256.ComputeHash(bytes);
+				return Convert.ToBase64String(hash);
+			}
+		}
+
+
 	}
 }
