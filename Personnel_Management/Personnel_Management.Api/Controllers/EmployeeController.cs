@@ -6,9 +6,9 @@ using Personnel_Management.Models.Models;
 [Route("api/[controller]")]
 public class EmployeeController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly QuanLyNhanSuContext _context;
 
-    public EmployeeController(ApplicationDbContext context)
+    public EmployeeController(QuanLyNhanSuContext context)
     {
         _context = context;
     }
@@ -18,7 +18,7 @@ public class EmployeeController : ControllerBase
     {
         var department = await _context.PhongBans.FindAsync(employee.PhongBanId);
 
-        if (employee.IsManager && department.Employees.Any(e => e.IsManager))
+        if (employee.IsManager && department.NhanViens.Any(e => e.IsManager))
             return BadRequest("Department already has a manager.");
 
         _context.NhanViens.Add(employee);

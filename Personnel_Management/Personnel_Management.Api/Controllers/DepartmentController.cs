@@ -1,14 +1,15 @@
 ﻿// Controllers/DepartmentController.cs
 using Microsoft.AspNetCore.Mvc;
 using Personnel_Management.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/[controller]")]
 public class DepartmentController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly QuanLyNhanSuContext _context;
 
-    public DepartmentController(ApplicationDbContext context)
+    public DepartmentController(QuanLyNhanSuContext context)
     {
         _context = context;
     }
@@ -25,13 +26,13 @@ public class DepartmentController : ControllerBase
     public async Task<IActionResult> DeleteDepartment(int id)
     {
         var department = await _context.PhongBans
-                            .Include(d => d.Employees)
+                            .Include(d => d.NhanViens)
                             .FirstOrDefaultAsync(d => d.PhongBanId == id);
 
         if (department == null)
             return NotFound("Department not found.");
 
-        if (department.Employees.Any())
+        if (department.NhanViens.Any())
             return BadRequest("Cannot delete department with employees.");
 
         _context.PhongBans.Remove(department);
