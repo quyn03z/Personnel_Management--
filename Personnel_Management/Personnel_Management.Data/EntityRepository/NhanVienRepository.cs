@@ -14,11 +14,30 @@ namespace Personnel_Management.Data.EntityRepository
 		public NhanVienRepository(QuanLyNhanSuContext context) : base(context)
 		{
 		}
-		public NhanVien Login(string email, string matkhau)
+
+        public async Task AddNhanVienAsync(NhanVien nhanVien)
+        {
+            _context.NhanViens.Add(nhanVien);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<NhanVien>> GetAllNhanViensAsync()
+        {
+            var nhanViens = await this.GetAllAsync();
+            return nhanViens.ToList();
+        }
+
+        public async Task<NhanVien> GetNhanVienByIdAsync(int id)
+        {
+            return await _context.NhanViens.FindAsync(id);
+        }
+
+        public NhanVien Login(string email, string matkhau)
 		{
 			return _context.NhanViens
 			.FirstOrDefault(user => user.Email == email && user.Matkhau == matkhau);
 		}
+
 
 	}
 }

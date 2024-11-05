@@ -20,4 +20,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Personnel_Management.Business\Personnel_Management.Business.csproj" />
+    <ProjectReference Include="..\Personnel_Management.Data\Personnel_Management.Data.csproj" />
+    <ProjectReference Include="..\Personnel_Management.Models\Personnel_Management.Models.csproj" />
+  </ItemGroup>
+
 </Project>
