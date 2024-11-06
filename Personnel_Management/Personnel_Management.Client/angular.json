@@ -26,28 +26,37 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss",
+              "src/css/sb-admin-2.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css" 
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/vendor/jquery/jquery.min.js",
+  "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
+  "src/assets/vendor/jquery-easing/jquery.easing.min.js",
+  "src/assets/js/sb-admin-2.min.js",
+  "src/assets/vendor/chart.js/Chart.min.js",
+  "src/assets/js/demo/chart-area-demo.js",
+  "src/assets/js/demo/chart-pie-demo.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "outputHashing": "all"
@@ -73,7 +82,10 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "Personnel_Management.Client:build"
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -85,15 +97,24 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss",
+              "src/css/sb-admin-2.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css" 
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/vendor/jquery/jquery.min.js",
+  "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
+  "src/assets/vendor/jquery-easing/jquery.easing.min.js",
+  "src/assets/js/sb-admin-2.min.js",
+  "src/assets/vendor/chart.js/Chart.min.js",
+  "src/assets/js/demo/chart-area-demo.js",
+  "src/assets/js/demo/chart-pie-demo.js"
+            ]
           }
         }
       }
