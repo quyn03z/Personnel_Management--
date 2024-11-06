@@ -13,6 +13,7 @@ namespace Personnel_Management.Data.EntityRepository
         Task<List<NhanVien>> GetAllNhanViensAsync();
         Task<NhanVien> GetNhanVienByIdAsync(int id);
         Task AddNhanVienAsync(NhanVien nhanVien);
+        Task UpdateNhanVienAsync(NhanVien nhanVien);
         IQueryable<NhanVien> GetQuery();
         IQueryable<NhanVien> GetQuery(Expression<Func<NhanVien, bool>> predicate);
         List<NhanVien> GetAllManagerFunction();

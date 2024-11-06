@@ -32,6 +32,11 @@ namespace Personnel_Management.Data.EntityRepository
             _context.NhanViens.Add(nhanVien);
             await _context.SaveChangesAsync();
         }
+        public async Task UpdateNhanVienAsync(NhanVien nhanVien)
+        {   
+            _context.NhanViens.Update(nhanVien);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task<List<NhanVien>> GetAllNhanViensAsync()
         {

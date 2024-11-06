@@ -47,15 +47,23 @@ namespace Personnel_Management.Business.NhanVienService
             return nhanVien;
         }
 
-        //public async Task UpdateAsync(NhanVien nhanVien)
-        //{
-        //    await _nhanVienRepository.UpdateAsync(nhanVien);
-        //}
 
-        //public async Task DeleteAsync(int id)
-        //{
-        //    await _nhanVienRepository.DeleteAsync(id);
-        //}
+        public async Task UpdateAsync(NhanVien nhanVien)
+        {
+            var originalNhanVien = await _nhanVienRepository.GetNhanVienByIdAsync(nhanVien.NhanVienId);
+            if (originalNhanVien == null) throw new Exception("Nhân viên không tồn tại.");
+
+            originalNhanVien.HoTen = nhanVien.HoTen;
+            originalNhanVien.NgaySinh = nhanVien.NgaySinh;
+            originalNhanVien.DiaChi = nhanVien.DiaChi;
+            originalNhanVien.SoDienThoai = nhanVien.SoDienThoai;
+            originalNhanVien.Email = nhanVien.Email; // Cần kiểm tra email đã tồn tại hay chưa
+            originalNhanVien.PhongBanId = nhanVien.PhongBanId;
+            originalNhanVien.RoleId = nhanVien.RoleId; //Cập nhật role
+
+            await _nhanVienRepository.UpdateNhanVienAsync(originalNhanVien);
+        }
+
 
         //public async Task<NhanVien?> GetByEmailAsync(string email)
         //{
