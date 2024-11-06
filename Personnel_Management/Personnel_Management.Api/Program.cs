@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Personnel_Management.Business.AuthService;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
+using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
 using System.Text;
 
@@ -25,10 +27,12 @@ namespace Personnel_Management.Api
 			});
 
 			builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+			builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
 			builder.Services.AddScoped<INhanVienService, NhanVienService>();
+			builder.Services.AddScoped<BaseRepository<NhanVien>>();
 
-
-
+			builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 

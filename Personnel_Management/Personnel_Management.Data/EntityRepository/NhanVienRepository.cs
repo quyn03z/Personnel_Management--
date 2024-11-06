@@ -14,11 +14,14 @@ namespace Personnel_Management.Data.EntityRepository
 		public NhanVienRepository(QuanLyNhanSuContext context) : base(context)
 		{
 		}
+
+
 		public NhanVien Login(string email, string matkhau)
 		{
-			return _context.NhanViens
-			.FirstOrDefault(user => user.Email == email && user.Matkhau == matkhau);
+			return _context.NhanViens.SingleOrDefault(u => u.Email == email && u.Matkhau == HashPassword(matkhau));
 		}
+
+
 
 	}
 }

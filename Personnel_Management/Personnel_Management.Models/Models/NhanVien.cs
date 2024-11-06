@@ -21,7 +21,7 @@ public partial class NhanVien
 
     public int RoleId { get; set; }
 
-    public int PhongBanId { get; set; }
+    public int? PhongBanId { get; set; }
 
     public string Matkhau { get; set; }
 

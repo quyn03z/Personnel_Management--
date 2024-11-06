@@ -1,4 +1,5 @@
 ﻿using Personnel_Management.Models.Models;
+using Personnel_Management.Models.ModelsDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,8 @@ namespace Personnel_Management.Business.NhanVienService
 {
 	public interface INhanVienService
 	{
-		NhanVien Login(string email, string password);
+		Task<NhanVienDTO> AddNhanVienAsync(NhanVien nhanVien);
 
-		string GenerateJwtToken(NhanVien user);
 	}
 
 }

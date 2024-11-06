@@ -14,101 +14,69 @@ namespace Personnel_Management.Data.BaseRepository
 	public class BaseRepository<T> : IBaseRepository<T> where T : class
 	{
 		protected readonly QuanLyNhanSuContext _context;
-		protected readonly DbSet<T> _dbSet;
 
 		public BaseRepository(QuanLyNhanSuContext context)
 		{
 			_context = context;
-			var typeOfDbSet = typeof(DbSet<T>);
-			foreach (var prop in context.GetType().GetProperties())
-			{
-				if (typeOfDbSet == prop.PropertyType)
-				{
-					_dbSet = prop.GetValue(context, null) as DbSet<T>;
-					break;
-				}
-			}
-
-			if (_dbSet == null)
-			{
-				_dbSet = context.Set<T>();
-			}
 		}
 
 		public IEnumerable<T> GetAll()
 		{
-			return _dbSet.ToList();
+			return _context.Set<T>().ToList();
 		}
 
 		public async Task<IEnumerable<T>> GetAllAsync()
 		{
-			return await _dbSet.ToListAsync();
+			return await _context.Set<T>().ToListAsync();
 		}
 
 		public T? GetById(int id)
 		{
-			return _dbSet.Find(id);
+			return _context.Set<T>().Find(id);
 		}
 
 		public async Task<T?> GetByIdAsync(int id)
 		{
-			return await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+			return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);  
 		}
 
-		public void Add(T entity)
+		public async Task Add(T entity)
 		{
-			_dbSet.Add(entity);
+			_context.Add<T>(entity);
+			await _context.SaveChangesAsync();
 		}
 
-		public void Update(T entity)
+		public async Task Update(T entity)
 		{
 			_context.Entry(entity).State = EntityState.Modified;
+			await _context.SaveChangesAsync();
 		}
 
-		public void Delete(int id)
+		public async Task Delete(int id)
 		{
-			var entity = _dbSet.Find(id);
-			if (entity != null)
+			var entity = _context.Set<T>().Find(id);
+			if(entity != null)
 			{
-				_dbSet.Remove(entity);
+				_context.Set<T>().Remove(entity);
+				await _context.SaveChangesAsync();
 			}
+
 		}
 
-		public void Delete(T entity)
+		public async Task Delete(T entity)
 		{
-			_dbSet.Remove(entity);
+			_context.Set<T>().Remove(entity);  
+			await _context.SaveChangesAsync();
 		}
 
 		public IQueryable<T> GetQuery()
 		{
-			return _dbSet.AsQueryable();
+			return _context.Set<T>().AsQueryable();
 		}
 
 		public IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate)
 		{
-			return _dbSet.Where(predicate);
-		}
-
-		public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
-		{
-			IQueryable<T> query = _dbSet;
-
-			if (filter != null)
-			{
-				query = query.Where(filter);
-			}
-
-			foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-			{
-				query = query.Include(includeProperty);
-			}
-
-			if (orderBy != null)
-			{
-				return orderBy(query);
-			}
-
-			return query;
+			return _context.Set<T>().Where(predicate);
 		}
 
 		public void Detach(T entity)
@@ -127,6 +95,7 @@ namespace Personnel_Management.Data.BaseRepository
 			}
 		}
 
+		
 
 	}
 }
