@@ -11,8 +11,10 @@ namespace Personnel_Management.Data.EntityRepository
 {
 	public class NhanVienRepository : BaseRepository<NhanVien>, INhanVienRepository
 	{
+        private readonly QuanLyNhanSuContext _context;
 		public NhanVienRepository(QuanLyNhanSuContext context) : base(context)
 		{
+            _context = context;
 		}
 
         public async Task AddNhanVienAsync(NhanVien nhanVien)
@@ -38,6 +40,43 @@ namespace Personnel_Management.Data.EntityRepository
 			.FirstOrDefault(user => user.Email == email && user.Matkhau == matkhau);
 		}
 
+        public List<NhanVien> GetAllManagerFunction()
+        {
+            List<NhanVien> list = new List<NhanVien>();
+            try
+            {
+                list = _context.NhanViens.Where(nv => nv.RoleId == 3).Include(nv => nv.PhongBan).Include(nv => nv.DiemDanhs).Include(nv => nv.Luongs).Include(nv => nv.ThuongPhats).ToList();
+            }
+            catch (Exception e)
+            {
+
+                return null;
+            }
+            return list;
+        }
+
+        public NhanVien GetByIdManagerFunction(int id)
+        {
+            NhanVien nhanVien = null;
+            try
+            {
+                nhanVien = _context.NhanViens
+        .Where(nv => nv.NhanVienId == id)
+        .Include(nv => nv.PhongBan)
+        .Include(nv => nv.DiemDanhs)
+        .Include(nv => nv.Luongs)
+        .Include(nv => nv.ThuongPhats)
+        .FirstOrDefault();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+            return nhanVien;
+        }
+
+
+    }
 
 	}
-}
