@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Personnel_Management.Data.ThuongPhatRepository;
 using Personnel_Management.Models.Models;
 
-namespace Personnel_Management.Api
+namespace Personnel_Management.Api.Controller
 {
     [Route("api/[controller]")]
     [ApiController]

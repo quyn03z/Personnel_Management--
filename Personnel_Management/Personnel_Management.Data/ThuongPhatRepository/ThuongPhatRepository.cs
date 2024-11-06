@@ -138,10 +138,10 @@ namespace Personnel_Management.Data.ThuongPhatRepository
         public bool UpdateThuongPhat(int thuongPhatId, ThuongPhatAddModel thuongPhatUpdate)
         {
             bool check = false;
-            if (!thuongPhatUpdate.Loai.Trim().ToLower().Equals("thuong") || !thuongPhatUpdate.Loai.Trim().ToLower().Equals("phat"))
-            {
-                return check;
-            }
+            //if (!thuongPhatUpdate.Loai.Trim().ToLower().Equals("thuong") || !thuongPhatUpdate.Loai.Trim().ToLower().Equals("phat"))
+            //{
+            //    return check;
+            //}
             try
             {
                 var thuongPhat = _context.ThuongPhats.FirstOrDefault(tp => tp.ThuongPhatId == thuongPhatId);

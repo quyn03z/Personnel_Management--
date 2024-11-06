@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Personnel_Management.Business.NhanVienService;
@@ -5,6 +6,7 @@ using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Data.ThuongPhatRepository;
 using Personnel_Management.Models.Models;
+using System.Text;
 using System.Text.Json.Serialization;
 
 public class Program
@@ -28,24 +30,7 @@ public class Program
             builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
 			builder.Services.AddScoped<IThuongPhatRepository, ThuongPhatRepository>();
 
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-        var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-        app.MapControllers();
+        
 
             // Authentication
 
@@ -94,4 +79,4 @@ public class Program
 			app.Run();
 		}
 	}
-}
+
