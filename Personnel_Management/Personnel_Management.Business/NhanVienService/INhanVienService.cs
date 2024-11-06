@@ -12,6 +12,9 @@ namespace Personnel_Management.Business.NhanVienService
 		NhanVien Login(string email, string password);
 
 		string GenerateJwtToken(NhanVien user);
-	}
+        Task<IEnumerable<NhanVien>> GetAllAsync();
+        Task<NhanVien?> GetByIdAsync(int id);
+        Task<NhanVien> AddAsync(NhanVien nhanVien);
+    }
 
 }

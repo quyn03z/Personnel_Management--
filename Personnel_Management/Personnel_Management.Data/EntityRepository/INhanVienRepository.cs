@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,8 +13,10 @@ namespace Personnel_Management.Data.EntityRepository
         Task<List<NhanVien>> GetAllNhanViensAsync();
         Task<NhanVien> GetNhanVienByIdAsync(int id);
         Task AddNhanVienAsync(NhanVien nhanVien);
-
-		List<NhanVien> GetAllManagerFunction();
+        IQueryable<NhanVien> GetQuery();
+        IQueryable<NhanVien> GetQuery(Expression<Func<NhanVien, bool>> predicate);
+        List<NhanVien> GetAllManagerFunction();
 		NhanVien GetByIdManagerFunction(int id);
-	}
+
+    }
 }

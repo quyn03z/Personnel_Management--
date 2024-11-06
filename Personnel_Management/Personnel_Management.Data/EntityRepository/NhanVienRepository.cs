@@ -4,6 +4,7 @@ using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,15 @@ namespace Personnel_Management.Data.EntityRepository
             _context = context;
 		}
 
+        public IQueryable<NhanVien> GetQuery()
+        {
+            return _dbSet; // hoặc _context.NhanViens.AsQueryable()
+        }
+
+        public IQueryable<NhanVien> GetQuery(Expression<Func<NhanVien, bool>> predicate)
+        {
+            return _dbSet.Where(predicate);
+        }
         public async Task AddNhanVienAsync(NhanVien nhanVien)
         {
             _context.NhanViens.Add(nhanVien);

@@ -25,6 +25,8 @@ public partial class NhanVien
 
     public string Matkhau { get; set; }
 
+    public bool IsManager => RoleId == 2; // Assume RoleId=2 is Manager
+
     public virtual ICollection<DiemDanh> DiemDanhs { get; set; } = new List<DiemDanh>();
 
     public virtual ICollection<Luong> Luongs { get; set; } = new List<Luong>();
