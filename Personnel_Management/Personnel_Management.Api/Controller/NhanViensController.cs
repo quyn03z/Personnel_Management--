@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Models.Models;
 
@@ -9,10 +10,12 @@ namespace Personnel_Management.Api.Controller
     public class NhanViensController : ControllerBase
     {
         private readonly INhanVienService _nhanVienService;
+        private readonly QuanLyNhanSuContext _context;
 
-        public NhanViensController(INhanVienService nhanVienService)
+        public NhanViensController(INhanVienService nhanVienService, QuanLyNhanSuContext context)
         {
             _nhanVienService = nhanVienService;
+            _context = context;
         }
 
         [HttpGet]
@@ -41,25 +44,46 @@ namespace Personnel_Management.Api.Controller
             return CreatedAtAction(nameof(GetById), new { id = createdNhanVien.NhanVienId }, createdNhanVien);
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Update(int id, NhanVien nhanVien)
-        //{
-        //    if (id != nhanVien.NhanVienId)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, NhanVien nhanVien)
+        {
+            if (id != nhanVien.NhanVienId)
+            {
+                return BadRequest();
+            }
 
-        //    try
-        //    {
-        //        await _nhanVienService.UpdateAsync(nhanVien);
-        //        return NoContent();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception
-        //        return StatusCode(500, $"Error updating employee: {ex.Message}");
-        //    }
-        //}
+            try
+            {
+                await _nhanVienService.UpdateAsync(nhanVien);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, $"Error updating employee: {ex.Message}");
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEmployee(int id, [FromQuery] int? newManagerId = null)
+        {
+            var employee = await _context.NhanViens.FindAsync(id);
+            if (employee == null)
+                return NotFound("Employee not found.");
+
+            if (employee.IsManager && newManagerId == null)
+                return BadRequest("Must assign a new manager.");
+
+            if (employee.IsManager)
+            {
+                var newManager = await _context.NhanViens.FindAsync(newManagerId);
+                newManager.RoleId = 2; // Assign as manager
+                _context.NhanViens.Update(newManager);
+            }
+
+            _context.NhanViens.Remove(employee);
+            await _context.SaveChangesAsync();
+            return Ok("Employee deleted.");
+        }
 
 
         //[HttpDelete("{id}")]

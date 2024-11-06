@@ -15,6 +15,7 @@ namespace Personnel_Management.Business.NhanVienService
         Task<IEnumerable<NhanVien>> GetAllAsync();
         Task<NhanVien?> GetByIdAsync(int id);
         Task<NhanVien> AddAsync(NhanVien nhanVien);
+        Task UpdateAsync(NhanVien nhanVien);
     }
 
 }

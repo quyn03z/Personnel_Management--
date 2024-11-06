@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
+using Personnel_Management.Data.EntityRepository;
 
 
 namespace Personnel_Management.Data.BaseRepository
@@ -15,8 +16,8 @@ namespace Personnel_Management.Data.BaseRepository
 	{
 		protected readonly QuanLyNhanSuContext _context;
 		protected readonly DbSet<T> _dbSet;
-
-		public BaseRepository(QuanLyNhanSuContext context)
+        protected readonly INhanVienRepository _nhanVienRepository;
+        public BaseRepository(QuanLyNhanSuContext context)
 		{
 			_context = context;
 			var typeOfDbSet = typeof(DbSet<T>);
