@@ -1,4 +1,5 @@
-﻿using Personnel_Management.Data.EntityRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,19 @@ namespace Personnel_Management.Business.NhanVienService
 
         public async Task<NhanVien> AddAsync(NhanVien nhanVien)
         {
+            var existingEmployeesInDepartment = await _nhanVienRepository.GetQuery(nv => nv.PhongBanId == nhanVien.PhongBanId).ToListAsync();
+
+            if (existingEmployeesInDepartment.Count == 0)
+            {
+                // Phòng ban chưa có nhân viên, gán RoleId là 2 (Manager)
+                nhanVien.RoleId = 2;
+            }
+            else
+            {
+                // Phòng ban đã có nhân viên, gán RoleId là 1 (Employee)
+                nhanVien.RoleId = 1;
+            }
+
             await _nhanVienRepository.AddNhanVienAsync(nhanVien);
             return nhanVien;
         }

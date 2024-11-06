@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Personnel_Management.Data\Personnel_Management.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ThuongPhatService\" />
+  </ItemGroup>
+
 </Project>
