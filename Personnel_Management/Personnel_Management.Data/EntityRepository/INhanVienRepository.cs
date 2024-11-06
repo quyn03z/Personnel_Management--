@@ -16,6 +16,8 @@ namespace Personnel_Management.Data.EntityRepository
         Task UpdateNhanVienAsync(NhanVien nhanVien);
         IQueryable<NhanVien> GetQuery();
         IQueryable<NhanVien> GetQuery(Expression<Func<NhanVien, bool>> predicate);
+        List<NhanVien> GetAllManagerFunction();
+		NhanVien GetByIdManagerFunction(int id);
 
     }
 }

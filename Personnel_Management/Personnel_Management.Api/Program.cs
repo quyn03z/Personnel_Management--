@@ -1,39 +1,36 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
+using Personnel_Management.Data.ThuongPhatRepository;
 using Personnel_Management.Models.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
-namespace Personnel_Management.Api
+public class Program
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
-			//test
-			// Add services to the container.
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-			builder.Services.AddControllers();
+        // Add services to the container.
+        builder.Services.AddDbContext<QuanLyNhanSuContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-			builder.Services.AddDbContext<QuanLyNhanSuContext>(options =>
-			{
-				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-			});
+        builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
 
 			builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 			builder.Services.AddScoped<INhanVienService, NhanVienService>();
             builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
+			builder.Services.AddScoped<IThuongPhatRepository, ThuongPhatRepository>();
 
-
-
-
-
-
+        
 
             // Authentication
 
@@ -82,4 +79,4 @@ namespace Personnel_Management.Api
 			app.Run();
 		}
 	}
-}
+
