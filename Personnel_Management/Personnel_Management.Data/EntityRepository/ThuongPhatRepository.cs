@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Personnel_Management.Data.ThuongPhatRepository
+namespace Personnel_Management.Data.EntityRepository
 {
     public class ThuongPhatRepository : IThuongPhatRepository
     {
@@ -110,7 +110,7 @@ namespace Personnel_Management.Data.ThuongPhatRepository
             }
             catch (Exception ex)
             {
-                
+
                 return null;
             }
 
@@ -150,12 +150,12 @@ namespace Personnel_Management.Data.ThuongPhatRepository
                     return check;
                 }
 
-                    thuongPhat.NhanVienId = thuongPhatUpdate.NhanVienId;
-                    thuongPhat.Ngay = thuongPhatUpdate.Ngay;
-                    thuongPhat.SoTien = thuongPhatUpdate.SoTien;
-                    thuongPhat.Loai = thuongPhatUpdate.Loai;
-                    thuongPhat.GhiChu = thuongPhatUpdate.GhiChu;
-                
+                thuongPhat.NhanVienId = thuongPhatUpdate.NhanVienId;
+                thuongPhat.Ngay = thuongPhatUpdate.Ngay;
+                thuongPhat.SoTien = thuongPhatUpdate.SoTien;
+                thuongPhat.Loai = thuongPhatUpdate.Loai;
+                thuongPhat.GhiChu = thuongPhatUpdate.GhiChu;
+
                 _context.SaveChanges();
                 check = true;
             }

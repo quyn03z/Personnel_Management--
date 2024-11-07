@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
-using Personnel_Management.Data.ThuongPhatRepository;
 using Personnel_Management.Models.Models;
 using System.Text;
 using System.Text.Json.Serialization;
