@@ -17,15 +17,22 @@ import { HttpClientModule } from '@angular/common/http';
 export class AppComponent {
   title = 'Personnel_Management.Client';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   isLoginPage(): boolean {
-    return this.router.url === '/login';
+    return this.router.url === '/login' || this.router.url === '/signup';
   }
 
   isStandalonePage(): boolean {
     return this.isLoginPage(); 
   }
 
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
+  }
  
 }

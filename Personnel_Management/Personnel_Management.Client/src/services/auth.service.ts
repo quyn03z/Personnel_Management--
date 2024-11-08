@@ -37,9 +37,15 @@ export class AuthService {
         );
     }
 
+
+    signUpNhanVien(data: any){
+        return this.apiService.createNhanVien(data);
+    }
+
+
+
     logout(): void {
-        localStorage.removeItem('token');  
-        this.router.navigate(['/login']); // Điều hướng tới trang đăng nhập sau khi đăng xuất
+        localStorage.clear();
     }
 
     getRoles() {

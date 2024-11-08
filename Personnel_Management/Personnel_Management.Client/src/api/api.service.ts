@@ -9,15 +9,19 @@ import { HttpClientModule } from '@angular/common/http';
 export class ApiService {
 
   private baseUrl = "https://localhost:44357/api";
-  
   private headerCustom = {};
 
+  
   constructor(private http: HttpClient ) { 
     this.headerCustom = { headers: {"Authorization": "Bearer " + localStorage.getItem("token")} }
   }
 
   login(data: any): Observable<any> {
     return this.http.post<any>(this.baseUrl + "/Auth/Login", data);
+  }
+
+  createNhanVien(data: any): Observable<any>{
+    return this.http.post<any>(this.baseUrl + "/Auth/CreateNhanVien", data);
   }
 
 
