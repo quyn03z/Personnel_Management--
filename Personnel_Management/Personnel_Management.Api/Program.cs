@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Personnel_Management.Business.NhanVienService;
@@ -16,6 +16,16 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        // add CORS
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngularApp",
+                policy => policy.WithOrigins("http://localhost:4200")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod());
+        });
+
+        // Add services to the container.
         builder.Services.AddDbContext<QuanLyNhanSuContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -25,58 +35,60 @@ public class Program
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
 
-			builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-			builder.Services.AddScoped<INhanVienService, NhanVienService>();
-            builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
-			builder.Services.AddScoped<IThuongPhatRepository, ThuongPhatRepository>();
+        builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        builder.Services.AddScoped<INhanVienService, NhanVienService>();
+        builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
+        builder.Services.AddScoped<IThuongPhatRepository, ThuongPhatRepository>();
+
+
+
+        // Authentication
+
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            };
+        });
+
+        builder.Services.AddAuthorization();
+
+
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        app.UseCors("AllowAngularApp");
+        app.UseHttpsRedirection();
 
         
 
-            // Authentication
-
-            builder.Services.AddAuthentication(options =>
-			{
-				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(options =>
-			{
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-					ValidateIssuerSigningKey = true,
-					ValidIssuer = builder.Configuration["Jwt:Issuer"],
-					ValidAudience = builder.Configuration["Jwt:Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-				};
-			});
-
-			builder.Services.AddAuthorization();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
 
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+        app.MapControllers();
 
-			var app = builder.Build();
-
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
-
-			app.UseHttpsRedirection();
-
-			app.UseAuthentication();
-			app.UseAuthorization();
-
-
-			app.MapControllers();
-
-			app.Run();
-		}
-	}
+        app.Run();
+    }
+}
 

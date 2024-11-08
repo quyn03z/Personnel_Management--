@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Personnel_Management.Business.NhanVienService;
+using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
 
 namespace Personnel_Management.Api.Controller
@@ -11,17 +12,26 @@ namespace Personnel_Management.Api.Controller
     {
         private readonly INhanVienService _nhanVienService;
         private readonly QuanLyNhanSuContext _context;
+        private readonly INhanVienRepository _nhanVienRepository;
 
-        public NhanViensController(INhanVienService nhanVienService, QuanLyNhanSuContext context)
+        public NhanViensController(INhanVienService nhanVienService, QuanLyNhanSuContext context, INhanVienRepository nhanVienRepository)
         {
             _nhanVienService = nhanVienService;
             _context = context;
+            _nhanVienRepository = nhanVienRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var nhanViens = await _nhanVienService.GetAllAsync();
+            return Ok(nhanViens );
+        }
+
+        [HttpGet("GetAllManagerFunction")]
+        public  IActionResult GetAllManagerFunction()
+        {
+            var nhanViens = _nhanVienRepository.GetAllManagerFunction();
             return Ok(nhanViens);
         }
 
@@ -29,6 +39,17 @@ namespace Personnel_Management.Api.Controller
         public async Task<IActionResult> GetById(int id)
         {
             var nhanVien = await _nhanVienService.GetByIdAsync(id);
+            if (nhanVien == null)
+            {
+                return NotFound();
+            }
+            return Ok(nhanVien);
+        }
+
+        [HttpGet("GetByIdManagerFunction")]
+        public IActionResult GetByIdManagerFunction(int id)
+        {
+            var nhanVien =  _nhanVienRepository.GetByIdManagerFunction(id);
             if (nhanVien == null)
             {
                 return NotFound();
