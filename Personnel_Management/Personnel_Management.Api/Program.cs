@@ -43,6 +43,7 @@ public class Program
         builder.Services.AddScoped<ILuongRepository, LuongRepository>();
         builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+        builder.Services.AddControllers();
 
 
         // Authentication
