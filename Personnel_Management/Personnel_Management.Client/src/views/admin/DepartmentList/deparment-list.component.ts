@@ -32,6 +32,6 @@ export class DeparmentListComponent implements OnInit {
       this.departmentList = res.$values;
       console.log(this.departmentList); 
       this.dttrigger.next(null);  
-    })
+    });
   }
 }

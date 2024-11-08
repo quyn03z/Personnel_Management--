@@ -11,10 +11,11 @@
                         <th>Id</th>
                         <th>Tên Phòng Ban</th>
                         <th>Mô tả</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for (e of departmentList; track e.phongBan) {
+                    @for (e of departmentList; track e.phongBanId) {
                         <tr>
                             
                             <td>{{e.phongBanId}}</td>
