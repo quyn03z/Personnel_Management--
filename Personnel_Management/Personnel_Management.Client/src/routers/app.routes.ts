@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { ViewEmployeeListComponent } from '../views/view-employee-list/view-employee-list.component';
 import { LoginComponent } from '../views/login/login.component';
+import { AdminComponent } from '../views/admin/admin.component';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,11 @@ export const routes: Routes = [
         path: 'viewEmployeeList',
         title: 'Xem Danh Sach Nhan Vien',
         component: ViewEmployeeListComponent
+    },
+    {
+        path:'admin',
+        title:'admin',
+        component: AdminComponent
     }
 
 ];
