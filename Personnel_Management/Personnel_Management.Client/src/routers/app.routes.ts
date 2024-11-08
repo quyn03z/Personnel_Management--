@@ -3,6 +3,7 @@ import { ViewEmployeeListComponent } from '../views/view-employee-list/view-empl
 import { LoginComponent } from '../views/login/login.component';
 import { AdminComponent } from '../views/admin/admin.component';
 import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
+import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 export const routes: Routes = [
     {
         path: '',
@@ -28,6 +29,11 @@ export const routes: Routes = [
                 path: 'employeesList',
                 title: 'employeesList',
                 component: EmployeesListComponent
+            },
+            {
+                path: 'departmentList',
+                title: 'departmentList',
+                component: DeparmentListComponent
             }
         ] 
     }
