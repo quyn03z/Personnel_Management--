@@ -6,7 +6,7 @@ import { AdminComponent } from '../views/admin/admin.component';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: '/viewEmployeeList',
+        redirectTo: '/home',
         pathMatch: 'full'
     },
     {
