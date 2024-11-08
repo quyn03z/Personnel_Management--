@@ -25,7 +25,7 @@ export class EmployeesListComponent implements  OnInit {
     this.dtoptions ={
       pagingType: 'full_numbers',
       lengthMenu:[5,8,15,20],
-      pageLength: 5
+      pageLength: 10
     }
   }
 
@@ -36,6 +36,19 @@ export class EmployeesListComponent implements  OnInit {
       console.log(this.employeeList);
       this.dttrigger.next(null);
     });
+    
   }
+  getRoleName(roleId: number): string {
+    switch (roleId) {
+        case 1:
+            return 'Employee';
+        case 2:
+            return 'Manager';
+        case 3:
+            return 'Admin';
+        default:
+            return 'Unknown';
+    }
+}
 
 }
