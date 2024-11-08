@@ -49,7 +49,6 @@
               "src/assets/js/demo/chart-pie-demo.js",
               "src/assets/js/demo/datatables-demo.js",
               "node_modules/datatables.net/js/dataTables.min.js"
-              
             ]
           },
           "configurations": {
