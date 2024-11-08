@@ -1,0 +1,74 @@
+<div class="container" style="width: 100%;">
+    <div class="profile-section" >
+        <div class="profile-picture" style="margin-bottom: 200px;">
+            <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">           
+           
+        </div>
+        <div class="rewards-penalties" style="margin-top: 40px;">
+            <h3>Danh Sách Thưởng/Phạt</h3>
+            <table datatable [dtOptions]="dtoptions" [dtTrigger]="dttrigger" >
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Loại</th>
+                        <th>Số tiền</th>
+                        <th>Ghi chú</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-11-01</td>
+                        <td>Thưởng</td>
+                        <td>500,000 VND</td>
+                        <td>Hoàn thành dự án đúng hạn</td>
+                        <td><button>Xóa</button></td>
+                    </tr>
+                    <tr>
+                        <td>2024-10-15</td>
+                        <td>Phạt</td>
+                        <td>200,000 VND</td>
+                        <td>Đi làm muộn</td>
+                        <td><button>Xóa</button></td>
+                    </tr>
+                    
+                    <!-- Thêm nhiều mục khác nếu cần -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="details-section">
+        <h2>Chi Tiết Nhân Viên</h2>
+        <div class="info-form">
+            <label>Họ tên</label>
+            <input type="text" value="{{employee.hoTen}}">
+
+            <label>Ngày sinh</label>
+            <input type="text" value="{{employee.ngaySinh}}">
+
+            <label>Số điện thoại</label>
+            <input type="text" value="{{employee.soDienThoai}}">
+
+            <label>Email</label>
+            <input type="text" value="{{employee.email}}">
+
+            <label>Địa chỉ</label>
+            <input type="text" value="{{employee.diaChi}}">
+
+            <label>Phòng ban</label>
+            <input type="text" value="{{employee.phongBan.tenPhongBan}}">
+
+            <label>Lương cơ bản</label>
+            <input type="text" value="15,000,000 VND">
+
+            <label>Thưởng</label>
+            <input type="text" value="2,000,000 VND">
+
+            <label>Phạt</label>
+            <input type="text" value="500,000 VND">
+
+            <button>Thêm thưởng phạt</button>
+        </div>
+    </div>
+</div>
