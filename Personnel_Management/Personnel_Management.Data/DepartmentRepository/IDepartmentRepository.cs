@@ -9,6 +9,7 @@ public interface IDepartmentRepository
 {
     Task<List<PhongBan>> GetAllDepartmentsAsync();
     Task<PhongBan> GetDepartmentByIdAsync(int id);
+    Task<List<NhanVien>> GetEmployeesByDepartmentIdAsync(int departmentId);
     Task AddDepartmentAsync(PhongBan department);
     Task UpdateDepartmentAsync(PhongBan department);
     Task DeleteDepartmentAsync(PhongBan department);

@@ -24,6 +24,11 @@ public class DepartmentService : IDepartmentService
         return await _departmentRepository.GetDepartmentByIdAsync(id);
     }
 
+    public async Task<List<NhanVien>> GetEmployeesByDepartmentIdAsync(int departmentId)
+    {
+        return await _departmentRepository.GetEmployeesByDepartmentIdAsync(departmentId);
+    }
+
     public async Task AddDepartmentAsync(DepartmentDto departmentDto)
     {
         var department = new PhongBan

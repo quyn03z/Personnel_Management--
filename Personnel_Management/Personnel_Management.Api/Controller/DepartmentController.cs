@@ -28,6 +28,16 @@ public class DepartmentController : ControllerBase
         return Ok(department);
     }
 
+    [HttpGet("{id}/employees")]
+    public async Task<IActionResult> GetEmployeesByDepartmentId(int id)
+    {
+        var employees = await _departmentService.GetEmployeesByDepartmentIdAsync(id);
+        if (employees == null || employees.Count == 0)
+            return NotFound("No employees found for this department.");
+
+        return Ok(employees);
+    }
+
     [HttpPost("add")]
     public async Task<IActionResult> AddDepartment([FromBody] DepartmentDto departmentDto)
     {

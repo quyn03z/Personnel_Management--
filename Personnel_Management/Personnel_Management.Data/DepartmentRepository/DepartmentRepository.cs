@@ -25,6 +25,13 @@ public class DepartmentRepository : IDepartmentRepository
         return await _context.PhongBans.FindAsync(id);
     }
 
+    public async Task<List<NhanVien>> GetEmployeesByDepartmentIdAsync(int departmentId)
+    {
+        return await _context.NhanViens
+                             .Where(nv => nv.PhongBanId == departmentId)
+                             .ToListAsync();
+    }
+
     public async Task AddDepartmentAsync(PhongBan department)
     {
         await _context.PhongBans.AddAsync(department);
