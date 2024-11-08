@@ -48,21 +48,22 @@ public class DepartmentController : ControllerBase
 
 
     [HttpPost("add")]
-    public async Task<IActionResult> AddDepartment([FromBody] PhongBan department)
+    public async Task<IActionResult> AddDepartment([FromBody] DepartmentDto departmentDto)
     {
+        var department = new PhongBan
+        {
+            TenPhongBan = departmentDto.TenPhongBan,
+            MoTa = departmentDto.MoTa
+        };
+
         _context.PhongBans.Add(department);
         await _context.SaveChangesAsync();
         return Ok(department);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDepartment(int id, [FromBody] PhongBan department)
+    public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentDto departmentDto)
     {
-        if (id != department.PhongBanId)
-        {
-            return BadRequest("ID mismatch.");
-        }
-
         try
         {
             var existingDepartment = await _context.PhongBans.FindAsync(id);
@@ -71,20 +72,20 @@ public class DepartmentController : ControllerBase
                 return NotFound("Phòng ban không tồn tại.");
             }
 
-            existingDepartment.TenPhongBan = department.TenPhongBan;
-            existingDepartment.MoTa = department.MoTa;
+            existingDepartment.TenPhongBan = departmentDto.TenPhongBan;
+            existingDepartment.MoTa = departmentDto.MoTa;
 
-            // Cập nhật các thuộc tính khác nếu cần
             _context.PhongBans.Update(existingDepartment);
             await _context.SaveChangesAsync();
 
-            return Ok("Cập nhật thành công."); // Hoặc bạn có thể trả lại dữ liệu cập nhật nếu muốn
+            return Ok("Cập nhật thành công.");
         }
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
         }
     }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDepartment(int id)

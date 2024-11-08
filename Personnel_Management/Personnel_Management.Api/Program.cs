@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Personnel_Management.Business.LuongService;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
-using Personnel_Management.Data.ThuongPhatRepository;
 using Personnel_Management.Models.Models;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -39,7 +39,8 @@ public class Program
         builder.Services.AddScoped<INhanVienService, NhanVienService>();
         builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
         builder.Services.AddScoped<IThuongPhatRepository, ThuongPhatRepository>();
-
+        builder.Services.AddScoped<ILuongService, LuongService>();
+        builder.Services.AddScoped<ILuongRepository, LuongRepository>();
 
 
         // Authentication

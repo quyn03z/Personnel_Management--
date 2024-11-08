@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Personnel_Management.Data.ThuongPhatRepository
+namespace Personnel_Management.Data.EntityRepository
 {
     public interface IThuongPhatRepository
     {
