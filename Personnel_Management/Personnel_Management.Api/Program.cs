@@ -41,6 +41,8 @@ public class Program
         builder.Services.AddScoped<IThuongPhatRepository, ThuongPhatRepository>();
         builder.Services.AddScoped<ILuongService, LuongService>();
         builder.Services.AddScoped<ILuongRepository, LuongRepository>();
+        builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
 
         // Authentication
