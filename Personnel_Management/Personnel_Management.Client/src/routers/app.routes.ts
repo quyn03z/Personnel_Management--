@@ -20,8 +20,8 @@ export const routes: Routes = [
         component: ViewEmployeeListComponent
     },
     {
-        path:'admin',
-        title:'admin',
+        path: 'admin',
+        title: 'admin',
         component: AdminComponent
     }
 
