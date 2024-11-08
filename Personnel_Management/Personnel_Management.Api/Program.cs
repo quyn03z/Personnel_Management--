@@ -19,6 +19,19 @@ namespace Personnel_Management.Api
 			//test
 			// Add services to the container.
 
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAllOrigins",
+					builder =>
+					{
+						builder.AllowAnyOrigin()
+							   .AllowAnyMethod()
+							   .AllowAnyHeader();
+					});
+			});
+
+
+
 			builder.Services.AddControllers();
 
 			builder.Services.AddDbContext<QuanLyNhanSuContext>(options =>
@@ -60,6 +73,16 @@ namespace Personnel_Management.Api
 
 			builder.Services.AddAuthorization();
 
+			// Add distributed memory cache to store session data
+			builder.Services.AddDistributedMemoryCache();
+
+			// Add session services
+			builder.Services.AddSession(options =>
+			{
+				options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+				options.Cookie.HttpOnly = true;
+				options.Cookie.IsEssential = true;
+			});
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
@@ -76,7 +99,13 @@ namespace Personnel_Management.Api
 
 			app.UseHttpsRedirection();
 
+			app.UseCors("AllowAllOrigins");
+
+
 			app.UseAuthentication();
+			app.UseSession();
+
+
 			app.UseAuthorization();
 
 
