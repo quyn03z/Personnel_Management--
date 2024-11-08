@@ -34,7 +34,7 @@ public class Program
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
-
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         builder.Services.AddScoped<INhanVienService, NhanVienService>();
         builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();

@@ -1,4 +1,5 @@
-﻿using Personnel_Management.Models.Models;
+﻿using Personnel_Management.Models.DTO;
+using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Personnel_Management.Business.NhanVienService
 		NhanVien Login(string email, string password);
 
 		string GenerateJwtToken(NhanVien user);
-        Task<IEnumerable<NhanVien>> GetAllAsync();
+        Task<IEnumerable<NhanVienDto>> GetAllAsync();
         Task<NhanVien?> GetByIdAsync(int id);
         Task<NhanVien> AddAsync(NhanVien nhanVien);
         Task UpdateAsync(NhanVien nhanVien);

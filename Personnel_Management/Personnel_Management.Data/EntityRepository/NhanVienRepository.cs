@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Personnel_Management.Data.BaseRepository;
+using Personnel_Management.Models.DTO;
 using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -12,9 +14,11 @@ namespace Personnel_Management.Data.EntityRepository
 {
 	public class NhanVienRepository : BaseRepository<NhanVien>, INhanVienRepository
 	{
+        private readonly IMapper _mapper;
         private readonly QuanLyNhanSuContext _context;
-		public NhanVienRepository(QuanLyNhanSuContext context) : base(context)
+		public NhanVienRepository(QuanLyNhanSuContext context, IMapper mapper) : base(context)
 		{
+            _mapper = mapper;
             _context = context;
 		}
 
@@ -37,12 +41,22 @@ namespace Personnel_Management.Data.EntityRepository
             _context.NhanViens.Update(nhanVien);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<List<NhanVien>> GetAllNhanViensAsync()
+        public async Task<IQueryable<NhanVien>> GetAllNhanViensWithPhongBanAsync()
         {
-            var nhanViens = await this.GetAllAsync();
-            return nhanViens.ToList();
+            return _dbSet.Include(nv => nv.PhongBan);
         }
+        public async Task<List<NhanVienDto>> GetAllNhanViensAsync()
+        {
+            var nhanViens = await (await this.GetAllNhanViensWithPhongBanAsync()).ToListAsync();
+
+            if (nhanViens == null || !nhanViens.Any())
+            {
+                return new List<NhanVienDto>();
+            }
+
+            return _mapper.Map<List<NhanVienDto>>(nhanViens);
+        }
+
 
         public async Task<NhanVien> GetNhanVienByIdAsync(int id)
         {
