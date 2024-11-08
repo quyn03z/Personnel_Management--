@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { ViewEmployeeListComponent } from '../views/view-employee-list/view-employee-list.component';
 import { LoginComponent } from '../views/login/login.component';
 import { AdminComponent } from '../views/admin/admin.component';
-
+import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
 export const routes: Routes = [
     {
         path: '',
@@ -22,7 +22,13 @@ export const routes: Routes = [
     {
         path: 'admin',
         title: 'admin',
-        component: AdminComponent
+        component: AdminComponent,
+        children : [
+            {
+                path: 'employeesList',
+                title: 'employeesList',
+                component: EmployeesListComponent
+            }
+        ] 
     }
-
 ];

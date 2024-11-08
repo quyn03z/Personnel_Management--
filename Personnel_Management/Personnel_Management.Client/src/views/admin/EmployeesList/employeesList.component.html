@@ -1,0 +1,38 @@
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table datatable [dtOptions]="dtoptions" [dtTrigger]="dttrigger" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Họ tên</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Phòng ban</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (e of employeeList; track e.nhanVienId) {
+                                            <tr>
+                                                
+                                                <td>{{e.nhanVienId}}</td>
+                                                <td>{{e.hoTen}}</td>
+                                                <td>{{e.ngaySinh}}</td>
+                                                <td>{{e.soDienThoai}}</td>
+                                                <td>{{e.phongBan.tenPhongBan}}</td>
+                                                <td>
+                                                    <button>Edit</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>

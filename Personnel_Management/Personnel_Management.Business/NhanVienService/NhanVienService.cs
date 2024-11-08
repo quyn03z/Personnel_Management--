@@ -57,9 +57,9 @@ namespace Personnel_Management.Business.NhanVienService
             originalNhanVien.NgaySinh = nhanVien.NgaySinh;
             originalNhanVien.DiaChi = nhanVien.DiaChi;
             originalNhanVien.SoDienThoai = nhanVien.SoDienThoai;
-            originalNhanVien.Email = nhanVien.Email; // Cần kiểm tra email đã tồn tại hay chưa
+            originalNhanVien.Email = nhanVien.Email;
             originalNhanVien.PhongBanId = nhanVien.PhongBanId;
-            originalNhanVien.RoleId = nhanVien.RoleId; //Cập nhật role
+            originalNhanVien.RoleId = nhanVien.RoleId;
 
             await _nhanVienRepository.UpdateNhanVienAsync(originalNhanVien);
         }
