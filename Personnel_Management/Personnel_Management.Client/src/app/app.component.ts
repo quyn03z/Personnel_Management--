@@ -24,7 +24,8 @@ export class AppComponent {
     || this.router.url === '/signup'
     || this.router.url === '/forgot-password'
     || this.router.url === '/confirm-otp'
-    || this.router.url === '/change-password';
+    || this.router.url === '/change-password'
+    || this.router.url === '/profile';
   }
 
   isStandalonePage(): boolean {

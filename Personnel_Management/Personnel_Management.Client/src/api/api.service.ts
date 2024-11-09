@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClientModule } from '@angular/common/http';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,25 @@ export class ApiService {
   changePassWord(data: any):Observable<any>{
     return this.http.post<any>(this.baseUrl + "/Auth/ChangePassword", data);
   }
+
+
+  getUserById() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+    try {
+      const decodedToken: any = (jwt_decode as any)(token);
+      const userId = decodedToken?.id;
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+      return this.http.get<any>(this.baseUrl + "/NhanVien"+ userId)
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      throw error;
+    }
+  }
+
 
 }

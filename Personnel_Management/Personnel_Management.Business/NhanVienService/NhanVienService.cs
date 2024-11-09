@@ -6,6 +6,7 @@ using Personnel_Management.Models.Models;
 using Personnel_Management.Models.ModelsDTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -41,5 +42,31 @@ namespace Personnel_Management.Business.NhanVienService
 			};
 		}
 
+		public async Task<NhanVienDTO?> GetNhanVienById(int id)
+		{
+			var nhanVien = _nhanVienRepository.GetById(id);
+
+			if (nhanVien == null)
+			{
+				return null;
+			}
+
+			var nhanVienDto = new NhanVienDTO
+			{
+				HoTen = nhanVien.HoTen,
+				NgaySinh = nhanVien.NgaySinh,
+				DiaChi = nhanVien.DiaChi,
+				SoDienThoai= nhanVien.SoDienThoai,
+				Email = nhanVien.Email,
+				PhongBanId = nhanVien.PhongBanId,
+				RoleId = nhanVien.RoleId,
+
+			};
+
+			return nhanVienDto;
+
+		}
+
 	}
 }
+

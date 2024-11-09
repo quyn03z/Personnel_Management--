@@ -11,7 +11,7 @@ namespace Personnel_Management.Business.NhanVienService
 	public interface INhanVienService
 	{
 		Task<NhanVienDTO> AddNhanVienAsync(NhanVien nhanVien);
-
+		Task<NhanVienDTO> GetNhanVienById(int id);
 	}
 
 }

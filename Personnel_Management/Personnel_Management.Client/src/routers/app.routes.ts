@@ -6,6 +6,7 @@ import { SignupComponent } from '../views/signup/signup.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
 import { ChangePasswordComponent } from '../views/change-password/change-password.component';
+import { ProfileComponent } from '../views/profile/profile.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/viewEmployeeList', pathMatch: 'full' },
@@ -14,7 +15,9 @@ export const routes: Routes = [
   { path: 'signup', title: 'Signup', component: SignupComponent },
   { path: 'forgot-password', title: 'Forgot-Password', component: ForgotPasswordComponent },
   { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
-  { path: 'change-password', title: 'Change-Password', component: ChangePasswordComponent }
+  { path: 'change-password', title: 'Change-Password', component: ChangePasswordComponent },
+  { path: 'profile', title: 'Profile', component: ProfileComponent }
+
   
 ];
 

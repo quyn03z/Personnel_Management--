@@ -25,6 +25,8 @@ namespace Personnel_Management.Models.ModelsDTO
 
 		public int RoleId { get; set; }
 
+		public int? PhongBanId { get; set; }
+
 
 		[Required]
 
