@@ -1,5 +1,7 @@
 <ng-container *ngIf="isStandalonePage(); else mainLayout">
-    <router-outlet></router-outlet>
+    <div class="container-centered">
+        <router-outlet></router-outlet>
+    </div>
 </ng-container>
 
 <ng-template #mainLayout>

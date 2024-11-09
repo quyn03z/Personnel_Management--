@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(private apiService: ApiService, private router: Router) {}
+    constructor(private apiService: ApiService, private router: Router) { }
 
     isLoggedIn(): boolean {
         const token = localStorage.getItem("token");
@@ -25,7 +26,7 @@ export class AuthService {
     }
 
     login(email: string, matKhau: string) {
-        const payload = { email, matKhau }; 
+        const payload = { email, matKhau };
         return this.apiService.login(payload).pipe(
             tap(response => {
                 if (response.token) {
@@ -38,7 +39,7 @@ export class AuthService {
     }
 
 
-    signUpNhanVien(data: any){
+    signUpNhanVien(data: any) {
         return this.apiService.createNhanVien(data);
     }
 
@@ -67,4 +68,19 @@ export class AuthService {
             return null;
         }
     }
+
+
+    sendMailOTP(data: any) {
+        return this.apiService.sendOtp(data);
+    }
+
+    confirmOTP(data: any) {
+        return this.apiService.confirmOtp(data);
+      }
+
+
+    changeNewPassWord(data: any){
+        return this.apiService.changePassWord(data);
+    }
+
 }

@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Personnel_Management.Business.AuthService;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 
 namespace Personnel_Management.Api
@@ -21,12 +23,13 @@ namespace Personnel_Management.Api
 
 			builder.Services.AddCors(options =>
 			{
-				options.AddPolicy("AllowAllOrigins",
+				options.AddPolicy("AllowAngularApp",
 					builder =>
 					{
-						builder.AllowAnyOrigin()
+						builder.WithOrigins("http://localhost:4200", "http://localhost:5008") // Use the URL where your Angular app is running
 							   .AllowAnyMethod()
-							   .AllowAnyHeader();
+							   .AllowAnyHeader()
+							   .AllowCredentials(); // Enables cookies and credentials
 					});
 			});
 
@@ -71,6 +74,20 @@ namespace Personnel_Management.Api
 				};
 			});
 
+			builder.Services.AddSwaggerGen(options =>
+			{
+				options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
+				{
+					Name = "Cookie",
+					Type = SecuritySchemeType.ApiKey,
+					In = ParameterLocation.Header,
+					Description = "Session-based authentication using cookies"
+				});
+
+				options.OperationFilter<AddRequiredHeadersParameter>(); // To add headers and cookies if necessary
+			});
+
+
 			builder.Services.AddAuthorization();
 
 			// Add distributed memory cache to store session data
@@ -79,14 +96,16 @@ namespace Personnel_Management.Api
 			// Add session services
 			builder.Services.AddSession(options =>
 			{
-				options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+				options.IdleTimeout = TimeSpan.FromMinutes(30);  // Increase as needed for development
 				options.Cookie.HttpOnly = true;
 				options.Cookie.IsEssential = true;
+				options.Cookie.SameSite = SameSiteMode.Lax;  // Consider using None if cross-origin
 			});
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
 
 			var app = builder.Build();
 
@@ -96,10 +115,14 @@ namespace Personnel_Management.Api
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
+			else
+			{
+				app.UseHttpsRedirection();
+			}
 
 			app.UseHttpsRedirection();
 
-			app.UseCors("AllowAllOrigins");
+			app.UseCors("AllowAngularApp");
 
 
 			app.UseAuthentication();
@@ -113,5 +136,26 @@ namespace Personnel_Management.Api
 
 			app.Run();
 		}
+	}
+}
+public class AddRequiredHeadersParameter : IOperationFilter
+{
+	public void Apply(OpenApiOperation operation, OperationFilterContext context)
+	{
+		if (operation.Parameters == null)
+			operation.Parameters = new List<OpenApiParameter>();
+
+		// Adds a Cookie header to Swagger requests to handle session-based auth
+		operation.Parameters.Add(new OpenApiParameter
+		{
+			Name = "Cookie",
+			In = ParameterLocation.Header,
+			Description = "Session-based authentication using cookies",
+			Required = false,
+			Schema = new OpenApiSchema
+			{
+				Type = "string"
+			}
+		});
 	}
 }

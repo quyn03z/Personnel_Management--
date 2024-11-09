@@ -121,8 +121,11 @@ namespace Personnel_Management.Api.Controllers
 
 			if (string.IsNullOrEmpty(sessionOtpEntryString))
 			{
+				Console.WriteLine("Session data not found. OTP session might not be set or expired.");
 				return BadRequest(new { Message = "No OTP found. Please request a new OTP." });
 			}
+
+			Console.WriteLine("Retrieved OTP from session: " + sessionOtpEntryString);
 
 			var sessionOtpEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<OtpEntry>(sessionOtpEntryString);
 
@@ -131,17 +134,13 @@ namespace Personnel_Management.Api.Controllers
 				return BadRequest(new { Message = "Invalid OTP or email" });
 			}
 
-			// OTP is valid, generate a temporary token for password change
-			var token = Guid.NewGuid().ToString(); // Generate a unique token
-
-			// Store the token and email in the static list
+			var token = Guid.NewGuid().ToString();
 			_resetTokens.Add(new ResetTokenEntry { Email = otpEntry.Email, Token = token });
-
-			// Remove OTP from session
 			HttpContext.Session.Remove("otpEntry");
 
 			return Ok(new { Message = "OTP verified. Please reset your password.", Token = token });
 		}
+
 
 
 		[HttpPost("ChangePassword")]

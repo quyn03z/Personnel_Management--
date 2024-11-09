@@ -20,7 +20,11 @@ export class AppComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   isLoginPage(): boolean {
-    return this.router.url === '/login' || this.router.url === '/signup';
+    return this.router.url === '/login' 
+    || this.router.url === '/signup'
+    || this.router.url === '/forgot-password'
+    || this.router.url === '/confirm-otp'
+    || this.router.url === '/change-password';
   }
 
   isStandalonePage(): boolean {

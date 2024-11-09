@@ -38,14 +38,14 @@ export class SignupComponent {
         [
           Validators.required,
           Validators.minLength(6),
-          Validators.pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>]).+$/) // At least one special character
+          Validators.pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>]).+$/) 
         ]
       ],
       soDienThoai: [
         '',
         [
           Validators.required,
-          Validators.pattern(/^((09|08|07|05|03)\d{8})$/) // Vietnamese phone number pattern
+          Validators.pattern(/^((09|08|07|05|03)\d{8})$/) 
         ]
       ]
     });
