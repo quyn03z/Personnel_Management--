@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-confirm-otp',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './confirm-otp.component.html',
   styleUrl: './confirm-otp.component.scss'
 })
@@ -18,8 +18,8 @@ export class ConfirmOtpComponent {
     otp: '',
   }
   errorMessage: string = '';
-  
-  constructor(private router: Router, private authService: AuthService){
+
+  constructor(private router: Router, private authService: AuthService) {
     const storedEmail = localStorage.getItem('otpEmail');
     if (storedEmail) {
       this.confirmOtp.email = storedEmail;
@@ -29,15 +29,24 @@ export class ConfirmOtpComponent {
     }
   }
 
+  // confirm-otp.component.ts
   confirmOTP() {
     console.log('Confirm OTP Payload:', JSON.stringify(this.confirmOtp));
-  
+
     if (this.confirmOtp.email && this.confirmOtp.otp) {
       this.authService.confirmOTP(this.confirmOtp).subscribe({
         next: (data: any) => {
           console.log('OTP verification success:', data);
           alert('OTP confirmed successfully!');
-          this.router.navigate(['/change-password']); 
+
+          const { token } = data;
+          if (token) {
+            console.log('Storing token in localStorage and navigating to change-password');
+            localStorage.setItem('token', token);  // Store token in localStorage
+            this.router.navigate(['/change-password']);
+          } else {
+            console.error('Token is missing in response data');
+          }
         },
         error: (err) => {
           console.error('Error details from backend:', err);
@@ -48,7 +57,9 @@ export class ConfirmOtpComponent {
       this.errorMessage = 'Please enter the OTP.';
     }
   }
-  
-  
+
+
+
+
 
 }
