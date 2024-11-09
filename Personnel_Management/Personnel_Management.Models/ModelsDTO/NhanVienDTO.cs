@@ -27,7 +27,8 @@ namespace Personnel_Management.Models.ModelsDTO
 
 		public int? PhongBanId { get; set; }
 
-
+		public string? PhongBanName { get; set; }
+		public string? RoleName { get; set; }
 		[Required]
 
 		public string Matkhau { get; set; }

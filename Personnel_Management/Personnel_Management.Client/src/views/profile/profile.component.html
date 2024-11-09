@@ -3,8 +3,8 @@
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img id="profileImage" class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                <span class="font-weight-bold">Edogaru</span>
-                <span class="text-black-50">edogarumail.com.my</span>
+                <span class="font-weight-bold">{{ nhanVienProfileObj.hoTen }}</span>
+                <span class="text-black-50">{{ nhanVienProfileObj.email }}</span>
                 <span> </span>
                 <input type="file" id="imageUpload" class="btn btn-primary mt-3  btn-small" accept="image/*" onchange="previewImage(event)">
 
@@ -16,17 +16,34 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-12"><label class="labels">Họ và Tên</label><input type="text" class="form-control" placeholder="họ và tên " value=""></div>
+                    <div class="col-md-12"><label class="labels">Họ và Tên</label><input type="text" class="form-control" placeholder="họ và tên " [(ngModel)]="nhanVienProfileObj.hoTen" ></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Ngày Sinh</label><input type="text" class="form-control" placeholder="ngày sinh" value=""></div>
-                    <div class="col-md-12"><label class="labels">Địa Chỉ</label><input type="text" class="form-control" placeholder="địa chỉ" value=""></div>
-                    <div class="col-md-12"><label class="labels">Số Điện Thoại</label><input type="text" class="form-control" placeholder="số điện thoại" value=""></div>
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="email" value=""></div>
-                    <div class="col-md-12"><label class="labels">Role</label><input type="text" class="form-control" placeholder="role" value=""></div>
-                    <div class="col-md-12"><label class="labels">Phòng Ban</label><input type="text" class="form-control" placeholder="phòng ban" value=""></div>
-                </div>
-                
+                    <div class="col-md-12">
+                      <label class="labels">Ngày Sinh</label>
+                      <input type="text" class="form-control" placeholder="ngày sinh" [(ngModel)]="nhanVienProfileObj.ngaySinh">
+                    </div>
+                    <div class="col-md-12">
+                      <label class="labels">Địa Chỉ</label>
+                      <input type="text" class="form-control" placeholder="địa chỉ" [(ngModel)]="nhanVienProfileObj.diaChi">
+                    </div>
+                    <div class="col-md-12">
+                      <label class="labels">Số Điện Thoại</label>
+                      <input type="text" class="form-control" placeholder="số điện thoại" [(ngModel)]="nhanVienProfileObj.soDienThoai">
+                    </div>
+                    <div class="col-md-12">
+                      <label class="labels">Email</label>
+                      <input type="text" class="form-control" placeholder="email" [(ngModel)]="nhanVienProfileObj.email">
+                    </div>
+                    <div class="col-md-12">
+                      <label class="labels">Role</label>
+                      <input type="text" class="form-control" placeholder="role" [(ngModel)]="nhanVienProfileObj.roleName" readonly>
+                    </div>
+                    <div class="col-md-12">
+                      <label class="labels">Phòng Ban</label>
+                      <input type="text" class="form-control" placeholder="phòng ban" [(ngModel)]="nhanVienProfileObj.phongBanName" readonly>
+                    </div>
+                  </div>
                 <br>
                 <br>
 
@@ -42,6 +59,8 @@
                 <div class="col-md-12"><label class="labels">Mật khẩu cũ</label><input type="text" class="form-control" placeholder="nhập mật khẩu cũ" value=""></div> <br>
                 <div class="col-md-12"><label class="labels">Mật khẩu mới</label><input type="text" class="form-control" placeholder="nhập mật khẩu mới" value=""></div>
             </div>
+            <a class="col-md-6 text-center" href="#"><div><button class="btn btn-primary profile-button" type="button">Update Password</button></div></a>  
+
         </div>
     </div>
 </div>

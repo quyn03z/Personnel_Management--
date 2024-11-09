@@ -14,10 +14,12 @@ namespace Personnel_Management.Data.BaseRepository
 	public class BaseRepository<T> : IBaseRepository<T> where T : class
 	{
 		protected readonly QuanLyNhanSuContext _context;
+		protected readonly DbSet<T> _dbSet;
 
 		public BaseRepository(QuanLyNhanSuContext context)
 		{
 			_context = context;
+			_dbSet = context.Set<T>(); ;
 		}
 
 		public IEnumerable<T> GetAll()
@@ -84,6 +86,15 @@ namespace Personnel_Management.Data.BaseRepository
 			_context.Entry(entity).State = EntityState.Detached;
 		}
 
+		public IQueryable<T> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties)
+		{
+			IQueryable<T> query = _dbSet;
+			foreach (var includeProperty in includeProperties)
+			{
+				query = query.Include(includeProperty);
+			}
+			return query;
+		}
 
 		public string HashPassword(string password)
 		{

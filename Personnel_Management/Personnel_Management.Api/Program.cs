@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Personnel_Management.Business.AuthService;
 using Personnel_Management.Business.NhanVienService;
+using Personnel_Management.Business.PhongBanService;
 using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
@@ -47,6 +48,10 @@ namespace Personnel_Management.Api
 			builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
 			builder.Services.AddScoped<INhanVienService, NhanVienService>();
 			builder.Services.AddScoped<BaseRepository<NhanVien>>();
+
+			builder.Services.AddScoped<IPhongBanRepository, PhongBanRepository>();
+			builder.Services.AddScoped<IPhongBanService, PhongBanService>();
+			builder.Services.AddScoped<BaseRepository<PhongBan>>();
 
 			builder.Services.AddScoped<IAuthService, AuthService>();
 

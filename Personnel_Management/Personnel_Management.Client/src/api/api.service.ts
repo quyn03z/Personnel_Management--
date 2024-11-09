@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClientModule } from '@angular/common/http';
-import * as jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -46,12 +46,12 @@ export class ApiService {
       throw new Error('Token not found');
     }
     try {
-      const decodedToken: any = (jwt_decode as any)(token);
-      const userId = decodedToken?.id;
+      const decodedToken: any = jwt_decode(token); 
+      const userId = decodedToken?.nameid;
       if (!userId) {
         throw new Error('User ID not found in token');
       }
-      return this.http.get<any>(this.baseUrl + "/NhanVien"+ userId)
+      return this.http.get<any>(`${this.baseUrl}/NhanVien/${userId}`);
     } catch (error) {
       console.error('Error decoding token:', error);
       throw error;
