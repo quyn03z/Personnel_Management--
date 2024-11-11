@@ -8,6 +8,7 @@ import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thu
 import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
+import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
 export const routes: Routes = [
     {
         path: '',
@@ -55,10 +56,13 @@ export const routes: Routes = [
                 component: DeparmentListComponent
             }
         ] 
-    },{
+    },
+    {
         path: 'forgot-password',
         title: 'Forgot-Password',
         component: ForgotPasswordComponent
-    }
+    }, 
+    { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
+
 
 ];
