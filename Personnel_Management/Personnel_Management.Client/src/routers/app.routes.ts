@@ -7,6 +7,7 @@ import { CreateThuongPhatComponent } from '../views/ThuongPhatService/create-thu
 import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thuong-phat/update-thuong-phat.component';
 import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
 import { AddEmployeesComponent } from '../views/admin/EmployeesList/Add/addEmployee.component';
+import { EditEmployeesComponent } from '../views/admin/EmployeesList/Edit/editEmployee.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
@@ -56,6 +57,11 @@ export const routes: Routes = [
                         path: 'add',
                         title: 'add',
                         component: AddEmployeesComponent
+                    },
+                    {
+                        path: 'edit',
+                        title: 'edit',
+                        component: EditEmployeesComponent
                     }
                 ] 
             },
