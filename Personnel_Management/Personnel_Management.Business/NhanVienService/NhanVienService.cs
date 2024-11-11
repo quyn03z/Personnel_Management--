@@ -81,30 +81,12 @@ namespace Personnel_Management.Business.NhanVienService
             throw new NotImplementedException();
         }
 
-		public Task<NhanVienDtto> SignUpNhanVienAsync(NhanVien nhanVien)
-		{
-			throw new NotImplementedException();
-		}
-
-
-		//public async Task<NhanVienDtto> SignUpNhanVienAsync(NhanVien nhanVien)
-		//{
-		//	nhanVien.Matkhau = _nhanVienRepository.HashPassword(nhanVien.Matkhau);
-
-		//	await _nhanVienRepository.Add(nhanVien);
-
-		//	return new NhanVienDTO
-		//	{
-		//		HoTen = nhanVien.HoTen,
-		//		NgaySinh = nhanVien.NgaySinh,
-		//		DiaChi = nhanVien.DiaChi,
-		//		SoDienThoai = nhanVien.SoDienThoai,
-		//		Email = nhanVien.Email,
-		//		Matkhau = nhanVien.Matkhau,
-		//	};
-		//}
 
 
 
-	}
+      
+
+
+
+    }
 }
