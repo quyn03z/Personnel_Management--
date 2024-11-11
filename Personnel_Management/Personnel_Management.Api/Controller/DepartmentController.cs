@@ -65,7 +65,7 @@ public class DepartmentController : ControllerBase
         try
         {
             await _departmentService.DeleteDepartmentAsync(id);
-            return Ok("Phòng ban đã được xóa thành công.");
+            return NoContent();
         }
         catch (InvalidOperationException ex)
         {

@@ -10,6 +10,7 @@ import { AddEmployeesComponent } from '../views/admin/EmployeesList/Add/addEmplo
 import { EditEmployeesComponent } from '../views/admin/EmployeesList/Edit/editEmployee.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
+import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
 export const routes: Routes = [
     {
         path: '',
@@ -69,10 +70,13 @@ export const routes: Routes = [
                 component: DeparmentListComponent
             }
         ] 
-    },{
+    },
+    {
         path: 'forgot-password',
         title: 'Forgot-Password',
         component: ForgotPasswordComponent
-    }
+    }, 
+    { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
+
 
 ];

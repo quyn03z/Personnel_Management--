@@ -61,11 +61,11 @@ public class DepartmentService : IDepartmentService
     {
         var department = await _departmentRepository.GetDepartmentByIdAsync(id);
         if (department == null)
-            throw new KeyNotFoundException("Phòng ban không tồn tại.");
+            throw new KeyNotFoundException();
 
         // Kiểm tra nếu phòng ban có nhân viên
         if (await HasEmployeesAsync(id))
-            throw new InvalidOperationException("Không thể xóa phòng ban vì vẫn còn nhân viên.");
+            throw new InvalidOperationException();
 
         await _departmentRepository.DeleteDepartmentAsync(department);
     }

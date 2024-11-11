@@ -36,18 +36,29 @@ export class DeparmentListComponent implements OnInit {
     });
   }
 
-  deleteDepartment(departmentId: number) {
-    this.http.get(`https://localhost:7182/api/Department/${departmentId}/employees`).subscribe((response: any) => {
-      if (response.hasPeople) {
-        alert("Cannot delete department as it has people associated.");
-      } else {
-        if (confirm("Are you sure you want to delete this department?")) {
-          this.http.delete(`https://localhost:7182/api/Department/${departmentId}`).subscribe(() => {
-            alert("Department deleted successfully.");
-            this.getAllDepartment();  // Refresh the list
-          });
+  deleteDepartment(phongBanId: number) {
+    if (confirm('Bạn có chắc chắn muốn xóa phòng ban này không?')) {
+      // Sending the DELETE request to the backend
+      this.http.delete(`https://localhost:7182/api/Department/${phongBanId}`).subscribe(
+        (response) => {
+          // If deletion is successful, refresh the department list and show success message
+          console.log('Phòng ban đã bị xóa');
+          alert('Xóa phòng ban thành công');
+          this.getAllDepartment();  // Refresh the department list
+        },
+        (error) => {
+          // Handle error response
+          if (error.status === 400 && error.error?.message) {
+            // Show the message from the backend (e.g., "Department has employees and cannot be deleted")
+            alert(error.error.message);  // Display the message returned from the API
+          } else {
+            alert('Phong ban đã có người không thể xóa');
+          }
+          console.error('Có lỗi khi xóa phòng ban:', error);
         }
-      }
-    });
+      );
+    }
   }
+  
+  
 }
