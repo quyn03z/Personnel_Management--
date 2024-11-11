@@ -16,7 +16,7 @@ export class AuthService {
     if (token) {
       const tokenData = this.parseJwt(token);
       const currentTime = Math.floor(Date.now() / 1000);
-      if (tokenData && tokenData.exp > currentTime  ) {
+      if (tokenData && tokenData.exp > currentTime) {
         return true;
       } else {
         this.logout();
@@ -65,7 +65,12 @@ export class AuthService {
 
   sendMailOTP(data: any) {
     return this.apiService.sendOtp(data);
-}
+  }
+
+
+  confirmOTP(data: any) {
+    return this.apiService.confirmOtp(data);
+  }
 
 
 }

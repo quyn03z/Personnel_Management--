@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterOutlet, EmployeesListComponent],
+  imports: [RouterOutlet],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
