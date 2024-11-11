@@ -17,14 +17,27 @@ namespace Personnel_Management.Api.Controller
         }
 
         [HttpGet("GetAllThuongPhat")]
-        public IActionResult GetAllThuongPhat(string fromDate, string toDate)
+        public IActionResult GetAllThuongPhat(int nhanVienId)
         {
-            var list = _thuongPhatRepository.GetAllThuongPhat(fromDate, toDate);
-            if (list == null)
+            //get current month and year
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+
+            //get danh sach thuong  phat cua nhan vien trong thang
+            var list = _thuongPhatRepository.GetAllThuongPhat(currentMonth, currentYear, nhanVienId);
+            //get tong thuong cua nhan vien trong thang
+            var tongThuong = _thuongPhatRepository.GetTongThuongThang(currentMonth, currentYear, nhanVienId);
+            //get tong phat cua nhan vien trong thang
+            var tongPhat = _thuongPhatRepository.GetTongPhatThang(currentMonth,currentYear, nhanVienId);
+
+            var luongCoBan = _thuongPhatRepository.GetLuongCoBan(nhanVienId).LuongCoBan;
+            return Ok(new
             {
-                return BadRequest();
-            }
-            return Ok(list);
+                DanhSachThuongPhat = list,
+                TongThuong = tongThuong,
+                TongPhat = tongPhat,
+                LuongCoBan = luongCoBan
+            });
         }
 
         [HttpGet("GetThuongPhatByNhanVienId")]
@@ -38,20 +51,21 @@ namespace Personnel_Management.Api.Controller
             return Ok(list);
         }
 
-        [HttpPost("AddPhat")]
-        public IActionResult AddPhat(ThuongPhatAddModel phatAdd)
+        [HttpGet("GetThuongPhatByThuongPhatId")]
+        public IActionResult GetThuongPhatByThuongPhatId(int thuongPhatId)
         {
-            var result = _thuongPhatRepository.AddPhat(phatAdd);
-            if (result == null)
+            var thuongPhat = _thuongPhatRepository.GetThuongPhatById(thuongPhatId);
+            if (thuongPhat == null)
             {
                 return BadRequest();
             }
-            return Ok(result);
+            return Ok(thuongPhat);
         }
-        [HttpPost("AddThuong")]
-        public IActionResult AddThuong(ThuongPhatAddModel thuongAdd)
+
+        [HttpPost("AddThuongPhat")]
+        public IActionResult AddThuongPhat(ThuongPhatAddModel thuongPhatAdd, int nhanVienId)
         {
-            var result = _thuongPhatRepository.AddThuong(thuongAdd);
+            var result = _thuongPhatRepository.AddThuongPhat(thuongPhatAdd, nhanVienId);
             if (result == null)
             {
                 return BadRequest();

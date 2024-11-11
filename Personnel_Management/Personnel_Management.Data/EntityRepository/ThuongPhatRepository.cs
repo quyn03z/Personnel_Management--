@@ -16,38 +16,10 @@ namespace Personnel_Management.Data.EntityRepository
         {
             _context = context;
         }
-        public ThuongPhat AddPhat(ThuongPhatAddModel phatAdd)
-        {
-            ThuongPhat phat;
-            if (!phatAdd.Loai.Trim().ToLower().Equals("phat"))
-            {
-                return null;
-            }
-            try
-            {
-                phat = new ThuongPhat
-                {
-                    GhiChu = phatAdd.GhiChu,
-                    Loai = phatAdd.Loai,
-                    Ngay = phatAdd.Ngay,
-                    NhanVienId = phatAdd.NhanVienId,
-                    SoTien = phatAdd.SoTien
-                };
-                _context.ThuongPhats.Add(phat);
-                _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-                return null;
-            }
-            return phat;
-        }
-
-        public ThuongPhat AddThuong(ThuongPhatAddModel thuongAdd)
+        public ThuongPhat AddThuongPhat(ThuongPhatAddModel thuongPhatAdd, int nhanVienId)
         {
             ThuongPhat thuong;
-            if (!thuongAdd.Loai.Trim().ToLower().Equals("thuong"))
+            if (!thuongPhatAdd.Loai.Trim().ToLower().Equals("thuong") && !thuongPhatAdd.Loai.Trim().ToLower().Equals("phat"))
             {
                 return null;
             }
@@ -55,11 +27,11 @@ namespace Personnel_Management.Data.EntityRepository
             {
                 thuong = new ThuongPhat
                 {
-                    GhiChu = thuongAdd.GhiChu,
-                    Loai = thuongAdd.Loai,
-                    Ngay = thuongAdd.Ngay,
-                    NhanVienId = thuongAdd.NhanVienId,
-                    SoTien = thuongAdd.SoTien
+                    GhiChu = thuongPhatAdd.GhiChu,
+                    Loai = thuongPhatAdd.Loai,
+                    Ngay = thuongPhatAdd.Ngay,
+                    NhanVienId = thuongPhatAdd.NhanVienId,
+                    SoTien = thuongPhatAdd.SoTien
                 };
                 _context.ThuongPhats.Add(thuong);
                 _context.SaveChanges();
@@ -94,19 +66,18 @@ namespace Personnel_Management.Data.EntityRepository
             return check;
         }
 
-        public List<ThuongPhat> GetAllThuongPhat(string fromDate, string toDate)
+        public List<ThuongPhat> GetAllThuongPhat(int currentMonth, int currentYear, int nhanVienId)
         {
             List<ThuongPhat> list = new List<ThuongPhat>();
             try
             {
-                // Chuyển đổi từ chuỗi sang DateTime
-                DateTime startDate = DateTime.Parse(fromDate);
-                DateTime endDate = DateTime.Parse(toDate);
-
-                // Lọc dữ liệu dựa trên khoảng ngày
                 list = _context.ThuongPhats
-                    .Where(tp => tp.Ngay >= startDate && tp.Ngay <= endDate).Include(tp => tp.NhanVien)
-                    .ToList();
+            .Where(tp => tp.NhanVienId == nhanVienId && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear)
+            .ToList();
+                if (!list.Any())
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -115,6 +86,18 @@ namespace Personnel_Management.Data.EntityRepository
             }
 
             return list;
+        }
+
+        public Luong GetLuongCoBan(int nhanVienId)
+        {
+            var luong = _context.Luongs.FirstOrDefault(l => l.NhanVienId == nhanVienId);
+
+            return luong;
+        }
+
+        public ThuongPhat GetThuongPhatById(int thuongphatId)
+        {
+            return _context.ThuongPhats.FirstOrDefault(tp => tp.ThuongPhatId == thuongphatId);
         }
 
         public List<ThuongPhat> GetThuongPhatByNhanVienId(int nhanVienId)
@@ -135,13 +118,31 @@ namespace Personnel_Management.Data.EntityRepository
             return list;
         }
 
+        public decimal GetTongPhatThang(int currentMonth, int currentYear, int nhanVienId)
+        {
+            var tongPhat = _context.ThuongPhats
+            .Where(tp => tp.NhanVienId == nhanVienId && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear && tp.Loai.Trim().ToLower() == "phat")
+            .Sum(tp => tp.SoTien);
+
+            return tongPhat;
+        }
+
+        public decimal GetTongThuongThang(int currentMonth, int currentYear, int nhanVienId)
+        {
+            var tongThuong = _context.ThuongPhats
+            .Where(tp => tp.NhanVienId == nhanVienId && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear && tp.Loai.Trim().ToLower() == "thuong")
+            .Sum(tp => tp.SoTien);
+
+            return tongThuong;
+        }
+
         public bool UpdateThuongPhat(int thuongPhatId, ThuongPhatAddModel thuongPhatUpdate)
         {
             bool check = false;
-            //if (!thuongPhatUpdate.Loai.Trim().ToLower().Equals("thuong") || !thuongPhatUpdate.Loai.Trim().ToLower().Equals("phat"))
-            //{
-            //    return check;
-            //}
+            if (!thuongPhatUpdate.Loai.Trim().ToLower().Equals("thuong") && !thuongPhatUpdate.Loai.Trim().ToLower().Equals("phat"))
+            {
+                return false;
+            }
             try
             {
                 var thuongPhat = _context.ThuongPhats.FirstOrDefault(tp => tp.ThuongPhatId == thuongPhatId);
