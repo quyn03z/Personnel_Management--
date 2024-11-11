@@ -65,11 +65,53 @@ namespace Personnel_Management.Business.NhanVienService
 				Email = nhanVien.Email,
 				PhongBanName = nhanVien.PhongBan?.TenPhongBan,
 				RoleName = nhanVien.Role.RoleName,
+				Avatar = nhanVien.Avatar,
 
 			};
 
 			return nhanVienDto;
 		}
+
+		public async Task<NhanVienDTO> UpdateProfileEmployee(int id, NhanVienDTO nhanVienDTO)
+		{
+			var existingEmployee =  _nhanVienRepository.GetById(id);
+			if (existingEmployee == null)
+			{
+				throw new ArgumentException($"Employee with ID {id} not found.");
+
+			}
+
+			existingEmployee.HoTen = nhanVienDTO.HoTen;
+			existingEmployee.NgaySinh = nhanVienDTO.NgaySinh;
+			existingEmployee.DiaChi = nhanVienDTO.DiaChi;
+			existingEmployee.SoDienThoai = nhanVienDTO?.SoDienThoai;
+			existingEmployee.Email = nhanVienDTO?.Email;
+			existingEmployee.RoleId = nhanVienDTO.RoleId;
+			existingEmployee.PhongBanId = nhanVienDTO.PhongBanId;
+			existingEmployee.Avatar = nhanVienDTO?.Avatar;
+
+			if (!string.IsNullOrEmpty(nhanVienDTO.Matkhau))
+			{
+				existingEmployee.Matkhau = nhanVienDTO.Matkhau;
+			}
+
+			await _nhanVienRepository.Update(existingEmployee);
+
+			return new NhanVienDTO
+			{
+				HoTen = existingEmployee.HoTen,
+				NgaySinh = existingEmployee.NgaySinh,
+				DiaChi = existingEmployee.DiaChi,
+				SoDienThoai = existingEmployee.SoDienThoai,
+				Email = existingEmployee.Email,
+				RoleId = existingEmployee.RoleId,
+				PhongBanId = existingEmployee.PhongBanId,
+				Avatar = existingEmployee.Avatar,
+			};
+
+		}
+
+
 
 
 	}

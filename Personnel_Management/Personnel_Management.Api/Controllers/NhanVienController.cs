@@ -26,8 +26,26 @@ namespace Personnel_Management.Api.Controllers
 			{
 				return NotFound(new { message = "NhanVien not found" });
 			}
+
 			return Ok(new { NhanVienDTO = nhanVien });
 		}
+
+
+		[HttpPut("updateProfileEmployee/{id}")]
+		public async Task<ActionResult<NhanVienDTO>> UpdateProfileEmployee(int id,
+			[FromBody] NhanVienDTO nhanVienDTO)
+		{
+			var nhanVien = await _nhanVienService.GetNhanVienById(id);
+			if (nhanVien == null)
+			{
+				return NotFound(new { message = "NhanVien not found" });
+			}
+
+			var updatednhanVienDTO = await _nhanVienService.UpdateProfileEmployee(id, nhanVienDTO); 
+
+			return Ok(updatednhanVienDTO);
+		}
+
 
 
 	}

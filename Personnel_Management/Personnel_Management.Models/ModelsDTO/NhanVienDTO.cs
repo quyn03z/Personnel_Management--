@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Personnel_Management.Models.ModelsDTO
@@ -29,8 +30,8 @@ namespace Personnel_Management.Models.ModelsDTO
 
 		public string? PhongBanName { get; set; }
 		public string? RoleName { get; set; }
-		[Required]
+		public string Avatar { get; set; }
 
-		public string Matkhau { get; set; }
+		public string? Matkhau { get; set; }
 	}
 }

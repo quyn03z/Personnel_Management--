@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
     phongBanId:'',
     soDienThoai: '',
     phongBanName: '',
+    avatar: '',
     roleName: ''
   };
 
@@ -37,10 +38,9 @@ export class ProfileComponent implements OnInit {
   getProfileNhanVien() {
     this.authService.getNhanVien().subscribe(
       (data: any) => {
-        const nhanVien = data.nhanVienDTO; // Lấy đối tượng nhanVienDTO từ API
+        const nhanVien = data.nhanVienDTO;
 
         const ngaySinh = nhanVien.ngaySinh ? nhanVien.ngaySinh.substring(0, 10) : '';
-        // Gán các thuộc tính từ nhanVienDTO vào nhanVienProfileObj
         this.nhanVienProfileObj = {
           hoTen: nhanVien.hoTen,
           email: nhanVien.email,
@@ -51,13 +51,19 @@ export class ProfileComponent implements OnInit {
           soDienThoai: nhanVien.soDienThoai,
           phongBanName: nhanVien.phongBanName,
           roleName: nhanVien.roleName,
-          matKhau: '' // giữ trống nếu không cần
+          avatar: nhanVien.avatar,
+          matKhau: ''
         };
       },
       (error) => {
         console.error('Error fetching profile data', error);
       }
     );
+  }
+
+
+  onUpdateProfile(){
+
   }
 
 

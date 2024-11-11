@@ -58,5 +58,12 @@ export class ApiService {
     }
   }
 
+ 
+  updateProfile(data: any, id: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/NhanVien/updateProfileEmployee/${id}`, data);
+  }
+
+
+  
 
 }
