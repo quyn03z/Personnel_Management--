@@ -1,64 +1,48 @@
-﻿// Controllers/DepartmentController.cs
-using Microsoft.AspNetCore.Mvc;
-using Personnel_Management.Models.Models;
-using Microsoft.EntityFrameworkCore;
-
+﻿using Microsoft.AspNetCore.Mvc;
 [ApiController]
 [Route("api/[controller]")]
+
 public class DepartmentController : ControllerBase
 {
-    private readonly QuanLyNhanSuContext _context;
+    private readonly IDepartmentService _departmentService;
 
-    public DepartmentController(QuanLyNhanSuContext context)
+    public DepartmentController(IDepartmentService departmentService)
     {
-        _context = context;
+        _departmentService = departmentService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllDepartments()
     {
-        try
-        {
-            var departments = await _context.PhongBans.ToListAsync();
-            return Ok(departments);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        var departments = await _departmentService.GetAllDepartmentsAsync();
+        return Ok(departments);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetDepartmentById(int id)
     {
-        try
-        {
-            var department = await _context.PhongBans.FindAsync(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-            return Ok(department);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        var department = await _departmentService.GetDepartmentByIdAsync(id);
+        if (department == null)
+            return NotFound();
+
+        return Ok(department);
     }
 
+    [HttpGet("{id}/employees")]
+    public async Task<IActionResult> GetEmployeesByDepartmentId(int id)
+    {
+        var employees = await _departmentService.GetEmployeesByDepartmentIdAsync(id);
+        if (employees == null || employees.Count == 0)
+            return NotFound("No employees found for this department.");
+
+        return Ok(employees);
+    }
 
     [HttpPost("add")]
     public async Task<IActionResult> AddDepartment([FromBody] DepartmentDto departmentDto)
     {
-        var department = new PhongBan
-        {
-            TenPhongBan = departmentDto.TenPhongBan,
-            MoTa = departmentDto.MoTa
-        };
-
-        _context.PhongBans.Add(department);
-        await _context.SaveChangesAsync();
-        return Ok(department);
+        await _departmentService.AddDepartmentAsync(departmentDto);
+        return Ok("Department added successfully.");
     }
 
     [HttpPut("{id}")]
@@ -66,42 +50,26 @@ public class DepartmentController : ControllerBase
     {
         try
         {
-            var existingDepartment = await _context.PhongBans.FindAsync(id);
-            if (existingDepartment == null)
-            {
-                return NotFound("Phòng ban không tồn tại.");
-            }
-
-            existingDepartment.TenPhongBan = departmentDto.TenPhongBan;
-            existingDepartment.MoTa = departmentDto.MoTa;
-
-            _context.PhongBans.Update(existingDepartment);
-            await _context.SaveChangesAsync();
-
+            await _departmentService.UpdateDepartmentAsync(id, departmentDto);
             return Ok("Cập nhật thành công.");
         }
-        catch (Exception ex)
+        catch (KeyNotFoundException ex)
         {
-            return StatusCode(500, ex.Message);
+            return NotFound(ex.Message);
         }
     }
-
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDepartment(int id)
     {
-        var department = await _context.PhongBans
-                            .Include(d => d.NhanViens)
-                            .FirstOrDefaultAsync(d => d.PhongBanId == id);
-
-        if (department == null)
-            return NotFound("Department not found.");
-
-        if (department.NhanViens.Any())
-            return BadRequest("Cannot delete department with employees.");
-
-        _context.PhongBans.Remove(department);
-        await _context.SaveChangesAsync();
-        return Ok("Department deleted.");
+        try
+        {
+            await _departmentService.DeleteDepartmentAsync(id);
+            return Ok("Department deleted.");
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 }

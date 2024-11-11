@@ -5,7 +5,8 @@ import { AdminComponent } from '../views/admin/admin.component';
 import { ViewEmployeeDetailComponent } from '../views/view-employee-detail/view-employee-detail.component';
 import { CreateThuongPhatComponent } from '../views/ThuongPhatService/create-thuong-phat/create-thuong-phat.component';
 import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thuong-phat/update-thuong-phat.component';
-
+import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
+import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 export const routes: Routes = [
     {
         path: '',
@@ -40,7 +41,18 @@ export const routes: Routes = [
     {
         path: 'admin',
         title: 'admin',
-        component: AdminComponent
+        component: AdminComponent,
+        children : [
+            {
+                path: 'employeesList',
+                title: 'employeesList',
+                component: EmployeesListComponent
+            },
+            {
+                path: 'departmentList',
+                title: 'departmentList',
+                component: DeparmentListComponent
+            }
+        ] 
     }
-
 ];

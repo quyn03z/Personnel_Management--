@@ -90,7 +90,7 @@ namespace Personnel_Management.Data.BaseRepository
 			return _dbSet.Where(predicate);
 		}
 
-		public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
+        public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
 		{
 			IQueryable<T> query = _dbSet;
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Personnel_Management.Data.EntityRepository;
+using Personnel_Management.Models.DTO;
 using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Personnel_Management.Business.NhanVienService
             _nhanVienRepository = nhanVienRepository;
         }
 
-        public async Task<IEnumerable<NhanVien>> GetAllAsync()
+        public async Task<IEnumerable<NhanVienDto>> GetAllAsync()
         {
             return await _nhanVienRepository.GetAllNhanViensAsync();
         }
@@ -57,9 +58,9 @@ namespace Personnel_Management.Business.NhanVienService
             originalNhanVien.NgaySinh = nhanVien.NgaySinh;
             originalNhanVien.DiaChi = nhanVien.DiaChi;
             originalNhanVien.SoDienThoai = nhanVien.SoDienThoai;
-            originalNhanVien.Email = nhanVien.Email; // Cần kiểm tra email đã tồn tại hay chưa
+            originalNhanVien.Email = nhanVien.Email;
             originalNhanVien.PhongBanId = nhanVien.PhongBanId;
-            originalNhanVien.RoleId = nhanVien.RoleId; //Cập nhật role
+            originalNhanVien.RoleId = nhanVien.RoleId;
 
             await _nhanVienRepository.UpdateNhanVienAsync(originalNhanVien);
         }

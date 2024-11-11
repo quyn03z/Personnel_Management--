@@ -1,4 +1,5 @@
-﻿using Personnel_Management.Models.Models;
+﻿using Personnel_Management.Models.DTO;
+using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Personnel_Management.Data.EntityRepository
 {
 	public interface INhanVienRepository
 	{
-        Task<List<NhanVien>> GetAllNhanViensAsync();
+        Task<List<NhanVienDto>> GetAllNhanViensAsync();
         Task<NhanVien> GetNhanVienByIdAsync(int id);
         Task AddNhanVienAsync(NhanVien nhanVien);
         Task UpdateNhanVienAsync(NhanVien nhanVien);
