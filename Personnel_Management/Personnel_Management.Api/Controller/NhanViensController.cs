@@ -94,16 +94,24 @@ namespace Personnel_Management.Api.Controller
             if (employee.IsManager && newManagerId == null)
                 return BadRequest("Must assign a new manager.");
 
-            if (employee.IsManager)
-            {
-                var newManager = await _context.NhanViens.FindAsync(newManagerId);
-                newManager.RoleId = 2; // Assign as manager
-                _context.NhanViens.Update(newManager);
-            }
+
+                if (employee.IsManager)
+                {
+                    var newManager = await _context.NhanViens.FindAsync(newManagerId);
+                    if (newManager == null)
+                        return NotFound("New manager not found.");
+
+                    if (newManager.PhongBanId != employee.PhongBanId)
+                        return BadRequest("The new manager must be in the same department.");
+
+                    newManager.RoleId = 2; // Assign as manager
+                    _context.NhanViens.Update(newManager);
+                }
+            
 
             _context.NhanViens.Remove(employee);
             await _context.SaveChangesAsync();
-            return Ok("Employee deleted.");
+            return NoContent();
         }
 
 

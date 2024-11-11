@@ -24,6 +24,7 @@ public partial class NhanVien
     public int PhongBanId { get; set; }
 
     public string Matkhau { get; set; }
+    public string Avatar { get; set; }
 
 	public string Avatar { get; set; }
 

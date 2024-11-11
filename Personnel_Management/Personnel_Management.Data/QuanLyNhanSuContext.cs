@@ -80,7 +80,7 @@ public partial class QuanLyNhanSuContext : DbContext
                 .HasColumnName("matkhau");
             entity.Property(e => e.NgaySinh).HasColumnType("date");
             entity.Property(e => e.SoDienThoai).HasMaxLength(20);
-
+            entity.Property(e => e.Avatar).HasMaxLength(255);
             entity.HasOne(d => d.PhongBan).WithMany(p => p.NhanViens)
                 .HasForeignKey(d => d.PhongBanId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

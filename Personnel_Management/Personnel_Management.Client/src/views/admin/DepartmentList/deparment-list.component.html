@@ -12,6 +12,7 @@
                         <th>Tên Phòng Ban</th>
                         <th>Mô tả</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,7 +23,28 @@
                             <td>{{e.tenPhongBan}}</td>
                             <td>{{e.moTa}}</td>
                             <td>
-                                <button>Edit</button>
+                                <a href="UpdateDepartment.html" class="buttonDe">Edit</a>
+                                <style>
+                                    .buttonDe {
+                                      display: inline-block;
+                                      background-color: #007bff;  /* Màu nền xanh */
+                                      color: white;               /* Màu chữ trắng */
+                                      padding: 10px 20px;         /* Khoảng cách bên trong */
+                                      text-align: center;         /* Căn giữa chữ */
+                                      text-decoration: none;      /* Bỏ gạch chân */
+                                      border-radius: 5px;         /* Bo tròn góc */
+                                      border: none;               /* Bỏ viền */
+                                      cursor: pointer;            /* Con trỏ dạng nút khi rê chuột */
+                                      font-size: 16px;            /* Cỡ chữ */
+                                      transition: background-color 0.3s; /* Hiệu ứng khi hover */
+                                    }
+                                    .buttonDe:hover {
+                                      background-color: #0056b3;  /* Đổi màu khi hover */
+                                    }
+                                  </style>
+                            </td>
+                            <td> 
+                                <a class="buttonDe">Delate</a>
                             </td>
                         </tr>
                     }

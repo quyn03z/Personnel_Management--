@@ -19,7 +19,7 @@
                                     </thead>
                                     <tbody>
                                         @for (e of employeeList; track e.nhanVienId) {
-                                            <tr>
+                                            <tr [routerLink]="['/viewEmployeeDetail', e.nhanVienId]" routerLinkActive="active" style="cursor: pointer;">
                                                 
                                                 <td>{{e.nhanVienId}}</td>
                                                 <td>{{e.hoTen}}</td>
