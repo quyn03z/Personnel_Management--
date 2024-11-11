@@ -39,21 +39,19 @@ export class ProfileComponent implements OnInit{
   getProfileNhanVien() {
     this.authService.getNhanVien().subscribe(
       (data: any) => {
-        const nhanVien = data.nhanVienDTO;
-
-        const ngaySinh = nhanVien.ngaySinh ? nhanVien.ngaySinh.substring(0, 10) : '';
+        console.log('Profile Data:', data);  
         this.nhanVienProfileObj = {
-          hoTen: nhanVien.hoTen,
-          email: nhanVien.email,
-          ngaySinh: ngaySinh,
-          diaChi: nhanVien.diaChi,
-          roleId: nhanVien.roleId,
-          phongBanId: nhanVien.phongBanId,
-          soDienThoai: nhanVien.soDienThoai,
-          phongBanName: nhanVien.phongBanName,
-          roleName: nhanVien.roleName,
-          avatar: nhanVien.avatar,
-          matKhau: ''
+          hoTen: data.hoTen,
+          email: data.email,
+          ngaySinh: data.ngaySinh ? data.ngaySinh.substring(0, 10) : '',
+          diaChi: data.diaChi,
+          roleId: data.roleId,
+          matKhau: '', 
+          phongBanId: data.phongBanId,
+          soDienThoai: data.soDienThoai,
+          phongBanName: data.phongBan ? data.phongBan.tenPhongBan : '',  
+          roleName: data.role ? data.role.tenRole : '',
+          avatar: data.avatar
         };
       },
       (error) => {
@@ -61,6 +59,7 @@ export class ProfileComponent implements OnInit{
       }
     );
   }
+  
 
 
   onUpdateProfile() {
