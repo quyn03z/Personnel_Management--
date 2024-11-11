@@ -76,7 +76,9 @@ export class AuthService {
     return this.apiService.changePassWord(data);
   }
 
-
+  getNhanVien() {
+    return this.apiService.getUserById();
+  }
 
 
 }

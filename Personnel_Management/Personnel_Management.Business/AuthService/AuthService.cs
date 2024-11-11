@@ -41,7 +41,7 @@ namespace Personnel_Management.Business.AuthService
 				{
 			new Claim(JwtRegisteredClaimNames.Name, user.HoTen),
 			new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-			new Claim(JwtRegisteredClaimNames.NameId, user.NhanVienId.ToString()),
+			new Claim("NhanVienId", user.NhanVienId.ToString()),
 			new Claim("PhongBanId", user.PhongBanId.ToString()),
 			new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 			new Claim(ClaimTypes.Role, user.RoleId switch

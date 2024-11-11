@@ -12,6 +12,7 @@ import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
 import { ChangePasswordComponent } from '../views/change-password/change-password.component';
+import { ProfileComponent } from '../views/profile/profile.component';
 export const routes: Routes = [
     {
         path: '',
@@ -79,6 +80,6 @@ export const routes: Routes = [
     }, 
     { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
     { path: 'change-password', title: 'Change-Paassword', component: ChangePasswordComponent },
-
+    { path: 'profile', title: 'Profile', component: ProfileComponent },
 
 ];
