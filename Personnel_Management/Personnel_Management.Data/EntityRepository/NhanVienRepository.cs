@@ -63,12 +63,7 @@ namespace Personnel_Management.Data.EntityRepository
             return await _context.NhanViens.FindAsync(id);
         }
 
-        public NhanVien Login(string email, string matkhau)
-		{
-			return _context.NhanViens
-			.FirstOrDefault(user => user.Email == email && user.Matkhau == matkhau);
-		}
-
+        
         public List<NhanVien> GetAllManagerFunction()
         {
             List<NhanVien> list = new List<NhanVien>();
@@ -111,6 +106,13 @@ namespace Personnel_Management.Data.EntityRepository
         }
 
 
-    }
+
+		public NhanVien Login(string email, string matkhau)
+		{
+			return _context.NhanViens.SingleOrDefault(u => u.Email == email && u.Matkhau == HashPassword(matkhau));
+		}
+
+
+	}
 
 	}

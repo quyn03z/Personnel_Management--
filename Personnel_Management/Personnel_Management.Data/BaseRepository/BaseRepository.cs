@@ -53,7 +53,7 @@ namespace Personnel_Management.Data.BaseRepository
 
 		public async Task<T?> GetByIdAsync(int id)
 		{
-			return await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+			return await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => EF.Property<int>(e, "NhanVienId") == id);
 		}
 
 		public void Add(T entity)

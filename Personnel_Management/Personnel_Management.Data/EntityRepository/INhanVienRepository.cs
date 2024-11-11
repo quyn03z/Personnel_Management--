@@ -20,5 +20,8 @@ namespace Personnel_Management.Data.EntityRepository
         List<NhanVien> GetAllManagerFunction();
 		NhanVien GetByIdManagerFunction(int id);
 
-    }
+
+		NhanVien Login(string email, string matkhau);
+
+	}
 }

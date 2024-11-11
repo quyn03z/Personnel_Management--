@@ -71,7 +71,8 @@ public partial class QuanLyNhanSuContext : DbContext
             entity.HasIndex(e => e.Email, "UQ__NhanVien__A9D105341ECBCE78").IsUnique();
 
             entity.Property(e => e.Email).HasMaxLength(255);
-            entity.Property(e => e.HoTen)
+			entity.Property(e => e.Avatar).HasMaxLength(255);
+			entity.Property(e => e.HoTen)
                 .IsRequired()
                 .HasMaxLength(255);
             entity.Property(e => e.Matkhau)
