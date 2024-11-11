@@ -62,4 +62,10 @@ export class AuthService {
     }
   }
 
+
+  sendMailOTP(data: any) {
+    return this.apiService.sendOtp(data);
+}
+
+
 }
