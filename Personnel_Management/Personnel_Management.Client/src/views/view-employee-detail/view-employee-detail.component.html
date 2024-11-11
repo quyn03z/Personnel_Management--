@@ -1,0 +1,78 @@
+<div class="container" style="width: 100%;">
+    <div class="profile-section" >
+        <div class="profile-picture" style="margin-bottom: 200px;">
+            <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">           
+           
+        </div>
+        <div class="rewards-penalties" style="margin-top: 40px;">
+            <h3>Danh Sách Thưởng/Phạt</h3>
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" >
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Loại</th>
+                        <th>Số tiền</th>
+                        <th>Ghi chú</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (tp of thuongPhatList; track $index) {
+                        <tr>
+                            <td>{{tp.ngay}}</td>
+                            <td>{{tp.loai}}</td>
+                            <td>{{tp.soTien}}</td>
+                            <td>{{tp.ghiChu}}</td>
+                            <td class="action-buttons" style="text-align: center;">
+                                <button style="color: #4e73df;" [routerLink]="['/updateThuongPhat', employee.nhanVienId, tp.thuongPhatId]" routerLinkActive="active">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                            </td>
+                            <td class="action-buttons"  style="text-align: center;">
+                                <button (click)="btnDelete(tp.thuongPhatId)" style="color: #e74a3b;"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    }
+                    
+                    
+                    <!-- Thêm nhiều mục khác nếu cần -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="details-section">
+        <h2>Chi Tiết Nhân Viên</h2>
+        <div class="info-form">
+            <label>Họ tên</label>
+            <input type="text" value="{{employee?.hoTen}}" readonly>
+
+            <label>Ngày sinh</label>
+            <input type="text" readonly value="{{employee?.ngaySinh}}" >
+
+            <label>Số điện thoại</label>
+            <input type="text" readonly value="{{employee?.soDienThoai}}">
+
+            <label>Email</label>
+            <input type="text" readonly value="{{employee?.email}}">
+
+            <label>Địa chỉ</label>
+            <input type="text" readonly value="{{employee?.diaChi}}">
+
+            <label>Phòng ban</label>
+            <input type="text" readonly value="{{employee?.phongBan.tenPhongBan}}">
+
+            <label>Lương cơ bản</label>
+            <input type="text" readonly value="{{luongCoBan}}VND">
+
+            <label>Thưởng</label>
+            <input type="text" readonly value="{{tongThuong}}VND">
+
+            <label>Phạt</label>
+            <input type="text" readonly value="{{tongPhat}}VND">
+
+            <button [routerLink]="['/createThuongPhat', employee.nhanVienId]"routerLinkActive="active">Thêm thưởng phạt</button>
+        </div>
+    </div>
+</div>

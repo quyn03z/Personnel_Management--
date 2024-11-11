@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 export class ViewEmployeeListComponent implements  OnInit {
   employeeList: any[] = [];
   http = inject(HttpClient);
+  router = inject(Router);
   dtoptions: Config={};
   dttrigger: Subject<any> = new Subject<any>();
 
@@ -36,6 +37,10 @@ export class ViewEmployeeListComponent implements  OnInit {
       console.log(this.employeeList);
       this.dttrigger.next(null);
     });
+  }
+  
+  NavigateToEmployeeDetail(nhanVienId: any){
+    this.router.navigate(['/viewEmployeeList', nhanVienId]);
   }
 
 }

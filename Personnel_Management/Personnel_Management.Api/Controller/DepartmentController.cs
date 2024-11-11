@@ -65,11 +65,16 @@ public class DepartmentController : ControllerBase
         try
         {
             await _departmentService.DeleteDepartmentAsync(id);
-            return Ok("Department deleted.");
+            return Ok("Phòng ban đã được xóa thành công.");
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (KeyNotFoundException ex)
         {
             return NotFound(ex.Message);
         }
     }
+
 }

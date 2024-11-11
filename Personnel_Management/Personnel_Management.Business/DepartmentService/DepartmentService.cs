@@ -51,12 +51,23 @@ public class DepartmentService : IDepartmentService
         await _departmentRepository.UpdateDepartmentAsync(existingDepartment);
     }
 
+    public async Task<bool> HasEmployeesAsync(int departmentId)
+    {
+        var employees = await _departmentRepository.GetEmployeesByDepartmentIdAsync(departmentId);
+        return employees != null && employees.Any();
+    }
+
     public async Task DeleteDepartmentAsync(int id)
     {
         var department = await _departmentRepository.GetDepartmentByIdAsync(id);
         if (department == null)
             throw new KeyNotFoundException("Phòng ban không tồn tại.");
 
+        // Kiểm tra nếu phòng ban có nhân viên
+        if (await HasEmployeesAsync(id))
+            throw new InvalidOperationException("Không thể xóa phòng ban vì vẫn còn nhân viên.");
+
         await _departmentRepository.DeleteDepartmentAsync(department);
     }
+
 }

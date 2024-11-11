@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Personnel_Management.Business.AuthService;
 using Personnel_Management.Business.LuongService;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -15,18 +18,25 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-        // add CORS
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAngularApp",
-                policy => policy.WithOrigins("http://localhost:4200")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod());
-        });
+		// Add services to the container.
+		// add CORS
+		builder.Services.AddCors(options =>
+		{
+			options.AddPolicy("AllowAngularApp",
+				builder =>
+				{
+					builder.WithOrigins("http://localhost:4200", "http://localhost:5008")
+						   .AllowAnyMethod()
+						   .AllowAnyHeader()
+						   .AllowCredentials(); // Enables cookies and credentials
+				});
+		});
 
-        // Add services to the container.
-        builder.Services.AddDbContext<QuanLyNhanSuContext>(options =>
+
+
+
+		// Add services to the container.
+		builder.Services.AddDbContext<QuanLyNhanSuContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddControllers()
@@ -44,11 +54,12 @@ public class Program
         builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         builder.Services.AddScoped<IDepartmentService, DepartmentService>();
         builder.Services.AddControllers();
+		builder.Services.AddScoped<IAuthService, AuthService>();
 
 
-        // Authentication
+		// Authentication
 
-        builder.Services.AddAuthentication(options =>
+		builder.Services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,11 +77,38 @@ public class Program
             };
         });
 
-        builder.Services.AddAuthorization();
 
 
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
+		builder.Services.AddSwaggerGen(options =>
+		{
+			options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
+			{
+				Name = "Cookie",
+				Type = SecuritySchemeType.ApiKey,
+				In = ParameterLocation.Header,
+				Description = "Session-based authentication using cookies"
+			});
+
+			options.OperationFilter<AddRequiredHeadersParameter>(); // To add headers and cookies if necessary
+		});
+
+
+
+		builder.Services.AddAuthorization();
+
+		builder.Services.AddDistributedMemoryCache();
+
+		builder.Services.AddSession(options =>
+		{
+			options.IdleTimeout = TimeSpan.FromMinutes(30);  // Increase as needed for development
+			options.Cookie.HttpOnly = true;
+			options.Cookie.IsEssential = true;
+			options.Cookie.SameSite = SameSiteMode.Lax;  // Consider using None if cross-origin
+		});
+
+
+		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+		builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
@@ -88,11 +126,32 @@ public class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+		app.UseSession();
 
-
-        app.MapControllers();
+		app.MapControllers();
 
         app.Run();
     }
 }
 
+public class AddRequiredHeadersParameter : IOperationFilter
+{
+	public void Apply(OpenApiOperation operation, OperationFilterContext context)
+	{
+		if (operation.Parameters == null)
+			operation.Parameters = new List<OpenApiParameter>();
+
+		// Adds a Cookie header to Swagger requests to handle session-based auth
+		operation.Parameters.Add(new OpenApiParameter
+		{
+			Name = "Cookie",
+			In = ParameterLocation.Header,
+			Description = "Session-based authentication using cookies",
+			Required = false,
+			Schema = new OpenApiSchema
+			{
+				Type = "string"
+			}
+		});
+	}
+}

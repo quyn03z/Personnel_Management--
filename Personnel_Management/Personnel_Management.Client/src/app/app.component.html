@@ -9,17 +9,17 @@
         <!-- End of Sidebar -->
       
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="display: flex;">
       
             <!-- Main Content -->
-            <div id="content">
+            <div id="content" style="flex: 2; margin-bottom:20px;">
       
                 <!-- Topbar -->
                 <app-navbar></app-navbar>
                 <!-- End of Topbar -->
       
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="width: 100%; height: 90%;">
                   
                   <!-- router hien thi noi dung cac trang con o day -->
                       <router-outlet></router-outlet>
@@ -31,7 +31,7 @@
             <!-- End of Main Content -->
       
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white" style="flex: 1; max-height: 100px;">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2021</span>
@@ -65,7 +65,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button (click)="logout()" class="btn btn-primary">Logout</button>
                 </div>
             </div>
         </div>
