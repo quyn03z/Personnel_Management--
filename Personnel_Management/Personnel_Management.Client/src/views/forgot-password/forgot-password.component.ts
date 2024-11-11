@@ -28,24 +28,31 @@ export class ForgotPasswordComponent {
 
   onSendOTP() {
     if (this.emailSendOtpForm.valid) {
-      this.emailSendOtp = this.emailSendOtpForm.value;
-      console.log(this.emailSendOtp);
-      localStorage.setItem('otpEmail', this.emailSendOtp.email);
-      this.authService.sendMailOTP(this.emailSendOtp).subscribe({
-        next: (data: any) => {
-          this.errorMessage = '';
-          alert('Send OTP successful! Redirecting to Confirm OTP.');
-          this.router.navigate(['/confirm-otp']);
-        },
-        error: (err) => {
-          if (err.status == 404) {
-            this.errorMessage = 'Email does not exist.';
-          } else {
-            this.errorMessage = 'Email does not exist.';
-          }
-        }
-      });
+        this.emailSendOtp = this.emailSendOtpForm.value;
+        console.log(this.emailSendOtp);
+        localStorage.setItem('otpEmail', this.emailSendOtp.email);
+        this.authService.sendMailOTP(this.emailSendOtp).subscribe({
+            next: (data: any) => {
+                this.errorMessage = '';
+                if (data && data.token) { // Use `data.token` to match the API response
+                    localStorage.setItem('otpToken', data.token);
+                }
+                alert('Send OTP successful! Redirecting to Confirm OTP.');
+                this.router.navigate(['/confirm-otp']);
+            },
+            error: (err) => {
+                if (err.status == 404) {
+                    this.errorMessage = 'Email does not exist.';
+                } else {
+                    this.errorMessage = 'An error occurred. Please try again.';
+                }
+            }
+        });
     }
-  }
+}
+
+
+  
+
 
 }

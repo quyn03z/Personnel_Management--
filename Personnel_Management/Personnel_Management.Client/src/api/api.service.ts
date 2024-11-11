@@ -23,9 +23,12 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}/Auth/ForgetPassword`, data, { withCredentials: true });
   }
   
-  confirmOtp(data: { email: string; otp: string }): Observable<any> {
+  confirmOtp(data: { email: string; otp: string; token: string }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${this.baseUrl}/Auth/VerifyOtp`, data, { headers, withCredentials: true });
+    return this.http.post<any>(`${this.baseUrl}/Auth/VerifyOtp`, data, { headers });
   }
+
+
+
   
 }

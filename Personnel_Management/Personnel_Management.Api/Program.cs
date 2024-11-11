@@ -79,21 +79,6 @@ public class Program
 
 
 
-		builder.Services.AddSwaggerGen(options =>
-		{
-			options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
-			{
-				Name = "Cookie",
-				Type = SecuritySchemeType.ApiKey,
-				In = ParameterLocation.Header,
-				Description = "Session-based authentication using cookies"
-			});
-
-			options.OperationFilter<AddRequiredHeadersParameter>(); // To add headers and cookies if necessary
-		});
-
-
-
 		builder.Services.AddAuthorization();
 
 		builder.Services.AddDistributedMemoryCache();
@@ -134,24 +119,3 @@ public class Program
     }
 }
 
-public class AddRequiredHeadersParameter : IOperationFilter
-{
-	public void Apply(OpenApiOperation operation, OperationFilterContext context)
-	{
-		if (operation.Parameters == null)
-			operation.Parameters = new List<OpenApiParameter>();
-
-		// Adds a Cookie header to Swagger requests to handle session-based auth
-		operation.Parameters.Add(new OpenApiParameter
-		{
-			Name = "Cookie",
-			In = ParameterLocation.Header,
-			Description = "Session-based authentication using cookies",
-			Required = false,
-			Schema = new OpenApiSchema
-			{
-				Type = "string"
-			}
-		});
-	}
-}

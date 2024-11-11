@@ -158,7 +158,7 @@ namespace Personnel_Management.Api.Controllers
 
 				if (email == request.Email && otp == request.Otp)
 				{
-					// Generate a password reset token (can be a GUID or another JWT)
+					// Generate a new password reset token
 					var passwordResetToken = Guid.NewGuid().ToString();
 					_resetTokens.Add(new ResetTokenEntry { Email = email, Token = passwordResetToken });
 
@@ -174,6 +174,7 @@ namespace Personnel_Management.Api.Controllers
 				return Unauthorized(new { Message = "Invalid or expired token." });
 			}
 		}
+
 
 
 
