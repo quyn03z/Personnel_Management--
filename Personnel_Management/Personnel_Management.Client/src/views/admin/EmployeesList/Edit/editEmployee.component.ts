@@ -12,13 +12,14 @@ interface Role {
 }
 
 @Component({
-  selector: 'app-view-add-employee',
+  selector: 'app-view-edit-employee',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive,HttpClientModule,FormsModule,],
-  templateUrl: './addEmployee.component.html',
-  styleUrls: ['./addEmployee.component.scss']
+  templateUrl: './editEmployee.component.html',
+  styleUrls: ['./editEmployee.component.scss']
 })
-export class AddEmployeesComponent implements  OnInit {
+
+export class EditEmployeesComponent implements  OnInit {
   hoTen: string = '';          
   ngaySinh: Date | null = null;  
   diaChi: string = '';        
