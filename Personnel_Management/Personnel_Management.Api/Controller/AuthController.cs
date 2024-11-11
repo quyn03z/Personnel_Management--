@@ -61,89 +61,66 @@ namespace Personnel_Management.Api.Controllers
 			return Ok(response);
 		}
 
+
+
 		[HttpPost]
-		[Route("CreateNhanVien")]
-		public async Task<IActionResult> CreateNhanVien([FromBody] NhanVienDtto nhanVienDto)
+		[Route("ForgetPassword")]
+		public async Task<IActionResult> ForgetPassword([FromBody] EmailRequest request)
 		{
-			if (_quanLyNhanSuContext.NhanViens.Any(x => x.Email == nhanVienDto.Email))
+			var email = request.Email;
+
+			var nhanVienExists = _quanLyNhanSuContext.NhanViens.Any(x => x.Email == email);
+
+			if (!nhanVienExists)
 			{
-				return Conflict(new { Message = "Email already exists" });
+				return NotFound(new { Message = "Email does not exist" });
 			}
 
-			var nhanVien = new NhanVien
-			{
-				HoTen = nhanVienDto.HoTen,
-				NgaySinh = nhanVienDto.NgaySinh,
-				DiaChi = nhanVienDto.DiaChi,
-				SoDienThoai = nhanVienDto.SoDienThoai,
-				Email = nhanVienDto.Email,
-				RoleId = nhanVienDto.RoleId,
-				Matkhau = nhanVienDto.Matkhau,
-			};
+			// Generate OTP
+			Random random = new Random();
+			string otp = random.Next(100000, 999999).ToString();
 
-			//await _nhanVienService.AddNhanVienAsync(nhanVien);
-			await _nhanVienService.AddAsync(nhanVien);
-			return Ok(nhanVien);
+			// Send OTP to the user's email
+			SendOtpEmail(email, otp);
+
+
+			// Create a new OtpEntry and store it in session
+			var otpEntry = new OtpEntry { Email = email, Otp = otp };
+			HttpContext.Session.SetString("otpEntry", Newtonsoft.Json.JsonConvert.SerializeObject(otpEntry));
+
+			return Ok(new { Message = "OTP has been sent to your email" });
+
 		}
 
 
 
-		//[HttpPost]
-		//[Route("ForgetPassword")]
-		//public async Task<IActionResult> ForgetPassword([FromBody] EmailRequest request)
-		//{
-		//	var email = request.Email;
 
-		//	var nhanVienExists = _quanLyNhanSuContext.NhanViens.Any(x => x.Email == email);
+		[HttpPost("VerifyOtp")]
+		public IActionResult VerifyOtp([FromBody] OtpEntry otpEntry)
+		{
+			string sessionOtpEntryString = HttpContext.Session.GetString("otpEntry");
 
-		//	if (!nhanVienExists) 
-		//	{
-		//		return NotFound(new { Message = "Email does not exist" });
-		//	}
+			if (string.IsNullOrEmpty(sessionOtpEntryString))
+			{
+				Console.WriteLine("Session data not found. OTP session might not be set or expired.");
+				return BadRequest(new { Message = "No OTP found. Please request a new OTP." });
+			}
 
-		//	// Generate OTP
-		//	Random random = new Random();
-		//	string otp = random.Next(100000, 999999).ToString();
+			Console.WriteLine("Retrieved OTP from session: " + sessionOtpEntryString);
 
-		//	// Send OTP to the user's email
-		//	SendOtpEmail(email, otp);
+			var sessionOtpEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<OtpEntry>(sessionOtpEntryString);
 
+			if (otpEntry.Email != sessionOtpEntry.Email || otpEntry.Otp != sessionOtpEntry.Otp)
+			{
+				return BadRequest(new { Message = "Invalid OTP or email" });
+			}
 
-		//	// Create a new OtpEntry and store it in session
-		//	var otpEntry = new OtpEntry { Email = email, Otp = otp };
-		//	HttpContext.Session.SetString("otpEntry", Newtonsoft.Json.JsonConvert.SerializeObject(otpEntry));
+			var token = Guid.NewGuid().ToString();
+			_resetTokens.Add(new ResetTokenEntry { Email = otpEntry.Email, Token = token });
+			HttpContext.Session.Remove("otpEntry");
 
-		//	return Ok(new { Message = "OTP has been sent to your email" });
-
-		//}
-
-
-		//[HttpPost("VerifyOtp")]
-		//public IActionResult VerifyOtp([FromBody] OtpEntry otpEntry)
-		//{
-		//	string sessionOtpEntryString = HttpContext.Session.GetString("otpEntry");
-
-		//	if (string.IsNullOrEmpty(sessionOtpEntryString))
-		//	{
-		//		Console.WriteLine("Session data not found. OTP session might not be set or expired.");
-		//		return BadRequest(new { Message = "No OTP found. Please request a new OTP." });
-		//	}
-
-		//	Console.WriteLine("Retrieved OTP from session: " + sessionOtpEntryString);
-
-		//	var sessionOtpEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<OtpEntry>(sessionOtpEntryString);
-
-		//	if (otpEntry.Email != sessionOtpEntry.Email || otpEntry.Otp != sessionOtpEntry.Otp)
-		//	{
-		//		return BadRequest(new { Message = "Invalid OTP or email" });
-		//	}
-
-		//	var token = Guid.NewGuid().ToString();
-		//	_resetTokens.Add(new ResetTokenEntry { Email = otpEntry.Email, Token = token });
-		//	HttpContext.Session.Remove("otpEntry");
-
-		//	return Ok(new { Message = "OTP verified. Please reset your password.", Token = token });
-		//}
+			return Ok(new { Message = "OTP verified. Please reset your password.", Token = token });
+		}
 
 
 

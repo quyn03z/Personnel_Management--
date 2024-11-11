@@ -126,9 +126,9 @@ public class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+		app.UseSession();
 
-
-        app.MapControllers();
+		app.MapControllers();
 
         app.Run();
     }
