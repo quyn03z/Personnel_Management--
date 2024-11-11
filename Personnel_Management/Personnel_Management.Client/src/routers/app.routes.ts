@@ -7,6 +7,7 @@ import { CreateThuongPhatComponent } from '../views/ThuongPhatService/create-thu
 import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thuong-phat/update-thuong-phat.component';
 import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
+import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 export const routes: Routes = [
     {
         path: '',
@@ -54,5 +55,10 @@ export const routes: Routes = [
                 component: DeparmentListComponent
             }
         ] 
+    },{
+        path: 'forgot-password',
+        title: 'Forgot-Password',
+        component: ForgotPasswordComponent
     }
+
 ];
