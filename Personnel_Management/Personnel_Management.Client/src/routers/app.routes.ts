@@ -6,6 +6,7 @@ import { ViewEmployeeDetailComponent } from '../views/view-employee-detail/view-
 import { CreateThuongPhatComponent } from '../views/ThuongPhatService/create-thuong-phat/create-thuong-phat.component';
 import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thuong-phat/update-thuong-phat.component';
 import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
+import { AddEmployeesComponent } from '../views/admin/EmployeesList/Add/addEmployee.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
@@ -48,7 +49,14 @@ export const routes: Routes = [
             {
                 path: 'employeesList',
                 title: 'employeesList',
-                component: EmployeesListComponent
+                component: EmployeesListComponent,
+                children : [
+                    {
+                        path: 'add',
+                        title: 'add',
+                        component: AddEmployeesComponent
+                    }
+                ] 
             },
             {
                 path: 'departmentList',
