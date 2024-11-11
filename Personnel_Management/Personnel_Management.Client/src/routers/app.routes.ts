@@ -3,6 +3,8 @@ import { ViewEmployeeListComponent } from '../views/view-employee-list/view-empl
 import { LoginComponent } from '../views/login/login.component';
 import { AdminComponent } from '../views/admin/admin.component';
 import { ViewEmployeeDetailComponent } from '../views/view-employee-detail/view-employee-detail.component';
+import { CreateThuongPhatComponent } from '../views/ThuongPhatService/create-thuong-phat/create-thuong-phat.component';
+import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thuong-phat/update-thuong-phat.component';
 
 export const routes: Routes = [
     {
@@ -23,10 +25,17 @@ export const routes: Routes = [
     {
         path: 'viewEmployeeList',
         title: 'Xem Danh Sach Nhan Vien',
-        component: ViewEmployeeListComponent,
-        children: [
-            
-        ]
+        component: ViewEmployeeListComponent
+    },
+    {
+        path: 'createThuongPhat/:nhanVienId',
+        title: 'Tao thưởng phạt cho nhân viên',
+        component: CreateThuongPhatComponent 
+    },
+    {
+        path: 'updateThuongPhat/:nhanVienId/:thuongPhatId',
+        title: 'Cập nhật thưởng phạt',
+        component: UpdateThuongPhatComponent
     },
     {
         path: 'admin',

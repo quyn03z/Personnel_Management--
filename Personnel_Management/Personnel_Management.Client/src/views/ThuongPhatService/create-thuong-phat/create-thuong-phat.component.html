@@ -1,0 +1,34 @@
+<div class="container" style="width: 100%;">
+    <div class="profile-section" >
+        <div class="profile-picture" style="margin-bottom: 200px;">
+            <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">           
+            <h2>ID: {{employee?.nhanVienId}} -{{employee?.hoTen}}</h2>
+        </div>
+        
+    </div>
+    
+    <div class="details-section">
+        <h2>Chi Tiết Nhân Viên</h2>
+        <div class="info-form">
+            <label>Ngày</label>
+            <input type="date" name="ngay" [(ngModel)]="addThuongPhat.ngay" >
+
+            <label>Số tiền</label>
+            <input type="text" name="soTien" [(ngModel)]="addThuongPhat.soTien" >
+
+            <label for="loai">Loại:</label>
+            <select id="loai" name="loai" [(ngModel)]="addThuongPhat.loai">
+                    <option value="" disabled selected>Chọn loại</option>
+                
+                    <option value="thuong">Thưởng</option>
+                    <option value="phat">Phạt</option>
+            </select>
+
+            <label>Ghi chú</label>
+            <input type="text" name="ghiChu" [(ngModel)]="addThuongPhat.ghiChu" >
+
+            <button type="submit" (click)="btnAdd()">Thêm thưởng phạt</button>
+            <button type="submit" (click)="btnBack()" style="margin-top: 0px;">Quay lại</button>
+        </div>
+    </div>
+</div>
