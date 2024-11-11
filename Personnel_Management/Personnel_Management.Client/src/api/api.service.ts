@@ -28,6 +28,10 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}/Auth/VerifyOtp`, data, { headers });
   }
 
+  changePassWord(data: any):Observable<any>{
+    return this.http.post<any>(this.baseUrl + "/Auth/ChangePassword", data);
+  }
+
 
 
   

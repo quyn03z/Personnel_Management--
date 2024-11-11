@@ -72,5 +72,11 @@ export class AuthService {
     return this.apiService.confirmOtp(data);
   }
 
+  changeNewPassWord(data: any) {
+    return this.apiService.changePassWord(data);
+  }
+
+
+
 
 }
