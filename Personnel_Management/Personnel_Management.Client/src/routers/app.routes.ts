@@ -11,6 +11,7 @@ import { EditEmployeesComponent } from '../views/admin/EmployeesList/Edit/editEm
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
+
 import { ChangePasswordComponent } from '../views/change-password/change-password.component';
 import { ProfileComponent } from '../views/profile/profile.component';
 export const routes: Routes = [
@@ -69,7 +70,7 @@ export const routes: Routes = [
             {
                 path: 'departmentList',
                 title: 'departmentList',
-                component: DeparmentListComponent
+                component: DeparmentListComponent,
             }
         ] 
     },
