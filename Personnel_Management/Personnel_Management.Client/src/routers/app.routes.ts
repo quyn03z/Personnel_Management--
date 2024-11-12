@@ -83,7 +83,7 @@ export const routes: Routes = [
                         path: 'edit-department/:id',
                         title: 'Chỉnh sửa phòng ban',
                         component: EditDepartmentComponent
-                    }
+                    },
                 ]
             }
         ] 
