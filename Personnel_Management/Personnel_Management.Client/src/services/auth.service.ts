@@ -84,6 +84,9 @@ export class AuthService {
     return this.apiService.updateProfile(data);
   }
 
+  changePassWordProfileNew(data: any){
+    return this.apiService.changePassWordProfile(data);
+  }
 
 
 }

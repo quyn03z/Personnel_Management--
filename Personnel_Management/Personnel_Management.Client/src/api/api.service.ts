@@ -69,6 +69,25 @@ export class ApiService {
   }
 
 
+  changePassWordProfile(data: any):Observable<any>{
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+    try {
+      const decodedToken: any = jwt_decode(token);
+      const userId = decodedToken?.NhanVienId;
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+      return this.http.put<any>(`${this.baseUrl}/NhanViens/Change-Password/${userId}`, data);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      throw error;
+    }
+  }
+
+
   
 }
 
