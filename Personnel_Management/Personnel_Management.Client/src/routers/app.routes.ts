@@ -15,6 +15,7 @@ import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component'
 import { ChangePasswordComponent } from '../views/change-password/change-password.component';
 import { ProfileComponent } from '../views/profile/profile.component';
 import { AddDepartmentComponent } from '../views/admin/DepartmentList/add-department/add-department.component';
+import { EditDepartmentComponent } from '../views/admin/DepartmentList/edit-department/edit-department.component';
 export const routes: Routes = [
     {
         path: '',
@@ -72,7 +73,12 @@ export const routes: Routes = [
                         path: 'add-department',
                         title: 'AddDepartment',
                         component: AddDepartmentComponent,
-                    }
+                    },
+                    {
+                        path: 'edit-department/:id',
+                        title: 'Chỉnh sửa phòng ban',
+                        component: EditDepartmentComponent
+                    },
                 ]
             }
         ] 
