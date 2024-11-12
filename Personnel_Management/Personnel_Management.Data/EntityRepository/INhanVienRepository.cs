@@ -23,5 +23,10 @@ namespace Personnel_Management.Data.EntityRepository
 
 		NhanVien Login(string email, string matkhau);
 		string HashPassword(string matkhau);
+
+		Task<NhanVien> GetById(int id);
+
+		Task<NhanVien> Update(NhanVien nhanVien);
+
 	}
 }

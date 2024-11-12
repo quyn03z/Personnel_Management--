@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.EntityRepository;
+using Personnel_Management.Models.DTO;
 using Personnel_Management.Models.Models;
 
 namespace Personnel_Management.Api.Controller
@@ -115,20 +116,36 @@ namespace Personnel_Management.Api.Controller
         }
 
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    try
-        //    {
-        //        await _nhanVienService.DeleteAsync(id);
-        //        return NoContent();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception
-        //        return StatusCode(500, $"Error deleting employee: {ex.Message}");
-        //    }
-        //}
+		//[HttpDelete("{id}")]
+		//public async Task<IActionResult> Delete(int id)
+		//{
+		//    try
+		//    {
+		//        await _nhanVienService.DeleteAsync(id);
+		//        return NoContent();
+		//    }
+		//    catch (Exception ex)
+		//    {
+		//        // Log the exception
+		//        return StatusCode(500, $"Error deleting employee: {ex.Message}");
+		//    }
+		//}
 
-    }
+
+		[HttpPut("updateProfileEmployee/{id}")]
+		public async Task<ActionResult<NhanVienDtto>> UpdateProfileEmployee(int id,
+			[FromBody] NhanVienDtto nhanVienDTO)
+		{
+			var nhanVien = await _nhanVienService.GetByIdAsync(id);
+			if (nhanVien == null)
+			{
+				return NotFound(new { message = "NhanVien not found" });
+			}
+
+            var updatednhanVienDTO = await _nhanVienService.UpdateProfileEmployee(id, nhanVienDTO);
+
+			return Ok(updatednhanVienDTO);
+		}
+
+	}
 }

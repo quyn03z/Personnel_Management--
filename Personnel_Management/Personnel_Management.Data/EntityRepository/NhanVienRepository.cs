@@ -112,7 +112,18 @@ namespace Personnel_Management.Data.EntityRepository
 			return _context.NhanViens.SingleOrDefault(u => u.Email == email && u.Matkhau == HashPassword(matkhau));
 		}
 
+		public async Task<NhanVien> GetById(int id)
+		{
+			return await _context.NhanViens.FindAsync(id);
+		}
+
+		public async Task<NhanVien> Update(NhanVien nhanVien)
+		{
+			_context.Update(nhanVien);
+			await _context.SaveChangesAsync(); 
+			return nhanVien;
+		}
 
 	}
 
-	}
+}
