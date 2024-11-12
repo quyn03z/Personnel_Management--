@@ -14,6 +14,7 @@ import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component'
 
 import { ChangePasswordComponent } from '../views/change-password/change-password.component';
 import { ProfileComponent } from '../views/profile/profile.component';
+import { AddDepartmentComponent } from '../views/admin/DepartmentList/add-department/add-department.component';
 export const routes: Routes = [
     {
         path: '',
@@ -71,6 +72,13 @@ export const routes: Routes = [
                 path: 'departmentList',
                 title: 'departmentList',
                 component: DeparmentListComponent,
+                children : [
+                    {
+                        path: 'add-department',
+                        title: 'AddDepartment',
+                        component: AddDepartmentComponent,
+                    }
+                ]
             }
         ] 
     },

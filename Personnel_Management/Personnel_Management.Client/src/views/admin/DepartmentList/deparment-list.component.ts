@@ -5,11 +5,13 @@ import { HttpClient } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
+import { RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-deparment-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, DataTablesModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, DataTablesModule,RouterOutlet],
   templateUrl: './deparment-list.component.html',
   styleUrl: './deparment-list.component.scss'
 })

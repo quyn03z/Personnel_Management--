@@ -42,7 +42,7 @@ public class DepartmentController : ControllerBase
     public async Task<IActionResult> AddDepartment([FromBody] DepartmentDto departmentDto)
     {
         await _departmentService.AddDepartmentAsync(departmentDto);
-        return Ok("Department added successfully.");
+        return Ok();
     }
 
     [HttpPut("{id}")]

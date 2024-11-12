@@ -1,0 +1,29 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary">Thêm Phòng Ban</h6>
+      <button class="btn btn-primary" style="background-color: cornflowerblue;"
+       [routerLink]="['/admin/departmentList']" routerLinkActive="true">
+        Back
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table>
+          <div class="">
+            <span>Tên phòng ban</span>
+            <input type="text" [(ngModel)]="tenPhongBan" />
+          </div>
+  
+          <div class="">
+            <span>Mô tả</span>
+            <input type="text" [(ngModel)]="moTa" />
+          </div>
+  
+          <button class="btn btn-primary" style="background-color: deepskyblue;" (click)="onSubmit()">
+            Thêm Phòng Ban
+          </button>
+        </table>
+      </div>
+    </div>
+  </div>
+  
