@@ -14,6 +14,8 @@ import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component'
 
 import { ChangePasswordComponent } from '../views/change-password/change-password.component';
 import { ProfileComponent } from '../views/profile/profile.component';
+import { AddDepartmentComponent } from '../views/admin/DepartmentList/add-department/add-department.component';
+import { EditDepartmentComponent } from '../views/admin/DepartmentList/edit-department/edit-department.component';
 export const routes: Routes = [
     {
         path: '',
@@ -59,11 +61,6 @@ export const routes: Routes = [
                         path: 'add',
                         title: 'add',
                         component: AddEmployeesComponent
-                    },
-                    {
-                        path: 'edit',
-                        title: 'edit',
-                        component: EditEmployeesComponent
                     }
                 ] 
             },
@@ -71,6 +68,18 @@ export const routes: Routes = [
                 path: 'departmentList',
                 title: 'departmentList',
                 component: DeparmentListComponent,
+                children : [
+                    {
+                        path: 'add-department',
+                        title: 'AddDepartment',
+                        component: AddDepartmentComponent,
+                    },
+                    {
+                        path: 'edit-department/:id',
+                        title: 'Chỉnh sửa phòng ban',
+                        component: EditDepartmentComponent
+                    },
+                ]
             }
         ] 
     },
@@ -82,5 +91,9 @@ export const routes: Routes = [
     { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
     { path: 'change-password', title: 'Change-Paassword', component: ChangePasswordComponent },
     { path: 'profile', title: 'Profile', component: ProfileComponent },
-
+    {
+        path: 'editEmployee/:id',
+        title: 'Edit',
+        component: EditEmployeesComponent
+    }
 ];
