@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -150,7 +151,37 @@ namespace Personnel_Management.Business.NhanVienService
 			return nhanVienDto;
 		}
 
+		public async Task<bool> VerifyPasswordAsync(NhanVien nhanVien, string oldPassword)
+		{
+			// Giả sử mật khẩu đã lưu trong cơ sở dữ liệu là phiên bản đã mã hóa của mật khẩu
+			string hashedOldPassword = HashPassword(oldPassword); // Mã hóa mật khẩu cũ để so sánh
+			return nhanVien.Matkhau == hashedOldPassword;
+		}
 
+		public async Task<bool> ChangePasswordAsync(int id, string newPassword)
+		{
+			var nhanVien = await _nhanVienRepository.GetById(id);
+			if (nhanVien == null)
+			{
+				return false; // Người dùng không tồn tại
+			}
+
+			// Mã hóa mật khẩu mới trước khi lưu
+			nhanVien.Matkhau = HashPassword(newPassword);
+
+			await _nhanVienRepository.Update(nhanVien);
+			return true;
+		}
+
+		public string HashPassword(string password)
+		{
+			using (var sha256 = SHA256.Create())
+			{
+				var bytes = Encoding.UTF8.GetBytes(password);
+				var hash = sha256.ComputeHash(bytes);
+				return Convert.ToBase64String(hash);
+			}
+		}
 
 	}
 }

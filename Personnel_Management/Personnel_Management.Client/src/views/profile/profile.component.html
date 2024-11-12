@@ -26,7 +26,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                           <label class="labels">Ngày Sinh</label>
-                          <input type="text" class="form-control" name="ngaySinh" placeholder="ngày sinh" [(ngModel)]="nhanVienProfileObj.ngaySinh">
+                          <input type="date" class="form-control" name="ngaySinh" placeholder="ngày sinh" [(ngModel)]="nhanVienProfileObj.ngaySinh">
                         </div>
                         <div class="col-md-12">
                           <label class="labels">Địa Chỉ</label>
@@ -63,8 +63,15 @@
         <div class="col-md-4">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience"><span>Change PassWord</span></div><br>
-                <div class="col-md-12"><label class="labels">Mật khẩu cũ</label><input type="text" class="form-control" placeholder="nhập mật khẩu cũ" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Mật khẩu mới</label><input type="text" class="form-control" placeholder="nhập mật khẩu mới" value=""></div>
+                <div class="col-md-12">
+                    <label class="labels">Mật khẩu cũ</label>
+                    <input type="text" class="form-control" placeholder="nhập mật khẩu cũ" value="">
+                </div> 
+                <br>
+                <div class="col-md-12">
+                    <label class="labels">Mật khẩu mới</label>
+                    <input type="text" class="form-control" placeholder="nhập mật khẩu mới" value="">
+                </div>
             </div>
             <a class="col-md-6 text-center" href="#"><div><button class="btn btn-primary profile-button" type="button">Update Password</button></div></a>  
 

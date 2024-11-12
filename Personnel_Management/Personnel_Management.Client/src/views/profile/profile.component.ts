@@ -97,6 +97,10 @@ export class ProfileComponent implements OnInit {
 
 
   onUpdateProfile() {
+    if (!this.nhanVienProfileObj.hoTen || this.nhanVienProfileObj.hoTen.trim() === '') {
+      alert('Vui lòng nhập Họ và Tên.');
+      return; 
+    }
     const updateData = {
       hoTen: this.nhanVienProfileObj.hoTen,
       ngaySinh: this.nhanVienProfileObj.ngaySinh,
@@ -114,8 +118,13 @@ export class ProfileComponent implements OnInit {
         console.log('Update response:', response);
       },
       error: (error) => {
-        console.error('Error updating profile:', error);
-        alert('Failed to update profile. Please try again.');
+        if (error.status === 400) {
+          const errorMessage = error.error.message || "Đã xảy ra lỗi khi cập nhật thông tin.";
+          alert(errorMessage);
+        }else{
+          console.error('Error updating profile:', error);
+          alert('Failed to update profile. Please try again.');
+        }
       }
     });
   }

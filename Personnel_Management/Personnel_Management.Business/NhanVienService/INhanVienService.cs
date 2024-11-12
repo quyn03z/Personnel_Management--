@@ -22,6 +22,9 @@ namespace Personnel_Management.Business.NhanVienService
 
 		Task<NhanVienDtto> GetNhanVienById(int id);
 
+		Task<bool> VerifyPasswordAsync(NhanVien nhanVien, string oldPassword);
+		Task<bool> ChangePasswordAsync(int id, string newPassword);
+
 	}
 
 }
