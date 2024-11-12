@@ -60,11 +60,6 @@ export const routes: Routes = [
                         path: 'add',
                         title: 'add',
                         component: AddEmployeesComponent
-                    },
-                    {
-                        path: 'edit',
-                        title: 'edit',
-                        component: EditEmployeesComponent
                     }
                 ] 
             },
@@ -90,5 +85,9 @@ export const routes: Routes = [
     { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
     { path: 'change-password', title: 'Change-Paassword', component: ChangePasswordComponent },
     { path: 'profile', title: 'Profile', component: ProfileComponent },
-
+    {
+        path: 'editEmployee/:id',
+        title: 'Edit',
+        component: EditEmployeesComponent
+    }
 ];

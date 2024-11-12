@@ -1,65 +1,71 @@
-<div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
-        <button class="btn btn-primary" style="background-color: cornflowerblue;"
-        [routerLink]="['/admin/employeesList']"
-        routerLinkActive="true"
-        >Back</button>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table>
-                <div class="">
-                    <span>Tên nhân viên</span>
-                    <input type="text" [(ngModel)]="hoTen">
-                </div>
+<div class="container rounded bg-white mt-5 mb-5" *ngIf="employee">
+  <div class="row">
+      <div class="col-md-5 border-right">
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+              <img id="profileImage" class="rounded-circle mt-5" width="180px" height="150" alt="Avatar" />
+
+              <span class="font-weight-bold"></span>
+              <span class="text-black-50"></span>
+              <span> </span>
               
-                <div class="">
-                  <span>Ngày sinh</span>
-                  <input type="date" [(ngModel)]="ngaySinh">
-                </div>
-              
-                <div class="">
-                  <span>Địa chỉ</span>
-                  <input type="text" [(ngModel)]="diaChi">
-                </div>
-              
-                <div class="">
-                  <span>Số điện thoại</span>
-                  <input type="text" [(ngModel)]="soDienThoai">
-                </div>
-              
-                <div class="">
-                  <span>Email</span>
-                  <input type="email" [(ngModel)]="email">
-                </div>
-              
-                <div class="">
-                  <span>Mật khẩu</span>
-                  <input type="text" [(ngModel)]="matkhau">
-                </div>
-              
-                <div class="">
-                    <span>Phòng ban</span>
-                    <select [(ngModel)]="selectedDepartment">
-                        <option *ngFor="let department of departments" [value]="department.phongBanId">
-                            {{ department.tenPhongBan }}
-                        </option>
-                    </select>
-                </div>
-              
-                <!-- <div class="">
-                    <span>Role</span>
-                    <select [(ngModel)]="selectedRole">
-                        <option *ngFor="let role of roles" [value]="role.id">
-                            {{ role.name }}
-                        </option>
-                    </select>
-                </div> -->
-              
-                <button class="btn btn-primary" style="background-color: deepskyblue;" 
-                (click)="onSubmit()">Thêm Nhân Viên</button>
-              </table>
-        </div>
-    </div>
+          </div>
+      </div>
+      
+      <div class="col-md-5 border-right">
+          <form >
+              <div class="p-3 py-5">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h4 class="text-right">Profile Settings</h4>
+                  </div>
+               
+                  <div class="row mt-2">
+                      <div class="col-md-12"><label class="labels">Họ và Tên</label>
+                          <input type="text" class="form-control" name="hoTen" [(ngModel)]="employee.hoTen"></div>
+                  </div>
+                  <div class="row mt-3">
+                      <div class="col-md-12">
+                        <label class="labels">Ngày Sinh</label>
+                        <input type="date" class="form-control" name="ngaySinh" [(ngModel)]=" employee.ngaySinh">
+                      </div>
+                      <div class="col-md-12">
+                        <label class="labels">Địa Chỉ</label>
+                        <input type="text" class="form-control" name="diaChi" [(ngModel)]=" employee.diaChi " >
+                      </div>
+                      <div class="col-md-12">
+                        <label class="labels">Số Điện Thoại</label>
+                        <input type="text" class="form-control" name="soDienThoai" [(ngModel)]=" employee.soDienThoai " >
+                      </div>
+                      <div class="col-md-12">
+                        <label class="labels">Email</label>
+                        <input type="text" class="form-control"  name="email" [(ngModel)]="employee.email ">
+                      </div>
+                      <div class="col-md-12">
+                        <label class="labels">Role</label>
+                        <select [(ngModel)]="selectedRoleId" class="form-control" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="labels">Phòng Ban</label>
+                        <select [(ngModel)]="selectedDepartment" class="form-control" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let department of departments" [value]="department.phongBanId" >
+                              {{ department.tenPhongBan }}
+                          </option>
+                      </select>
+                      </div>
+                    </div>
+                  <br>
+                  <br>
+  
+                  <div class="row mt-3">
+                      <a class="col-md-6 text-center"><div><button class="btn btn-primary profile-button" type="button" (click)="submitUpdate()">Save Profile</button></div></a>
+                      <a class="col-md-6 text-center" href="/admin/employeesList"><div><button class="btn btn-primary profile-button" type="button">Back to Home</button></div></a>  
+                  </div>
+              </div>
+          </form>
+
+      </div>
+      
+  </div>
 </div>
+
