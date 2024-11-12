@@ -28,7 +28,7 @@
                             <td>{{e.tenPhongBan}}</td>
                             <td>{{e.moTa}}</td>
                             <td>
-                                <a href="UpdateDepartment.html" class="buttonDe">Edit</a>
+                                <button class="buttonDe" (click)="editDepartment(e.phongBanId)">Edit</button>
                                 <style>
                                     .buttonDe {
                                       display: inline-block;

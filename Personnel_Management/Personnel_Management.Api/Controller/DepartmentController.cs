@@ -21,9 +21,12 @@ public class DepartmentController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetDepartmentById(int id)
     {
+        if (id <= 0)
+            return BadRequest("ID không hợp lệ.");
+
         var department = await _departmentService.GetDepartmentByIdAsync(id);
         if (department == null)
-            return NotFound();
+            return NotFound(new { message = "Không tìm thấy phòng ban." });
 
         return Ok(department);
     }
@@ -51,7 +54,7 @@ public class DepartmentController : ControllerBase
         try
         {
             await _departmentService.UpdateDepartmentAsync(id, departmentDto);
-            return Ok("Cập nhật thành công.");
+            return Ok();
         }
         catch (KeyNotFoundException ex)
         {
