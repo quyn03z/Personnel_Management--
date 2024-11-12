@@ -124,6 +124,10 @@ namespace Personnel_Management.Data.EntityRepository
 			return nhanVien;
 		}
 
+
+
+
+
 	}
 
 }

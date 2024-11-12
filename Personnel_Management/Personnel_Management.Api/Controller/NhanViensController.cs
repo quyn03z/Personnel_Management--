@@ -147,5 +147,19 @@ namespace Personnel_Management.Api.Controller
 			return Ok(updatednhanVienDTO);
 		}
 
+
+		[HttpGet("GetById/{id}")]
+		public async Task<ActionResult<NhanVienDtto>> GetCustomer(int id)
+		{
+			var nhanVien = await _nhanVienService.GetNhanVienById(id);
+			if (nhanVien == null)
+			{
+				return NotFound(new { message = "NhanVien not found" });
+			}
+
+			return Ok(new { NhanVienDTO = nhanVien });
+		}
+
+
 	}
 }

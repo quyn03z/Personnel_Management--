@@ -20,6 +20,8 @@ namespace Personnel_Management.Business.NhanVienService
 
 		Task<NhanVienDtto> UpdateProfileEmployee(int id, NhanVienDtto nhanVienDTO);
 
+		Task<NhanVienDtto> GetNhanVienById(int id);
+
 	}
 
 }

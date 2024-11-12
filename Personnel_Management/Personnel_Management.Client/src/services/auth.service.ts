@@ -80,5 +80,10 @@ export class AuthService {
     return this.apiService.getUserById();
   }
 
+  updateNewProfile(data: any) {
+    return this.apiService.updateProfile(data);
+  }
+
+
 
 }
