@@ -4,7 +4,7 @@ import { Router } from '@angular/router'; // Required for navigation
 import { FormsModule } from '@angular/forms'; // Required for ngModel binding
 import { CommonModule } from '@angular/common'; // Required for Angular common functionalities
 import { RouterLink } from '@angular/router'; // Required for routerLink in the template
-
+import { DeparmentListComponent } from '../deparment-list.component'; // Import DeparmentListComponent
 @Component({
   selector: 'app-view-add-department',
   standalone: true,
@@ -29,10 +29,11 @@ export class AddDepartmentComponent {
     };
 
     // Sending the HTTP POST request to add a department
-    this.http.post('https://localhost:7182/api/Department', departmentData).subscribe({
+    this.http.post('https://localhost:7182/api/Department/add', departmentData).subscribe({
       next: () => {
         alert('Phòng ban đã được thêm thành công!');
-        this.router.navigate(['/admin/departmentsList']); // Navigate back to the department list on success
+        //location.reload(); // Tải lại trang sau khi thêm thành công
+        this.router.navigate(['/admin/departmentList']); 
       },
       error: (error) => {
         console.error('Lỗi khi thêm phòng ban:', error);

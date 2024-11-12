@@ -7,60 +7,63 @@ import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
 import { RouterOutlet } from '@angular/router';
 
-
 @Component({
   selector: 'app-deparment-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, DataTablesModule,RouterOutlet],
+  imports: [CommonModule, RouterLink, RouterLinkActive, DataTablesModule, RouterOutlet],
   templateUrl: './deparment-list.component.html',
-  styleUrl: './deparment-list.component.scss'
+  styleUrls: ['./deparment-list.component.scss']
 })
 export class DeparmentListComponent implements OnInit {
   departmentList: any[] = [];
   http = inject(HttpClient);
   dtoptions: Config = {};
-  dttrigger: Subject<any> = new Subject<any>(); 
+  dttrigger: Subject<any> = new Subject<any>();
+  refreshListSubject: Subject<void> = new Subject<void>(); // Subject để thông báo làm mới danh sách
 
   ngOnInit(): void {
     this.getAllDepartment();
+
+    // Thiết lập tùy chọn DataTables
     this.dtoptions = {
       pagingType: 'full_numbers',
       lengthMenu: [5, 8, 15, 20],
       pageLength: 5
     };
+
+    // Lắng nghe sự kiện từ Subject để làm mới danh sách khi có sự kiện thêm mới
+    this.refreshListSubject.subscribe(() => {
+      this.getAllDepartment(); // Gọi lại hàm lấy danh sách mới
+    });
   }
 
   getAllDepartment() {
+    // Gửi yêu cầu GET để lấy danh sách phòng ban từ API
     this.http.get("https://localhost:7182/api/Department").subscribe((res: any) => {
       this.departmentList = res.$values;
-      console.log(this.departmentList); 
-      this.dttrigger.next(null);  
+      console.log(this.departmentList);
+      this.dttrigger.next(null);  // Kích hoạt DataTables làm mới dữ liệu
     });
   }
 
   deleteDepartment(phongBanId: number) {
     if (confirm('Bạn có chắc chắn muốn xóa phòng ban này không?')) {
-      // Sending the DELETE request to the backend
+      // Gửi yêu cầu DELETE để xóa phòng ban
       this.http.delete(`https://localhost:7182/api/Department/${phongBanId}`).subscribe(
         (response) => {
-          // If deletion is successful, refresh the department list and show success message
           console.log('Phòng ban đã bị xóa');
           alert('Xóa phòng ban thành công');
-          this.getAllDepartment();  // Refresh the department list
+          this.getAllDepartment();  // Làm mới danh sách sau khi xóa thành công
         },
         (error) => {
-          // Handle error response
           if (error.status === 400 && error.error?.message) {
-            // Show the message from the backend (e.g., "Department has employees and cannot be deleted")
-            alert(error.error.message);  // Display the message returned from the API
+            alert(error.error.message);  // Thông báo lỗi từ backend
           } else {
-            alert('Phong ban đã có người không thể xóa');
+            alert('Phòng ban đã có người, không thể xóa');
           }
           console.error('Có lỗi khi xóa phòng ban:', error);
         }
       );
     }
   }
-  
-  
 }
