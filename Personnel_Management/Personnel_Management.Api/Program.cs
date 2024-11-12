@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Personnel_Management.Business.AuthService;
+using Personnel_Management.Business.DiemDanhService;
 using Personnel_Management.Business.LuongService;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
@@ -53,7 +54,9 @@ public class Program
         builder.Services.AddScoped<ILuongRepository, LuongRepository>();
         builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-        builder.Services.AddControllers();
+		builder.Services.AddScoped<IDiemDanhService, DiemDanhService>();
+		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();
+		builder.Services.AddControllers();
 		builder.Services.AddScoped<IAuthService, AuthService>();
 
 
