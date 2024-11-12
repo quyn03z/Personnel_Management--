@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProfileComponent implements OnInit {
 
+  avatarBase64: string | null = null;
+
   nhanVienProfileObj = {
     hoTen: '',
     email: '',
@@ -136,9 +138,10 @@ export class ProfileComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.nhanVienProfileObj.avatar = e.target.result; // Base64 string for preview
+        this.avatarBase64 = e.target.result; // Store base64 string for preview
       };
       reader.readAsDataURL(file);
+      this.nhanVienProfileObj.avatar = file.name; // Set only the filename for the avatar
     }
   }
 
@@ -151,29 +154,29 @@ export class ProfileComponent implements OnInit {
 
   onChangePassWordProfile() {
     const changePassWordProfile = {
-        oldPassword: this.changePasswordObj.oldPassword,
-        newPassword: this.changePasswordObj.newPassword,
+      oldPassword: this.changePasswordObj.oldPassword,
+      newPassword: this.changePasswordObj.newPassword,
     };
     console.log('Sending update data:', changePassWordProfile);
     this.authService.changePassWordProfileNew(changePassWordProfile).subscribe({
-        next: (response) => {
-            alert('Password updated successfully!');
-            console.log('Update response:', response);
-        },
-        error: (error) => {
-            console.error('Error updating password:', error);
-            console.log('Error details:', error.error);
+      next: (response) => {
+        alert('Password updated successfully!');
+        console.log('Update response:', response);
+      },
+      error: (error) => {
+        console.error('Error updating password:', error);
+        console.log('Error details:', error.error);
 
-            if (error.status === 400) {
-                alert('Old password is incorrect. Please try again.');
-            } else if (error.status === 500) {
-                alert('Server error. Please try again later.');
-            } else {
-                alert('Failed to update password. Please try again.');
-            }
+        if (error.status === 400) {
+          alert('Old password is incorrect. Please try again.');
+        } else if (error.status === 500) {
+          alert('Server error. Please try again later.');
+        } else {
+          alert('Failed to update password. Please try again.');
         }
+      }
     });
-}
+  }
 
 }
 

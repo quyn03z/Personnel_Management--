@@ -185,13 +185,11 @@ namespace Personnel_Management.Api.Controller
             {
                 return NotFound(new { message = "User not found" });
             }
-
             // Kiểm tra mật khẩu cũ
             if (!await _nhanVienService.VerifyPasswordAsync(nhanVien, request.OldPassword))
             {
                 return BadRequest(new { message = "Mật khẩu cũ không đúng." });
             }
-
             // Thay đổi mật khẩu
             bool isPasswordChanged = await _nhanVienService.ChangePasswordAsync(id, request.NewPassword);
             if (!isPasswordChanged)

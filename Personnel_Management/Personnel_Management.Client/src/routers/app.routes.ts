@@ -16,6 +16,7 @@ import { ChangePasswordComponent } from '../views/change-password/change-passwor
 import { ProfileComponent } from '../views/profile/profile.component';
 import { AddDepartmentComponent } from '../views/admin/DepartmentList/add-department/add-department.component';
 import { EditDepartmentComponent } from '../views/admin/DepartmentList/edit-department/edit-department.component';
+import { DiemdanhComponent } from '../views/diemdanh/diemdanh.component';
 export const routes: Routes = [
     {
         path: '',
@@ -95,5 +96,7 @@ export const routes: Routes = [
         path: 'editEmployee/:id',
         title: 'Edit',
         component: EditEmployeesComponent
-    }
+    },
+    { path: 'diemdanh', title: 'DiemDanh', component: DiemdanhComponent },
+
 ];
