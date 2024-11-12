@@ -1,4 +1,5 @@
 ﻿using Personnel_Management.Data.EntityRepository;
+using Personnel_Management.Models.DTO;
 using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,17 @@ namespace Personnel_Management.Business.DiemDanhService
 		{
 			_diemDanhRepository = diemDanhRepository;
 		}
+
+		public async Task<DiemDanh> AddDiemDanhCoAsync(DiemDanhDTO diemDanh)
+		{
+			 return await _diemDanhRepository.AddDiemDanhNhanVienCo(diemDanh);
+		}
+
+		public async Task<DiemDanh> AddDiemDanhVangAsync(DiemDanhDTO diemDanh)
+		{
+			return await _diemDanhRepository.AddDiemDanhNhanVienVang(diemDanh);
+		}
+
 
 		public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id)
 		{
