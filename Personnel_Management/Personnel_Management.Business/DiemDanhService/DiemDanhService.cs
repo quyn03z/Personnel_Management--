@@ -34,5 +34,13 @@ namespace Personnel_Management.Business.DiemDanhService
 			return await _diemDanhRepository.GetAllDiemDanhNhanVienByIdAsync(id,thang,nam);
 		}
 
+		
+
+		public async Task<List<DiemDanh>> GetDiemDanhNhanVienByDayAsync(int id,int ngay ,int thang, int nam)
+		{
+			return await _diemDanhRepository.GetDiemDanhNhanVienByDayAsync(id,ngay ,thang, nam);
+		}
+
+
 	}
 }

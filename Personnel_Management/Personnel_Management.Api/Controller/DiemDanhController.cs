@@ -35,7 +35,21 @@ namespace Personnel_Management.Api.Controller
         }
 
 
-        [HttpPost("DiemDanhCoNhanVien")]
+		[HttpGet("CheckDiemDanh/{id}/{ngay}/{thang}/{nam}")]
+		public async Task<ActionResult<IEnumerable<DiemDanh>>> GetCheckDiemDanh(int id,int ngay ,int thang, int nam)
+		{
+			var diemDanhList = await _diemDanhService.GetDiemDanhNhanVienByDayAsync(id,ngay ,thang, nam);
+
+			if (diemDanhList == null || !diemDanhList.Any())
+			{
+				return NotFound();
+			}
+
+			return Ok(diemDanhList);
+		}
+
+
+		[HttpPost("DiemDanhCoNhanVien")]
         public async Task<ActionResult<DiemDanh>> DiemDanhCoNhanVien([FromBody] DiemDanhDTO diemDanh)
         {
             if (diemDanh == null)

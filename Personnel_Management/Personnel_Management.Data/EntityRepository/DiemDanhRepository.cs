@@ -114,5 +114,15 @@ namespace Personnel_Management.Data.EntityRepository
 						.ToListAsync();
 		}
 
-    }
+		public async Task<List<DiemDanh>> GetDiemDanhNhanVienByDayAsync(int id,int ngay ,int thang, int nam)
+		{
+			return await _context.DiemDanhs
+						.Where(d => d.NhanVienId == id
+                        && d.NgayDiemDanh.Day == ngay
+						&& d.NgayDiemDanh.Month == thang
+						&& d.NgayDiemDanh.Year == nam)
+						.ToListAsync();
+		}
+
+	}
 }

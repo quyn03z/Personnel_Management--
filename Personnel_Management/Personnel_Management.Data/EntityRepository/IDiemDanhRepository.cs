@@ -17,5 +17,8 @@ namespace Personnel_Management.Data.EntityRepository
 
 		Task<DiemDanh> AddDiemDanhNhanVienCo(DiemDanhDTO diemDanh);
 		Task<DiemDanh> AddDiemDanhNhanVienVang(DiemDanhDTO diemDanh);
-    }
+
+
+		Task<List<DiemDanh>> GetDiemDanhNhanVienByDayAsync(int id,int ngay ,int thang, int nam);
+	}
 }

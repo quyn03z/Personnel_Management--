@@ -12,6 +12,7 @@ namespace Personnel_Management.Business.DiemDanhService
 	{
 		Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id,int thang,int nam);
 
+		Task<List<DiemDanh>> GetDiemDanhNhanVienByDayAsync(int id,int ngay ,int thang, int nam);
 		Task<DiemDanh> AddDiemDanhCoAsync(DiemDanhDTO diemDanh);
 		Task<DiemDanh> AddDiemDanhVangAsync(DiemDanhDTO diemDanh);
 
