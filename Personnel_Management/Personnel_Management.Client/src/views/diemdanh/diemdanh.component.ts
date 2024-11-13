@@ -30,14 +30,19 @@ export class DiemdanhComponent implements OnInit{
   
     this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
       (response) => {
-        this.attendanceRecords = response;
-        console.log('API response:', this.attendanceRecords);
+        console.log('Raw API response:', response);
+  
+        // Extract attendance records from the `$values` property
+        this.attendanceRecords = response?.$values || [];
+  
+        console.log('Processed attendance records:', this.attendanceRecords);
       },
       (error) => {
         console.error('Error fetching attendance records:', error);
       }
     );
   }
+  
   
 
   selectedDate: Date | null = null;
