@@ -42,7 +42,7 @@ namespace Personnel_Management.Api.Controller
 
 			if (diemDanhList == null || !diemDanhList.Any())
 			{
-				return NotFound();
+				return BadRequest();
 			}
 
 			return Ok(diemDanhList);
