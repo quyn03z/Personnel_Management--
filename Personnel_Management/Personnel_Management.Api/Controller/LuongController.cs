@@ -19,7 +19,7 @@ namespace Personnel_Management.Api.Controller
         private readonly IThuongPhatRepository _thuongPhatReopository;
         private readonly ILuongRepository _luongRepository;
 
-        public LuongController(ILuongService luongService, INhanVienService nhanVienService , QuanLyNhanSuContext context, IDiemDanhRepository diemDanhRepository, IThuongPhatRepository thuongPhatRepository, ILuongRepository luongRepository)
+        public LuongController(ILuongService luongService, INhanVienService nhanVienService, QuanLyNhanSuContext context, IDiemDanhRepository diemDanhRepository, IThuongPhatRepository thuongPhatRepository, ILuongRepository luongRepository)
         {
             _nhanVienService = nhanVienService;
             _luongService = luongService;
@@ -39,7 +39,7 @@ namespace Personnel_Management.Api.Controller
 
             try
             {
-               var luong = await _luongService.GetByIdAsync(nhanVienId);
+                var luong = await _luongService.GetByIdAsync(nhanVienId);
                 return Ok(luong);
             }
             catch (Exception ex)
@@ -79,17 +79,18 @@ namespace Personnel_Management.Api.Controller
         }
 
         [HttpGet("GetSalaryEmployee")]
-        public IActionResult GetSalaryEmployee(int nhanVienId) {
+        public IActionResult GetSalaryEmployee(int nhanVienId)
+        {
             var currentMonth = DateTime.Now.Month;
             var currentYear = DateTime.Now.Year;
 
             var luongCoBan = _luongRepository.GetLuongCoBanByNhanVienId(nhanVienId);
             var ngayCongChuan = _diemDanhRepository.GetNgayCongChuan(currentMonth, currentYear);
-            
+
             var soNgayDiLam = _diemDanhRepository.GetNumberOfDaysWorked(currentMonth, currentYear, nhanVienId);
 
             var tongThuong = _thuongPhatReopository.GetTongThuongThang(currentMonth, currentYear, nhanVienId);
-            var tongPhat = _thuongPhatReopository.GetTongPhatThang(currentMonth,currentYear, nhanVienId);
+            var tongPhat = _thuongPhatReopository.GetTongPhatThang(currentMonth, currentYear, nhanVienId);
 
             decimal luongThucTeDecimal = ((luongCoBan / ngayCongChuan) * soNgayDiLam) + tongThuong - tongPhat;
 
@@ -106,7 +107,7 @@ namespace Personnel_Management.Api.Controller
                 LuongThucTe = luongThucTe
             });
         }
-        
+
         [HttpPut("{nhanVienId}")]
         public async Task<IActionResult> Update(int nhanVienId, Luong luong)
         {
@@ -138,7 +139,7 @@ namespace Personnel_Management.Api.Controller
                     return Ok(luong);
                 }
 
-               
+
             }
             catch (Exception ex)
             {
@@ -146,6 +147,7 @@ namespace Personnel_Management.Api.Controller
                 return StatusCode(500, $"Error updating employee: {ex.Message}");
             }
         }
-  
+
+    }
 }
 
