@@ -16,8 +16,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let attendance of attendanceRecords">
-          <td>{{ attendance.date | date: 'fullDate' }}</td>
-          <td>{{ attendance.status }}</td>
+          <td>{{ attendance.ngayDiemDanh | date: 'fullDate' }}</td>
+          <td>{{ attendance.trangThai }}</td>
         </tr>
       </tbody>
     </table>
