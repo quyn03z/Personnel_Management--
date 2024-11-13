@@ -1,13 +1,13 @@
 <div class="container" style="width: 100%;">
     <div class="profile-section" >
         <div class="profile-picture" style="margin-bottom: 200px;">
-            @if (employee.avatar == null) {
+            @if (employee?.avatar == null) {
                 <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">
             }
             @else {
                 <img src="{{employee?.avatar}}" alt="Profile Picture">
             }           
-            <h3>ID: {{employee?.nhanVienId}} - {{employee?.hoTen}}</h3>
+            <h3 style="font-size: 30px;">ID: {{employee?.nhanVienId}} - {{employee?.hoTen}}</h3>
             <p style="font-size: 25px;
             color: #858796;
             margin-bottom: 0;">{{employee?.phongBan.tenPhongBan}}</p>
@@ -16,7 +16,7 @@
     </div>
     
     <div class="details-section">
-        <h2>Chi Tiết Nhân Viên</h2>
+        <h2 style="font-size: 30px;">Chi Tiết Nhân Viên</h2>
         <div class="info-form">
             <label>Ngày</label>
             <input type="date" name="ngay" [(ngModel)]="addThuongPhat.ngay" >

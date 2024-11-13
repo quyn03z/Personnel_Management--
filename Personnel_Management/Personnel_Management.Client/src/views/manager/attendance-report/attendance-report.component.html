@@ -1,14 +1,14 @@
 <div class="container" style="width: 100%;">
     <div class="profile-section" >
         <div class="profile-picture" style="margin-bottom: 200px;">
-            @if (employee.avatar == null) {
+            @if (employee?.avatar == null) {
                 <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">
             }
             @else {
                 <img src="{{employee?.avatar}}" alt="Profile Picture">
             }
                        
-            <h3>ID: {{employee?.nhanVienId}} - {{employee?.hoTen}}</h3>
+            <h3 style="font-size: 30px;">ID: {{employee?.nhanVienId}} - {{employee?.hoTen}}</h3>
             <p>{{employee?.phongBan.tenPhongBan}}</p>
             <button (click)="btnBack()" style="margin-top: auto; width: 50%; padding: 10px 0; font-size: 16px;">Quay lại</button>
         </div>
@@ -17,7 +17,7 @@
     </div>
     
     <div class="details-section">
-        <h3>Điểm danh {{currentMonth}}</h3>
+        <h3 style="font-size: 30px;">Điểm danh {{currentMonth}}</h3>
         <div class="details-infor">
             <div class="details-infor-p">
                 <p>Attendance: <i style="color:#1CC88A">{{luong?.soNgayDiLam}}/{{luong?.ngayCongChuan}}</i></p>

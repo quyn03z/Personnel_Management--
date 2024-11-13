@@ -22,13 +22,16 @@ export class ViewEmployeeListComponent implements OnInit {
   router = inject(Router);
   datePipe = inject(DatePipe);
   apiService = inject(ApiService);
-
+  phongBanId: any;
+  phongBan: any;
   dtoptions: Config = {};
   dttrigger: Subject<any> = new Subject<any>();
 
 
 
   ngOnInit(): void {
+    this.phongBanId = localStorage.getItem('phongBanId');
+    this.getPhongBan();
     this.getAllEmployee();
     this.dtoptions = {
       pagingType: 'full_numbers',
@@ -38,7 +41,7 @@ export class ViewEmployeeListComponent implements OnInit {
   }
 
   getAllEmployee(): void {
-    this.http.get("https://localhost:7182/api/NhanViens/GetAllManagerFunction").subscribe((res: any) => {
+    this.http.get("https://localhost:7182/api/NhanViens/GetAllManagerFunction?phongBanId=" + this.phongBanId).subscribe((res: any) => {
 
       this.employeeList = res.$values.map((employee: any) => ({
         ...employee,
@@ -47,6 +50,15 @@ export class ViewEmployeeListComponent implements OnInit {
       console.log(this.employeeList);
       this.dttrigger.next(null);
     });
+  }
+
+  getPhongBan() {
+    if (this.phongBanId) {
+      this.http.get(`https://localhost:7182/api/Department/${this.phongBanId}`).subscribe((res: any) => {
+        this.phongBan = res;
+      })
+    }
+
   }
 
   NavigateToEmployeeDetail(nhanVienId: any) {

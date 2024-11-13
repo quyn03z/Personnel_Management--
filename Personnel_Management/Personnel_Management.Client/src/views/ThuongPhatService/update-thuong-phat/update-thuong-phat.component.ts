@@ -15,6 +15,7 @@ export class UpdateThuongPhatComponent implements OnInit {
   employee: any;
   nhanVienId: any;
   thuongPhatId: any;
+  phongBanId: any;
   updateThuongPhat: any = {
     "thuongPhatId": 0,
     "nhanVienId": 0,
@@ -29,6 +30,8 @@ export class UpdateThuongPhatComponent implements OnInit {
   router = inject(Router);
 
   ngOnInit(): void {
+    this.phongBanId = localStorage.getItem('phongBanId');
+
     this.getEmployeeById();
     this.getThuongPhat();
   }
@@ -36,7 +39,7 @@ export class UpdateThuongPhatComponent implements OnInit {
   getEmployeeById() {
     this.nhanVienId = this.activatedRoute.snapshot.paramMap.get('nhanVienId');
     if (this.nhanVienId) {
-      this.http.get(`https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=${this.nhanVienId}`)
+      this.http.get(`https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=${this.nhanVienId}&phongBanId=${this.phongBanId}`)
         .pipe(
           catchError(error => {
             console.error('Error fetching employee:', error);

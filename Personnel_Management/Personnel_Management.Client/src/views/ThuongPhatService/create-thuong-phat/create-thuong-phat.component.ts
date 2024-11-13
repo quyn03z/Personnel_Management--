@@ -14,6 +14,7 @@ import { catchError, of } from 'rxjs';
 export class CreateThuongPhatComponent implements OnInit {
   employee: any;
   nhanVienId: any;
+  phongBanId: any;
   addThuongPhat: any = {
     "nhanVienId": 0,
     "ngay": "",
@@ -27,13 +28,14 @@ export class CreateThuongPhatComponent implements OnInit {
   router = inject(Router);
 
   ngOnInit(): void {
+    this.phongBanId = localStorage.getItem('phongBanId');
     this.getEmployeeById();
   }
 
   getEmployeeById() {
     this.nhanVienId = this.activatedRoute.snapshot.paramMap.get('nhanVienId');
     if (this.nhanVienId) {
-      this.http.get(`https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=${this.nhanVienId}`)
+      this.http.get(`https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=${this.nhanVienId}&phongBanId=${this.phongBanId}`)
         .pipe(
           catchError(error => {
             console.error('Error fetching employee:', error);

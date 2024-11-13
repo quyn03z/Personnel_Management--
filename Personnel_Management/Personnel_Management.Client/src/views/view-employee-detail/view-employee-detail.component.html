@@ -9,7 +9,7 @@
             }
         </div>
         <div class="rewards-penalties" style="margin-top: 40px;">
-            <h3>Danh Sách Thưởng/Phạt</h3>
+            <h3 style="font-size: 25px;">Danh Sách Thưởng/Phạt</h3>
             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" >
                 <thead>
                     <tr>
@@ -24,7 +24,7 @@
                 <tbody>
                     @for (tp of thuongPhatList; track $index) {
                         <tr>
-                            <td>{{tp.ngay}}</td>
+                            <td style="text-wrap: nowrap;">{{tp.ngay}}</td>
                             <td>{{tp.loai}}</td>
                             <td>{{(tp.soTien | currency:'VND':'symbol':'1.0-0')?.replace('₫', '') + '₫'}}</td>
                             <td>{{tp.ghiChu}}</td>
@@ -47,7 +47,7 @@
     </div>
     
     <div class="details-section">
-        <h2>Chi Tiết Nhân Viên</h2>
+        <h2 style="font-size: 30px;">Chi Tiết Nhân Viên</h2>
         <div class="info-form">
             <label>Họ tên</label>
             <input type="text" value="{{employee?.hoTen}}" readonly>

@@ -24,6 +24,8 @@ export class AttendanceReportComponent implements OnInit {
   soNgayDiLam: any;
   ngayCongChuan: any;
   currentMonth!: string;
+  phongBanId: any;
+
   http = inject(HttpClient);
   datePipe = inject(DatePipe);
   activatedRoute = inject(ActivatedRoute);
@@ -33,6 +35,8 @@ export class AttendanceReportComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.phongBanId = localStorage.getItem('phongBanId');
+
     const today = new Date();
     this.currentMonth = this.datePipe.transform(today, 'MM/yyyy') || '';
 
@@ -94,7 +98,7 @@ export class AttendanceReportComponent implements OnInit {
   getEmployeeById() {
     this.nhanVienId = this.activatedRoute.snapshot.paramMap.get('nhanVienId');
     if (this.nhanVienId) {
-      this.http.get('https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=' + this.nhanVienId).subscribe((res: any) => {
+      this.http.get(`https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=${this.nhanVienId}&phongBanId=${this.phongBanId}`).subscribe((res: any) => {
         if (res) {
           this.employee = res;
         }

@@ -20,6 +20,7 @@ export class ViewEmployeeDetailComponent implements OnInit {
   thuongPhatList!: any[];
   luong: any;
   today: any;
+  phongBanId: any;
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -31,6 +32,7 @@ export class ViewEmployeeDetailComponent implements OnInit {
   check = false;
 
   ngOnInit(): void {
+    this.phongBanId = localStorage.getItem('phongBanId');
     const time = new Date();
     this.today = this.datePipe.transform(time, 'dd/MM/yyyy') || '';
 
@@ -48,7 +50,7 @@ export class ViewEmployeeDetailComponent implements OnInit {
   getEmployeeById() {
     this.nhanVienId = this.activatedRoute.snapshot.paramMap.get('nhanVienId');
     if (this.nhanVienId) {
-      this.http.get('https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=' + this.nhanVienId).subscribe((res: any) => {
+      this.http.get(`https://localhost:7182/api/NhanViens/GetByIdManagerFunction?id=${this.nhanVienId}&phongBanId=${this.phongBanId}`).subscribe((res: any) => {
         if (res) {
           this.employee = {
             ...res,
@@ -63,7 +65,10 @@ export class ViewEmployeeDetailComponent implements OnInit {
     if (this.nhanVienId) {
       this.http.get('https://localhost:7182/api/ThuongPhat/GetAllThuongPhat?nhanVienId=' + this.nhanVienId).subscribe((res: any) => {
         if (res) {
-          this.thuongPhatList = res.danhSachThuongPhat.$values;
+          this.thuongPhatList = res.danhSachThuongPhat?.$values.map((tp: any) => ({
+            ...tp,
+            ngay: this.datePipe.transform(tp.ngay, 'yyyy-MM-dd')
+          }));
           this.dtTrigger.next(null);
         }
       })
