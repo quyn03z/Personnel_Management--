@@ -16,10 +16,9 @@ public class LichNghiRepository : ILichNghiRepository
         return list;
     }
     // Lấy tất cả lịch nghỉ trong tháng với ngày và lý do
-    public List<LichNghi> GetAllLichNghi(int currentMonth, int currentYear)
+    public List<LichNghi> GetAllLichNghi()
     {
         return _context.LichNghis
-            .Where(l => l.Ngay.Month == currentMonth && l.Ngay.Year == currentYear)
             .ToList();  // Trả về danh sách đối tượng LichNghi đầy đủ
     }
 

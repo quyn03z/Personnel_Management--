@@ -16,9 +16,9 @@ public class LichNghiController : ControllerBase
 
     // Lấy tất cả lịch nghỉ trong tháng với ngày và lý do
     [HttpGet("GetAllLichNghiOnMonth")]
-    public IActionResult GetAllLichNghi(int currentMonth, int currentYear)
+    public IActionResult GetAllLichNghi()
     {
-        var list = _lichNghiRepository.GetAllLichNghi(currentMonth, currentYear);
+        var list = _lichNghiRepository.GetAllLichNghi();
         return Ok(list);
     }
 
