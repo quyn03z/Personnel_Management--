@@ -35,7 +35,9 @@ export class AuthService {
           if (token) {
             const decodedToken: any = jwt_decode(token);
             const PhongBanId = decodedToken?.PhongBanId;
+            const NhanVienId = decodedToken?.NhanVienId;
             localStorage.setItem("phongBanId",PhongBanId);
+            localStorage.setItem("NhanVienId",NhanVienId);
           } else {
             console.error('Token not found in localStorage.');
           }

@@ -25,21 +25,26 @@
 
     <br>
 
-    <form (ngSubmit)="onDiemDanh()">
+    <form>
       <div class="button-container">
-        <button class="btn btn-primary profile-button" type="submit">Điểm Danh</button>
+        <button class="btn btn-primary profile-button" type="button" (click)="onDiemDanh()">Điểm Danh</button>
       </div>
     </form>
     
     <ng-template #attendanceDialog let-data>
-      <h2 mat-dialog-title>Điểm Danh</h2>
-      <mat-dialog-content>
-        <p>Ngày Điểm Danh: {{ data.date | date: 'fullDate' }}</p>
-        <p>Trạng Thái: {{ data.status ? 'Có Mặt' : 'Vắng' }}</p>
-      </mat-dialog-content>
-      <mat-dialog-actions>
-        <button mat-button mat-dialog-close>Đóng</button>
-      </mat-dialog-actions>
+      <h2 mat-dialog-title class="dialog-title">Điểm Danh</h2>
+
+      <form [formGroup]="diemDanhForm" (ngSubmit)="onUpdateDiemDanh()">
+        <mat-dialog-content class="dialog-content">
+          <p><strong>Ngày Điểm Danh:</strong> {{ data.date | date: 'fullDate' }}</p>
+          <p><strong>Trạng Thái:</strong> {{ data.status ? 'Có Mặt' : 'Vắng' }}</p>
+        </mat-dialog-content>
+        <mat-dialog-actions align="center" class="dialog-actions">
+          <button mat-button mat-dialog-close class="action-button">Đóng</button>
+          <button mat-button class="action-button" type="submit">Cập Nhật</button>
+        </mat-dialog-actions>
+      </form>
+
     </ng-template>
 
     <ng-template #noRecords>

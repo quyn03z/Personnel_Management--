@@ -5,22 +5,46 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { MatDialog,MatDialogModule  } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-diemdanh',
   standalone: true,
-  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule,MatDialogModule],
+  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule, MatDialogModule, ReactiveFormsModule],
   templateUrl: './diemdanh.component.html',
   styleUrls: ['./diemdanh.component.scss'],
 })
 export class DiemdanhComponent implements OnInit {
 
   @ViewChild('attendanceDialog') attendanceDialogTemplate!: TemplateRef<any>;
-  
+  diemDanhForm: FormGroup;
+
   attendanceRecords: any[] = [];
 
-  constructor(private router: Router, private authService: AuthService,private dialog: MatDialog) { }
+  nhanVienId = parseInt(localStorage.getItem('NhanVienId') || '0', 10);
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private dialog: MatDialog,
+    private fb: FormBuilder
+  ) {
+    this.diemDanhForm = this.fb.group({
+      nhanVienId: this.nhanVienId,
+      ngayDiemDanh: [this.getCurrentDate()],
+      thoiGianVao: [this.getCurrentDate()],
+      thoiGianRa: [this.getCurrentDate()],
+      trangThai: [true],
+      lyDoVangMat: ['']
+    });
+  }
+
+  private getCurrentDate(): string {
+    const now = new Date();
+    return now.toISOString().split('T')[0]; 
+  }
+
 
   currentAttendance = {
     date: new Date(),
@@ -57,16 +81,13 @@ export class DiemdanhComponent implements OnInit {
 
   onDateSelected(event: Date): void {
     this.selectedDate = event;
-    const thang = event.getMonth() + 1; 
+    const thang = event.getMonth() + 1;
     const nam = event.getFullYear();
 
-    
     this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
       (response) => {
         console.log('Raw API response:', response);
-
         this.attendanceRecords = response?.$values || [];
-
         console.log('Processed attendance records:', this.attendanceRecords);
       },
       (error) => {
@@ -90,6 +111,23 @@ export class DiemdanhComponent implements OnInit {
       }
     });
   }
+
+  onUpdateDiemDanh(): void {
+    if (this.diemDanhForm.valid) {
+      console.log(this.diemDanhForm.value)
+      const payload = this.diemDanhForm.value;
+      this.authService.diemDanhNhanVien(payload).subscribe(
+        response => {
+          console.log('Diem danh updated successfully:', response);
+          this.dialog.closeAll();
+        },
+        error => {
+          console.error('Error updating diem danh:', error);
+        }
+      );
+    }
+  }
+
 
 
 }
