@@ -49,4 +49,15 @@ public class DepartmentRepository : IDepartmentRepository
         _context.PhongBans.Remove(department);
         await _context.SaveChangesAsync();
     }
+    public async Task<List<TotalNhanVienInPhongBanDto>> GetTotalNhanVienInPhongBanAsync()
+    {
+        return await _context.PhongBans
+            .Select(pb => new TotalNhanVienInPhongBanDto
+            {
+                PhongBanId = pb.PhongBanId,
+                TenPhongBan = pb.TenPhongBan,
+                TotalNhanVien = _context.NhanViens.Count(nv => nv.PhongBanId == pb.PhongBanId)
+            })
+            .ToListAsync();
+    }
 }
