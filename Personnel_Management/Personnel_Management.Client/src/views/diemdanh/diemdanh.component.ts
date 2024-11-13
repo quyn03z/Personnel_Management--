@@ -14,6 +14,16 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class DiemdanhComponent {
   selectedDate: Date | null = null;
 
+  // Sample attendance records
+  attendanceRecords = [
+    { date: new Date(2023, 10, 1), status: 'Present' },
+    { date: new Date(2023, 10, 2), status: 'Absent' },
+    { date: new Date(2023, 10, 3), status: 'Present' },
+    { date: new Date(2023, 10, 4), status: 'Present' },
+    { date: new Date(2023, 10, 5), status: 'Absent' },
+    // Add more records as needed
+  ];
+
   onDateSelected(event: Date): void {
     this.selectedDate = event;
   }
