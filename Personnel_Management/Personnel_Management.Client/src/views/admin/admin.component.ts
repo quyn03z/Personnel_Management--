@@ -1,25 +1,60 @@
-
-
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
+import { AfterViewInit,Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChartData, ChartOptions } from 'chart.js'; 
+import { Chart, registerables } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { ViewEmployeeListComponent } from '../manager/view-employee-list/view-employee-list.component';
 import { EmployeesListComponent } from "./EmployeesList/employeesList.component";
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterOutlet,CommonModule],
+  imports: [RouterOutlet, CommonModule,BaseChartDirective ],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss'
+  styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
   isAdminDashboard: boolean = true;
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  chartData!: ChartData<'bar'>; 
+  chartOptions: any = {
+    responsive: true,
+  };
+
+  constructor(private router: Router,private http: HttpClient) {
     this.router.events.subscribe(() => {
-      // Kiểm tra nếu router link hiện tại là child của 'admin'
       this.isAdminDashboard = this.router.url === '/admin';
     });
+  }
+
+  ngOnInit(): void {
+    Chart.register(...registerables);
+    this.getDepartmentData();
+  }
+
+  getDepartmentData() {
+    this.http.get<{ $values: { phongBanId: number; tenPhongBan: string; totalNhanVien: number }[] }>('https://localhost:7182/api/Department/TotalNhanVienInPhongBan')
+      .pipe(
+        map(response => response.$values)
+      )
+      .subscribe({
+        next: data => {
+          this.chartData = {
+            labels: data.map(item => item.tenPhongBan),
+            datasets: [{
+              label: 'Số lượng nhân viên',
+              data: data.map(item => item.totalNhanVien),
+              backgroundColor: 'rgba(75, 192, 192, 0.5)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            }]
+          };
+        },
+        error: error => {
+          console.error('Lỗi khi lấy dữ liệu từ API:', error);
+        }
+      });
   }
 }

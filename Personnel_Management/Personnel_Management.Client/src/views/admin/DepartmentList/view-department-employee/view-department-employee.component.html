@@ -1,0 +1,37 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Employees in Department {{ departmentId }}</h6>
+    </div>
+    <div class="card-body">
+      <div *ngIf="haveData; else noData">
+        <table class="table table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Họ Tên</th>
+              <th>Ngày Sinh</th>
+              <th>Địa Chỉ</th>
+              <th>Số Điện Thoại</th>
+              <th>Email</th>
+              <th>Vai Trò</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let emp of employees">
+              <td>{{ emp.nhanVienId }}</td>
+              <td>{{ emp.hoTen }}</td>
+              <td>{{ emp.ngaySinh | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ emp.diaChi }}</td>
+              <td>{{ emp.soDienThoai }}</td>
+              <td>{{ emp.email }}</td>
+              <td>{{ emp.isManager ? 'Manager' : 'Staff' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noData>
+        <p>No employees found in this department.</p>
+      </ng-template>
+    </div>
+  </div>
+  
