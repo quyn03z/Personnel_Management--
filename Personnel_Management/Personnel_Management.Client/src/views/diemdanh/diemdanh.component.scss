@@ -1,56 +1,56 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;800&display=swap");
+.calendar-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px; /* Space between calendar and table */
+  margin-top: 20px;
 
-body {
-	display: flex;
-	flex-flow: column;
-	align-items: center;
-	font-family: "Poppins", serif;
-	background: rgb(238, 174, 202);
-	background: radial-gradient(
-		circle,
-		rgba(238, 174, 202, 1) 0%,
-		rgba(148, 187, 233, 1) 100%
-	);
-}
-h1 {
-	font-weight: 800;
-	margin: 1rem 0 0;
-}
+  .calendar-section {
+    width: 50%; /* Half the width of the container */
+    max-width: 600px;
 
-ul {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-	flex-wrap: wrap;
-	list-style: none;
+    mat-calendar {
+      width: 100%;
+      font-size: 1.2rem;
 
-	li {
-		display: flex;
-		width: 10rem;
-		height: 10rem;
-		margin: 0.25rem;
-		flex-flow: column;
-		border-radius: 0.2rem;
-		padding: 1rem;
-		font-weight: 300;
-		font-size: 0.8rem;
-		box-sizing: border-box;
-		background: rgba(255, 255, 255, 0.25);
-		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-		backdrop-filter: blur(4px);
-		-webkit-backdrop-filter: blur(4px);
-		border-radius: 10px;
-		border: 1px solid rgba(255, 255, 255, 0.18);
+      .mat-calendar-body-cell {
+        height: 50px;
+        width: 50px;
+      }
+      
+      .mat-calendar-period-button,
+      .mat-calendar-previous-button,
+      .mat-calendar-next-button {
+        font-size: 1.5rem;
+      }
+    }
+  }
 
-		time {
-			font-size: 2rem;
-			margin: 0 0 1rem 0;
-			font-weight: 500;
-		}
-	}
-	.today {
-		time {
-			font-weight: 800;
-		}
-		background: #ffffff70;
-	}
+  .table-section {
+    width: 50%; /* Half the width of the container */
+    max-width: 600px;
+
+    p {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+      }
+    }
+  }
 }

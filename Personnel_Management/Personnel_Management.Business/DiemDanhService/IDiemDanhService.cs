@@ -10,7 +10,7 @@ namespace Personnel_Management.Business.DiemDanhService
 {
 	public interface IDiemDanhService
 	{
-		Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id);
+		Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id,int thang,int nam);
 
 		Task<DiemDanh> AddDiemDanhCoAsync(DiemDanhDTO diemDanh);
 		Task<DiemDanh> AddDiemDanhVangAsync(DiemDanhDTO diemDanh);

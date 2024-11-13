@@ -29,9 +29,9 @@ namespace Personnel_Management.Business.DiemDanhService
 		}
 
 
-		public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id)
+		public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id, int thang, int nam)
 		{
-			return await _diemDanhRepository.GetAllDiemDanhNhanVienByIdAsync(id);
+			return await _diemDanhRepository.GetAllDiemDanhNhanVienByIdAsync(id,thang,nam);
 		}
 
 	}
