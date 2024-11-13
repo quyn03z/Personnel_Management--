@@ -14,5 +14,6 @@ namespace Personnel_Management.Data.EntityRepository
         IQueryable<Luong> GetQuery(Expression<Func<Luong, bool>> predicate);
         Task AddLuongAsync(Luong luong);
         Task<Luong> GetLuongByIdAsync(int id);
+        Task UpdateLuongAsync(Luong luong);
     }
 }

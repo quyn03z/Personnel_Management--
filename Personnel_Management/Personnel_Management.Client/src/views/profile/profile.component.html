@@ -1,90 +1,105 @@
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
+
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img id="profileImage" class="rounded-circle mt-5" width="180px" height="150" *ngIf="nhanVienProfileObj.avatar" [src]="'assets/' + nhanVienProfileObj.avatar" alt="Avatar" />
+                <img id="profileImage" class="rounded-circle mt-5" width="180px" height="150"
+                    *ngIf="nhanVienProfileObj.avatar" [src]="nhanVienProfileObj.avatar || avatarBase64 " alt="Avatar" />
 
                 <span class="font-weight-bold">{{ nhanVienProfileObj.hoTen }}</span>
                 <span class="text-black-50">{{ nhanVienProfileObj.email }}</span>
                 <span> </span>
-                <input type="file" id="imageUpload" class="btn btn-primary mt-3  btn-small" accept="image/*" onchange="previewImage(event)">
+                <input type="file" id="imageUpload" class="btn btn-primary mt-3  btn-small" accept="image/*"
+                    (change)="previewImage($event)">
 
             </div>
         </div>
-        
+
         <div class="col-md-5 border-right">
             <form (ngSubmit)="onUpdateProfile()">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Profile Settings</h4>
                     </div>
-                 
+
                     <div class="row mt-2">
                         <div class="col-md-12"><label class="labels">Họ và Tên</label>
-                            <input type="text" class="form-control" name="hoTen" placeholder="họ và tên " [(ngModel)]="nhanVienProfileObj.hoTen" ></div>
+                            <input type="text" class="form-control" name="hoTen" placeholder="họ và tên "
+                                [(ngModel)]="nhanVienProfileObj.hoTen">
+                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                          <label class="labels">Ngày Sinh</label>
-                          <input type="text" class="form-control" name="ngaySinh" placeholder="ngày sinh" [(ngModel)]="nhanVienProfileObj.ngaySinh">
+                            <label class="labels">Ngày Sinh</label>
+                            <input type="date" class="form-control" name="ngaySinh" placeholder="ngày sinh"
+                                [(ngModel)]="nhanVienProfileObj.ngaySinh">
                         </div>
                         <div class="col-md-12">
-                          <label class="labels">Địa Chỉ</label>
-                          <input type="text" class="form-control" name="diaChi" placeholder="địa chỉ" [(ngModel)]="nhanVienProfileObj.diaChi">
+                            <label class="labels">Địa Chỉ</label>
+                            <input type="text" class="form-control" name="diaChi" placeholder="địa chỉ"
+                                [(ngModel)]="nhanVienProfileObj.diaChi">
                         </div>
                         <div class="col-md-12">
-                          <label class="labels">Số Điện Thoại</label>
-                          <input type="text" class="form-control" name="soDienThoai" placeholder="số điện thoại" [(ngModel)]="nhanVienProfileObj.soDienThoai">
+                            <label class="labels">Số Điện Thoại</label>
+                            <input type="text" class="form-control" name="soDienThoai" placeholder="số điện thoại"
+                                [(ngModel)]="nhanVienProfileObj.soDienThoai">
                         </div>
                         <div class="col-md-12">
-                          <label class="labels">Email</label>
-                          <input type="text" class="form-control"  name="email" placeholder="email" [(ngModel)]="nhanVienProfileObj.email">
+                            <label class="labels">Email</label>
+                            <input type="text" class="form-control" name="email" placeholder="email"
+                                [(ngModel)]="nhanVienProfileObj.email">
                         </div>
                         <div class="col-md-12">
-                          <label class="labels">Role</label>
-                          <input type="text" class="form-control" name="role" placeholder="role" [(ngModel)]="nhanVienProfileObj.roleName" readonly>
+                            <label class="labels">Role</label>
+                            <input type="text" class="form-control" name="role" placeholder="role"
+                                [(ngModel)]="nhanVienProfileObj.roleName" readonly>
                         </div>
                         <div class="col-md-12">
-                          <label class="labels">Phòng Ban</label>
-                          <input type="text" class="form-control" name="phongBanName" placeholder="phòng ban" [(ngModel)]="nhanVienProfileObj.phongBanName" readonly>
+                            <label class="labels">Phòng Ban</label>
+                            <input type="text" class="form-control" name="phongBanName" placeholder="phòng ban"
+                                [(ngModel)]="nhanVienProfileObj.phongBanName" readonly>
                         </div>
-                      </div>
+                    </div>
                     <br>
                     <br>
-    
+
                     <div class="row mt-3">
-                        <a class="col-md-6 text-center" href=""><div><button class="btn btn-primary profile-button" type="button">Save Profile</button></div></a>
-                        <a class="col-md-6 text-center" href="/viewEmployeeList"><div><button class="btn btn-primary profile-button" type="button">Back to Home</button></div></a>  
+                        <a class="col-md-6 text-center" href="">
+                            <div><button class="btn btn-primary profile-button" type="submit">Save Profile</button>
+                            </div>
+                        </a>
+                        <a class="col-md-6 text-center" href="/viewEmployeeList">
+                            <div><button class="btn btn-primary profile-button" type="button">Back to Home</button>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </form>
 
         </div>
-        <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><span>Change PassWord</span></div><br>
-                <div class="col-md-12"><label class="labels">Mật khẩu cũ</label><input type="text" class="form-control" placeholder="nhập mật khẩu cũ" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Mật khẩu mới</label><input type="text" class="form-control" placeholder="nhập mật khẩu mới" value=""></div>
-            </div>
-            <a class="col-md-6 text-center" href="#"><div><button class="btn btn-primary profile-button" type="button">Update Password</button></div></a>  
 
+        <div class="col-md-4">
+            <form (ngSubmit)="onChangePassWordProfile()">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center experience"><span>Change
+                            PassWord</span></div><br>
+                    <div class="col-md-12">
+                        <label class="labels">Mật khẩu cũ</label>
+                        <input type="password" class="form-control" placeholder="nhập mật khẩu cũ"
+                            [(ngModel)]="changePasswordObj.oldPassword" name="oldPassword">
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                        <label class="labels">Mật khẩu mới</label>
+                        <input type="password" class="form-control" placeholder="nhập mật khẩu mới"
+                            [(ngModel)]="changePasswordObj.newPassword" name="newPassword">
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary profile-button" type="submit">Update Password</button>
+                </div>
+            </form>
         </div>
+
     </div>
 </div>
-
-<script>
-    function previewImage(event) {
-        const image = document.getElementById('profileImage'); // Lấy thẻ ảnh
-        const file = event.target.files[0]; // Lấy tệp ảnh người dùng chọn
-        
-        if (file) {
-            // Sử dụng URL.createObjectURL để tạo URL tạm thời và hiển thị ảnh mới ngay lập tức
-            image.src = URL.createObjectURL(file);
-            
-            // Xóa URL tạm thời sau khi ảnh được hiển thị để giải phóng bộ nhớ
-            image.onload = () => {
-                URL.revokeObjectURL(image.src);
-            };
-        }
-    }
-</script>

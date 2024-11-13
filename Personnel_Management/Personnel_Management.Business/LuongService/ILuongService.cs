@@ -9,7 +9,8 @@ namespace Personnel_Management.Business.LuongService
 {
     public interface ILuongService
     {
-        Task<Luong?> GetByIdAsync(int id);
+        Task<Luong> GetByIdAsync(int id);
         Task<Luong> AddAsync(Luong luong);
+        Task UpdateAsync(Luong luong);
     }
 }

@@ -80,4 +80,19 @@ public class DepartmentController : ControllerBase
         }
     }
 
+    [HttpGet("TotalNhanVienInPhongBan")]
+    public async Task<IActionResult> GetTotalNhanVienInPhongBan()
+    {
+        try
+        {
+            var result = await _departmentService.GetTotalNhanVienInPhongBanAsync();
+            return Ok(result); // Trả về status code 200 với dữ liệu
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex);
+            return StatusCode(500, "Đã có lỗi xảy ra khi lấy số lượng nhân viên trong phòng ban."); // Trả về lỗi 500 nếu có lỗi
+        }
+    }
+
 }

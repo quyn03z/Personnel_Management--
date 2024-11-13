@@ -13,4 +13,5 @@ public interface IDepartmentRepository
     Task AddDepartmentAsync(PhongBan department);
     Task UpdateDepartmentAsync(PhongBan department);
     Task DeleteDepartmentAsync(PhongBan department);
+    Task<List<TotalNhanVienInPhongBanDto>> GetTotalNhanVienInPhongBanAsync();
 }

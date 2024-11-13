@@ -1,0 +1,25 @@
+<div class="calendar-container">
+  <!-- Calendar Section -->
+  <div class="calendar-section">
+    <mat-calendar (selectedChange)="onDateSelected($event)"></mat-calendar>
+  </div>
+
+  <!-- Attendance Table Section -->
+  <div class="table-section">
+    <p *ngIf="selectedDate">Selected Date: {{ selectedDate | date: 'fullDate' }}</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attendance of attendanceRecords">
+          <td>{{ attendance.date | date: 'fullDate' }}</td>
+          <td>{{ attendance.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

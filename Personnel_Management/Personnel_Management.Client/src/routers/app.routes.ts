@@ -17,6 +17,7 @@ import { ProfileComponent } from '../views/profile/profile.component';
 import { AddDepartmentComponent } from '../views/admin/DepartmentList/add-department/add-department.component';
 import { EditDepartmentComponent } from '../views/admin/DepartmentList/edit-department/edit-department.component';
 import { ViewDepartmentEmployeeComponent } from '../views/admin/DepartmentList/view-department-employee/view-department-employee.component';
+import { DiemdanhComponent } from '../views/diemdanh/diemdanh.component';
 export const routes: Routes = [
     {
         path: '',
@@ -62,11 +63,6 @@ export const routes: Routes = [
                         path: 'add',
                         title: 'add',
                         component: AddEmployeesComponent
-                    },
-                    {
-                        path: 'edit',
-                        title: 'edit',
-                        component: EditEmployeesComponent
                     }
                 ] 
             },
@@ -102,5 +98,11 @@ export const routes: Routes = [
     { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
     { path: 'change-password', title: 'Change-Paassword', component: ChangePasswordComponent },
     { path: 'profile', title: 'Profile', component: ProfileComponent },
+    {
+        path: 'editEmployee/:id',
+        title: 'Edit',
+        component: EditEmployeesComponent
+    },
+    { path: 'diemdanh', title: 'DiemDanh', component: DiemdanhComponent },
 
 ];

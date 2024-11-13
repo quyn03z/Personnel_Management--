@@ -47,3 +47,9 @@ body {
     padding: 5px 1px; /* Điều chỉnh padding để thu nhỏ */
     font-size: 12px;   /* Giảm kích thước chữ */
 }
+
+.text-center {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc nếu cần */
+}

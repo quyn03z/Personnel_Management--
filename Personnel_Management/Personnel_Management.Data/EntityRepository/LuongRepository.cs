@@ -31,9 +31,14 @@ namespace Personnel_Management.Data.EntityRepository
             _context.Luongs.Add(luong);
             await _context.SaveChangesAsync();
         }
-        public async Task<Luong> GetLuongByIdAsync(int id)
+        public async Task<Luong> GetLuongByIdAsync(int nhanVienId)
         {
-            return await _context.Luongs.FindAsync(id);
+            return await _context.Luongs.Where(l => l.NhanVienId == nhanVienId).FirstOrDefaultAsync(); ;
+        }
+        public async Task UpdateLuongAsync(Luong luong)
+        {
+            _context.Luongs.Update(luong);
+            await _context.SaveChangesAsync();
         }
     }
 }

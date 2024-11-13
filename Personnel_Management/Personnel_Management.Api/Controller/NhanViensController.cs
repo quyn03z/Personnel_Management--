@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.EntityRepository;
@@ -133,8 +134,7 @@ namespace Personnel_Management.Api.Controller
 
 
 		[HttpPut("updateProfileEmployee/{id}")]
-		public async Task<ActionResult<NhanVienDtto>> UpdateProfileEmployee(int id,
-			[FromBody] NhanVienDtto nhanVienDTO)
+		public async Task<ActionResult<NhanVienDtto>> UpdateProfileEmployee(int id, [FromBody] NhanVienDtto nhanVienDTO)
 		{
 			var nhanVien = await _nhanVienService.GetByIdAsync(id);
 			if (nhanVien == null)
@@ -142,10 +142,75 @@ namespace Personnel_Management.Api.Controller
 				return NotFound(new { message = "NhanVien not found" });
 			}
 
-            var updatednhanVienDTO = await _nhanVienService.UpdateProfileEmployee(id, nhanVienDTO);
+			try
+			{
+				var updatedNhanVienDTO = await _nhanVienService.UpdateProfileEmployee(id, nhanVienDTO);
+				return Ok(updatedNhanVienDTO);
+			}
+			catch (DbUpdateException dbEx)
+			{
+				if (dbEx.InnerException is SqlException sqlEx && (sqlEx.Number == 2601 || sqlEx.Number == 2627))
+				{
+					return BadRequest(new { message = "Email đã tồn tại trong hệ thống. Vui lòng chọn email khác." });
+				}
 
-			return Ok(updatednhanVienDTO);
+				return StatusCode(500, new { message = "Đã xảy ra lỗi khi cập nhật thông tin nhân viên." });
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, new { message = "Đã xảy ra lỗi không xác định.", details = ex.Message });
+			}
 		}
 
+
+
+
+		[HttpGet("GetById/{id}")]
+		public async Task<ActionResult<NhanVienDtto>> GetCustomer(int id)
+		{
+			var nhanVien = await _nhanVienService.GetNhanVienById(id);
+			if (nhanVien == null)
+			{
+				return NotFound(new { message = "NhanVien not found" });
+			}
+
+			return Ok(new { NhanVienDTO = nhanVien });
+		}
+
+        [HttpPut("Change-Password/{id}")]
+        public async Task<ActionResult> ChangePassword(int id, [FromBody] ChangePasswordProfileRequest request)
+        {
+            var nhanVien = await _nhanVienService.GetByIdAsync(id);
+            if (nhanVien == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+            // Kiểm tra mật khẩu cũ
+            if (!await _nhanVienService.VerifyPasswordAsync(nhanVien, request.OldPassword))
+            {
+                return BadRequest(new { message = "Mật khẩu cũ không đúng." });
+            }
+            // Thay đổi mật khẩu
+            bool isPasswordChanged = await _nhanVienService.ChangePasswordAsync(id, request.NewPassword);
+            if (!isPasswordChanged)
+            {
+                return StatusCode(500, new { message = "Failed to change password" });
+            }
+
+            return Ok(new { message = "Password changed successfully" });
+        }
+
+
+       
+
 	}
+	public class ChangePasswordProfileRequest
+	{
+		public string OldPassword { get; set; }
+		public string NewPassword { get; set; }
+	}
+
 }
+
+
+

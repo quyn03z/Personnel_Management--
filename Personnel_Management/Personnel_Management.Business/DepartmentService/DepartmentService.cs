@@ -70,4 +70,8 @@ public class DepartmentService : IDepartmentService
         await _departmentRepository.DeleteDepartmentAsync(department);
     }
 
+    public async Task<List<TotalNhanVienInPhongBanDto>> GetTotalNhanVienInPhongBanAsync()
+    {
+        return await _departmentRepository.GetTotalNhanVienInPhongBanAsync();
+    }
 }

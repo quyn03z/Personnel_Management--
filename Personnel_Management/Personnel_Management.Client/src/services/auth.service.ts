@@ -80,5 +80,13 @@ export class AuthService {
     return this.apiService.getUserById();
   }
 
+  updateNewProfile(data: any) {
+    return this.apiService.updateProfile(data);
+  }
+
+  changePassWordProfileNew(data: any){
+    return this.apiService.changePassWordProfile(data);
+  }
+
 
 }
