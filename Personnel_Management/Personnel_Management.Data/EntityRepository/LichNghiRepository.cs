@@ -1,24 +1,37 @@
 ﻿using Personnel_Management.Models.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Personnel_Management.Data.EntityRepository
+public class LichNghiRepository : ILichNghiRepository
 {
-    public class LichNghiRepository : ILichNghiRepository
-    {
-        private readonly QuanLyNhanSuContext _context;
+    private readonly QuanLyNhanSuContext _context;
 
-        public LichNghiRepository(QuanLyNhanSuContext context) {
-            _context = context;
-        }
-        public List<DateTime> GetAllLichNghi(int currentMonth, int currentYear)
+    public LichNghiRepository(QuanLyNhanSuContext context)
+    {
+        _context = context;
+    }
+
+    // Lấy tất cả lịch nghỉ trong tháng với ngày và lý do
+    public List<LichNghi> GetAllLichNghi(int currentMonth, int currentYear)
+    {
+        return _context.LichNghis
+            .Where(l => l.Ngay.Month == currentMonth && l.Ngay.Year == currentYear)
+            .ToList();  // Trả về danh sách đối tượng LichNghi đầy đủ
+    }
+
+    // Thêm lịch nghỉ
+    public void AddLichNghi(LichNghi lichNghi)
+    {
+        _context.LichNghis.Add(lichNghi);
+        _context.SaveChanges();
+    }
+
+    // Xóa lịch nghỉ
+    public void DeleteLichNghi(int lichNghiId)
+    {
+        var lichNghi = _context.LichNghis.Find(lichNghiId);
+        if (lichNghi != null)
         {
-            List<DateTime> list = _context.LichNghis.Where(ln => ln.Ngay.Month == currentMonth 
-                                                && ln.Ngay.Year == currentYear).Select(ln => ln.Ngay).ToList();
-            return list;
+            _context.LichNghis.Remove(lichNghi);
+            _context.SaveChanges();
         }
     }
 }
