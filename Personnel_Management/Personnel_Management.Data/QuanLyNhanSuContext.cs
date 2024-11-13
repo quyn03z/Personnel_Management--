@@ -83,6 +83,7 @@ public partial class QuanLyNhanSuContext : DbContext
             entity.Property(e => e.NgaySinh).HasColumnType("date");
             entity.Property(e => e.SoDienThoai).HasMaxLength(20);
             entity.Property(e => e.Avatar).HasMaxLength(255);
+            entity.Property(e => e.isBanned).HasColumnType("bit"); ;
             entity.HasOne(d => d.PhongBan).WithMany(p => p.NhanViens)
                 .HasForeignKey(d => d.PhongBanId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

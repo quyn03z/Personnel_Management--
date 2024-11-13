@@ -25,6 +25,7 @@ public partial class NhanVien
 
     public string Matkhau { get; set; }
     public string Avatar { get; set; }
+    public bool isBanned { get; set; }
 
 
 	public bool IsManager => RoleId == 2; // Assume RoleId=2 is Manager
