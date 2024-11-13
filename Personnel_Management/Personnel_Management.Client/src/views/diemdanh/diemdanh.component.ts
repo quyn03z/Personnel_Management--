@@ -6,11 +6,12 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-diemdanh',
   standalone: true,
-  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule, MatDialogModule],
+  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule, MatDialogModule,ReactiveFormsModule],
   templateUrl: './diemdanh.component.html',
   styleUrls: ['./diemdanh.component.scss'],
 })
@@ -63,9 +64,7 @@ export class DiemdanhComponent implements OnInit {
     this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
       (response) => {
         console.log('Raw API response:', response);
-
         this.attendanceRecords = response?.$values || [];
-
         console.log('Processed attendance records:', this.attendanceRecords);
       },
       (error) => {
@@ -82,7 +81,6 @@ export class DiemdanhComponent implements OnInit {
 
 
   onDiemDanh(): void {
-    console.log('Opening attendance dialog...');
     this.dialog.open(this.attendanceDialogTemplate, {
       data: {
         date: this.currentAttendance.date,
@@ -90,6 +88,11 @@ export class DiemdanhComponent implements OnInit {
       }
     });
   }
+
+  onUpdateDiemDanh(){
+
+  }
+
 
 
 }
