@@ -32,7 +32,6 @@ export class DiemdanhComponent implements OnInit{
       (response) => {
         console.log('Raw API response:', response);
   
-        // Extract attendance records from the `$values` property
         this.attendanceRecords = response?.$values || [];
   
         console.log('Processed attendance records:', this.attendanceRecords);
