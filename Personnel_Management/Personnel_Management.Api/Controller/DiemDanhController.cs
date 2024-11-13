@@ -52,25 +52,6 @@ namespace Personnel_Management.Api.Controller
 		}
 
 
-		[HttpPost("DiemDanhVangNhanVien")]
-		public async Task<ActionResult<DiemDanh>> DiemDanhVangNhanVien([FromBody] DiemDanhDTO diemDanh)
-		{
-			if (diemDanh == null)
-			{
-				return BadRequest(new { message = "Invalid attendance data." });
-			}
-
-			try
-			{
-				var addedDiemDanh = await _diemDanhService.AddDiemDanhVangAsync(diemDanh);
-				return Ok(addedDiemDanh);
-			}
-			catch (Exception ex)
-			{
-				return StatusCode(500, new { message = "An error occurred while adding attendance record.", details = ex.Message });
-			}
-		}
-
 
 	}
 

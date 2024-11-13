@@ -106,8 +106,10 @@ namespace Personnel_Management.Data.EntityRepository
 			return await _context.DiemDanhs
 						.Where(d => d.NhanVienId == id
 						&& d.NgayDiemDanh.Month == thang
-						&& d.NgayDiemDanh.Year == nam) 
+						&& d.NgayDiemDanh.Year == nam)
+						.OrderByDescending(d => d.NgayDiemDanh)
 						.ToListAsync();
 		}
+
     }
 }

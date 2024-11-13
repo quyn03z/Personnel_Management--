@@ -9,15 +9,15 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-diemdanh',
   standalone: true,
-  imports: [MatDatepickerModule,CommonModule,MatInputModule,MatNativeDateModule],
+  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule],
   templateUrl: './diemdanh.component.html',
   styleUrls: ['./diemdanh.component.scss'],
 })
-export class DiemdanhComponent implements OnInit{
-  
+export class DiemdanhComponent implements OnInit {
+
   attendanceRecords: any[] = [];
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) { }
 
 
 
@@ -25,30 +25,57 @@ export class DiemdanhComponent implements OnInit{
     const currentDate = new Date();
     const thang = currentDate.getMonth() + 1;
     const nam = currentDate.getFullYear();
-  
+
     console.log(`Fetching attendance data for month: ${thang}, year: ${nam}`);
-  
+
     this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
       (response) => {
         console.log('Raw API response:', response);
-  
+
         this.attendanceRecords = response?.$values || [];
-  
+
         console.log('Processed attendance records:', this.attendanceRecords);
       },
       (error) => {
-        console.error('Error fetching attendance records:', error);
+        if (error.status === 404) {
+          console.warn('No attendance records found for the selected period.');
+          this.attendanceRecords = [];
+        } else {
+          console.error('Error fetching attendance records:', error);
+        }
       }
     );
   }
-  
-  
+
+
 
   selectedDate: Date | null = null;
 
 
   onDateSelected(event: Date): void {
     this.selectedDate = event;
+    const thang = event.getMonth() + 1; 
+    const nam = event.getFullYear();
+
+    
+    this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
+      (response) => {
+        console.log('Raw API response:', response);
+
+        this.attendanceRecords = response?.$values || [];
+
+        console.log('Processed attendance records:', this.attendanceRecords);
+      },
+      (error) => {
+        if (error.status === 404) {
+          console.warn('No attendance records found for the selected period.');
+          this.attendanceRecords = [];
+        } else {
+          console.error('Error fetching attendance records:', error);
+        }
+      }
+    );
+
   }
 
 
