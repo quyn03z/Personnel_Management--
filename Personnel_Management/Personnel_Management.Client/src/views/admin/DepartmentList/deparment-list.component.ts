@@ -17,7 +17,7 @@ import { RouterOutlet } from '@angular/router';
 export class DeparmentListComponent implements OnInit {
   departmentList: any[] = [];
   http = inject(HttpClient);
-  router = inject(Router); // Inject Router sử dụng cú pháp mới
+  router = inject(Router);
   dtoptions: Config = {};
   dttrigger: Subject<any> = new Subject<any>();
   refreshListSubject: Subject<void> = new Subject<void>();
@@ -28,9 +28,10 @@ export class DeparmentListComponent implements OnInit {
     this.dtoptions = {
       pagingType: 'full_numbers',
       lengthMenu: [5, 8, 15, 20],
-      pageLength: 5
+      pageLength: 5,
     };
 
+    // Lắng nghe sự kiện làm mới
     this.refreshListSubject.subscribe(() => {
       this.getAllDepartment();
     });
@@ -38,7 +39,7 @@ export class DeparmentListComponent implements OnInit {
 
   getAllDepartment() {
     this.http.get("https://localhost:7182/api/Department").subscribe((res: any) => {
-      this.departmentList = res.$values;
+      this.departmentList = res.$values || [];
       this.dttrigger.next(null);
     });
   }
@@ -51,11 +52,7 @@ export class DeparmentListComponent implements OnInit {
           this.getAllDepartment();
         },
         (error) => {
-          if (error.status === 400 && error.error?.message) {
-            alert(error.error.message);
-          } else {
-            alert('Phòng ban đã có người, không thể xóa');
-          }
+          alert('Phòng ban đã có người, không thể xóa');
         }
       );
     }

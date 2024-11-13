@@ -18,6 +18,7 @@
                         <th>Mô tả</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,6 +27,9 @@
                             <td>{{e.phongBanId}}</td>
                             <td>{{e.tenPhongBan}}</td>
                             <td>{{e.moTa}}</td>
+                            <td>
+                                <a class="buttonDe" [routerLink]="['/admin/departmentList/view-department-employee', e.phongBanId]">View Employees</a>
+                              </td>
                             <td>
                                 <button class="buttonDe" (click)="editDepartment(e.phongBanId)">Edit</button>
                                 <style>
