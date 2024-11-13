@@ -22,13 +22,13 @@ export class ApiService {
   sendOtp(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/Auth/ForgetPassword`, data, { withCredentials: true });
   }
-  
+
   confirmOtp(data: { email: string; otp: string; token: string }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.baseUrl}/Auth/VerifyOtp`, data, { headers });
   }
 
-  changePassWord(data: any):Observable<any>{
+  changePassWord(data: any): Observable<any> {
     return this.http.post<any>(this.baseUrl + "/Auth/ChangePassword", data);
   }
 
@@ -38,11 +38,11 @@ export class ApiService {
       throw new Error('Token not found');
     }
     try {
-      const decodedToken: any = jwt_decode(token); 
+      const decodedToken: any = jwt_decode(token);
       const userId = decodedToken?.NhanVienId;
       if (!userId) {
         throw new Error('User ID not found in token');
-      } 
+      }
       return this.http.get<any>(`${this.baseUrl}/NhanViens/GetById/${userId}`);
     } catch (error) {
       console.error('Error decoding token:', error);
@@ -69,7 +69,7 @@ export class ApiService {
   }
 
 
-  changePassWordProfile(data: any):Observable<any>{
+  changePassWordProfile(data: any): Observable<any> {
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Token not found');
@@ -88,7 +88,7 @@ export class ApiService {
   }
 
 
-  getAllDiemDanh(thang: number, nam: number){
+  getAllDiemDanh(thang: number, nam: number) {
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Token not found');
@@ -100,7 +100,7 @@ export class ApiService {
         throw new Error('User ID not found in token');
       }
       return this.http.get<any>(`${this.baseUrl}/DiemDanh/GetDiemDanhByNhanVienId/${userId}/${thang}/${nam}`);
-      
+
     } catch (error) {
       console.error('Error decoding token:', error);
       throw error;
@@ -108,8 +108,28 @@ export class ApiService {
 
   }
 
-  diemDanhAPI(data: any): Observable<any>{
+  diemDanhAPI(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/DiemDanh/DiemDanhCoNhanVien`, data);
+  }
+
+
+  checkNgayDiemDanhAPI(ngay: number, thang: number, nam: number) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+    try {
+      const decodedToken: any = jwt_decode(token);
+      const userId = decodedToken?.NhanVienId;
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+      return this.http.get<any>(`${this.baseUrl}/DiemDanh/CheckDiemDanh/${userId}/${ngay}/${thang}/${nam}`);
+
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      throw error;
+    }
   }
 
 
@@ -119,21 +139,18 @@ export class ApiService {
 
 
 
-
-
-  
 }
 
 function jwt_decode(token: string): any {
   try {
-    
+
     const parts = token.split('.');
     if (parts.length !== 3) {
       throw new Error('Invalid JWT token format');
     }
     const payload = parts[1];
     const decodedPayload = atob(payload);
-    return JSON.parse(decodedPayload); 
+    return JSON.parse(decodedPayload);
   } catch (error) {
     console.error('Failed to decode JWT:', error);
     return null;

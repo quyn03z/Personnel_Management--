@@ -27,7 +27,7 @@
 
     <form>
       <div class="button-container">
-        <button class="btn btn-primary profile-button" type="button" (click)="onDiemDanh()">Điểm Danh</button>
+        <button [disabled]="!checkDiemDanh" class="btn btn-primary profile-button" type="button" (click)="onDiemDanh()">Điểm Danh</button>
       </div>
     </form>
     
@@ -44,8 +44,8 @@
           <button mat-button class="action-button" type="submit">Cập Nhật</button>
         </mat-dialog-actions>
       </form>
-
     </ng-template>
+
 
     <ng-template #noRecords>
       <p>No attendance records found for the selected period.</p>

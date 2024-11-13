@@ -42,7 +42,7 @@ export class DiemdanhComponent implements OnInit {
 
   private getCurrentDate(): string {
     const now = new Date();
-    return now.toISOString().split('T')[0]; 
+    return now.toISOString().split('T')[0];
   }
 
 
@@ -51,9 +51,11 @@ export class DiemdanhComponent implements OnInit {
     status: true
   };
 
+  checkDiemDanh: boolean = false;
 
   ngOnInit(): void {
     const currentDate = new Date();
+    const ngay = currentDate.getDate();
     const thang = currentDate.getMonth() + 1;
     const nam = currentDate.getFullYear();
 
@@ -75,6 +77,26 @@ export class DiemdanhComponent implements OnInit {
         }
       }
     );
+
+    this.authService.checkNgayDiemDanh(ngay, thang, nam).subscribe(
+      (response) => {
+        console.log('Attendance check response:', response);
+        this.checkDiemDanh = false;
+      },
+      (error) => {
+        if (error.status === 400) {
+          console.warn('No attendance record found for today. Showing check-in button.');
+          this.checkDiemDanh = true;
+       } else {
+          console.error('Error checking attendance for today:', error);
+          this.checkDiemDanh = false;
+       }
+      }
+    );
+
+
+
+
   }
 
   selectedDate: Date | null = null;
@@ -88,7 +110,7 @@ export class DiemdanhComponent implements OnInit {
       (response) => {
         console.log('Raw API response:', response);
         this.attendanceRecords = response?.$values || [];
-        console.log('Processed attendance records:', this.attendanceRecords);
+        
       },
       (error) => {
         if (error.status === 404) {
@@ -120,6 +142,8 @@ export class DiemdanhComponent implements OnInit {
         response => {
           console.log('Diem danh updated successfully:', response);
           this.dialog.closeAll();
+          this.checkDiemDanh = false;
+          this.loadTableDiemDanh();
         },
         error => {
           console.error('Error updating diem danh:', error);
@@ -127,6 +151,31 @@ export class DiemdanhComponent implements OnInit {
       );
     }
   }
+
+  loadTableDiemDanh(){
+    const currentDate = new Date();
+    const thang = currentDate.getMonth() + 1;
+    const nam = currentDate.getFullYear();
+    this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
+      (response) => {
+        console.log('Raw API response:', response);
+
+        this.attendanceRecords = response?.$values || [];
+
+        console.log('Processed attendance records:', this.attendanceRecords);
+      },
+      (error) => {
+        if (error.status === 404) {
+          console.warn('No attendance records found for the selected period.');
+          this.attendanceRecords = [];
+        } else {
+          console.error('Error fetching attendance records:', error);
+        }
+      }
+    );
+  }
+
+
 
 
 

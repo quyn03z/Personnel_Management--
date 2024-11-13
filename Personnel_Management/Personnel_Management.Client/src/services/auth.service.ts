@@ -108,6 +108,11 @@ export class AuthService {
     return this.apiService.diemDanhAPI(data);
   }
   
+  checkNgayDiemDanh(ngay: number,thang: number, nam: number){
+    return this.apiService.checkNgayDiemDanhAPI(ngay,thang,nam);
+  }
+
+  
 
 
 }
