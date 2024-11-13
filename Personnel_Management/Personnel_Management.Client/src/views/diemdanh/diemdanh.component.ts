@@ -5,22 +5,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { MatDialog,MatDialogModule  } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-diemdanh',
   standalone: true,
-  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule,MatDialogModule],
+  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule, MatDialogModule],
   templateUrl: './diemdanh.component.html',
   styleUrls: ['./diemdanh.component.scss'],
 })
 export class DiemdanhComponent implements OnInit {
 
   @ViewChild('attendanceDialog') attendanceDialogTemplate!: TemplateRef<any>;
-  
+
   attendanceRecords: any[] = [];
 
-  constructor(private router: Router, private authService: AuthService,private dialog: MatDialog) { }
+  constructor(private router: Router, private authService: AuthService, private dialog: MatDialog) { }
 
   currentAttendance = {
     date: new Date(),
@@ -57,10 +57,9 @@ export class DiemdanhComponent implements OnInit {
 
   onDateSelected(event: Date): void {
     this.selectedDate = event;
-    const thang = event.getMonth() + 1; 
+    const thang = event.getMonth() + 1;
     const nam = event.getFullYear();
 
-    
     this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
       (response) => {
         console.log('Raw API response:', response);
@@ -83,6 +82,7 @@ export class DiemdanhComponent implements OnInit {
 
 
   onDiemDanh(): void {
+    console.log('Opening attendance dialog...');
     this.dialog.open(this.attendanceDialogTemplate, {
       data: {
         date: this.currentAttendance.date,

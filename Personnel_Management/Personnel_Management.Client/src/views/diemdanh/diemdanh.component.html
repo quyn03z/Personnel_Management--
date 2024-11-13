@@ -25,9 +25,9 @@
 
     <br>
 
-    <form (ngSubmit)="onDiemDanh()">
+    <form>
       <div class="button-container">
-        <button class="btn btn-primary profile-button" type="submit">Điểm Danh</button>
+        <button class="btn btn-primary profile-button" type="button" (click)="onDiemDanh()">Điểm Danh</button>
       </div>
     </form>
     
@@ -39,6 +39,7 @@
       </mat-dialog-content>
       <mat-dialog-actions>
         <button mat-button mat-dialog-close>Đóng</button>
+         <button >Cập Nhật</button>
       </mat-dialog-actions>
     </ng-template>
 

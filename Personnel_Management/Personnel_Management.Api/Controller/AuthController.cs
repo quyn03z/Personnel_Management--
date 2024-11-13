@@ -223,7 +223,7 @@ namespace Personnel_Management.Api.Controllers
 				var toAddress = new MailAddress(recipientEmail);
 				string fromPassword = _configuration["Smtp:Password"];
 				string subject = "Your OTP Code";
-				string body = $"Your OTP code is: {otp}. This code is valid for 5 minutes.";
+				string body = $"Your OTP code is: {otp}.";
 
 				// Set up SMTP client settings
 				var smtp = new SmtpClient
