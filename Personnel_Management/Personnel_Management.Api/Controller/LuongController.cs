@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Personnel_Management.Business.LuongService;
 using Personnel_Management.Business.NhanVienService;
+using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
 
 namespace Personnel_Management.Api.Controller
@@ -14,11 +15,18 @@ namespace Personnel_Management.Api.Controller
 
 
         private readonly QuanLyNhanSuContext _context;
-        public LuongController(ILuongService luongService, INhanVienService nhanVienService , QuanLyNhanSuContext context)
+        private readonly IDiemDanhRepository _diemDanhRepository;
+        private readonly IThuongPhatRepository _thuongPhatReopository;
+        private readonly ILuongRepository _luongRepository;
+
+        public LuongController(ILuongService luongService, INhanVienService nhanVienService, QuanLyNhanSuContext context, IDiemDanhRepository diemDanhRepository, IThuongPhatRepository thuongPhatRepository, ILuongRepository luongRepository)
         {
             _nhanVienService = nhanVienService;
             _luongService = luongService;
             _context = context;
+            _diemDanhRepository = diemDanhRepository;
+            _thuongPhatReopository = thuongPhatRepository;
+            _luongRepository = luongRepository;
         }
         [HttpGet("{nhanVienId}")]
         public async Task<IActionResult> GetLuongByNhanVienId(int nhanVienId)
@@ -31,7 +39,7 @@ namespace Personnel_Management.Api.Controller
 
             try
             {
-               var luong = await _luongService.GetByIdAsync(nhanVienId);
+                var luong = await _luongService.GetByIdAsync(nhanVienId);
                 return Ok(luong);
             }
             catch (Exception ex)
@@ -69,6 +77,37 @@ namespace Personnel_Management.Api.Controller
                 return StatusCode(500, $"Lỗi thêm lương: {ex.Message}");
             }
         }
+
+        [HttpGet("GetSalaryEmployee")]
+        public IActionResult GetSalaryEmployee(int nhanVienId)
+        {
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+
+            var luongCoBan = _luongRepository.GetLuongCoBanByNhanVienId(nhanVienId);
+            var ngayCongChuan = _diemDanhRepository.GetNgayCongChuan(currentMonth, currentYear);
+
+            var soNgayDiLam = _diemDanhRepository.GetNumberOfDaysWorked(currentMonth, currentYear, nhanVienId);
+
+            var tongThuong = _thuongPhatReopository.GetTongThuongThang(currentMonth, currentYear, nhanVienId);
+            var tongPhat = _thuongPhatReopository.GetTongPhatThang(currentMonth, currentYear, nhanVienId);
+
+            decimal luongThucTeDecimal = ((luongCoBan / ngayCongChuan) * soNgayDiLam) + tongThuong - tongPhat;
+
+            decimal luongThucTe = Math.Round(luongThucTeDecimal, 0, MidpointRounding.AwayFromZero);
+
+
+            return Ok(new
+            {
+                LuongCoBan = luongCoBan,
+                NgayCongChuan = ngayCongChuan,
+                SoNgayDiLam = soNgayDiLam,
+                TongThuong = tongThuong,
+                tongPhat = tongPhat,
+                LuongThucTe = luongThucTe
+            });
+        }
+
         [HttpPut("{nhanVienId}")]
         public async Task<IActionResult> Update(int nhanVienId, Luong luong)
         {
@@ -100,7 +139,7 @@ namespace Personnel_Management.Api.Controller
                     return Ok(luong);
                 }
 
-               
+
             }
             catch (Exception ex)
             {
@@ -108,7 +147,7 @@ namespace Personnel_Management.Api.Controller
                 return StatusCode(500, $"Error updating employee: {ex.Message}");
             }
         }
-    }
 
+    }
 }
 

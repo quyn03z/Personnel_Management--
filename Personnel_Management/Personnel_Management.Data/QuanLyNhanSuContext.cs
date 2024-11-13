@@ -13,6 +13,8 @@ public partial class QuanLyNhanSuContext : DbContext
     {
     }
 
+    public virtual DbSet<LichNghi> LichNghis { get; set; }
+
     public virtual DbSet<DiemDanh> DiemDanhs { get; set; }
 
     public virtual DbSet<Luong> Luongs { get; set; }

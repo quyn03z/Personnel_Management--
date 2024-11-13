@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ViewEmployeeListComponent } from '../views/view-employee-list/view-employee-list.component';
+import { ViewEmployeeListComponent } from '../views/manager/view-employee-list/view-employee-list.component';
 import { LoginComponent } from '../views/login/login.component';
 import { AdminComponent } from '../views/admin/admin.component';
 import { ViewEmployeeDetailComponent } from '../views/view-employee-detail/view-employee-detail.component';
@@ -9,6 +9,7 @@ import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesLi
 import { AddEmployeesComponent } from '../views/admin/EmployeesList/Add/addEmployee.component';
 import { EditEmployeesComponent } from '../views/admin/EmployeesList/Edit/editEmployee.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
+import { AttendanceReportComponent } from '../views/manager/attendance-report/attendance-report.component';
 import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
 import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
 
@@ -48,6 +49,11 @@ export const routes: Routes = [
         path: 'updateThuongPhat/:nhanVienId/:thuongPhatId',
         title: 'Cập nhật thưởng phạt',
         component: UpdateThuongPhatComponent
+    },
+    {
+        path: 'attendanceReport/:nhanVienId',
+        title: 'Xem điểm danh nhân viên',
+        component: AttendanceReportComponent
     },
     {
         path: 'admin',
