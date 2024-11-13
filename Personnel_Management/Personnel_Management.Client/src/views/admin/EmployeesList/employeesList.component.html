@@ -1,11 +1,10 @@
 <!-- DataTales Example -->
 <router-outlet></router-outlet>
-<div class="card shadow mb-4" >
+<div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
-        <a class="btn btn-primary" style="background-color: cornflowerblue;" 
-        routerLink="add" routerLinkActive="true"
-        >Add</a>
+        <a class="btn btn-primary" style="background-color: cornflowerblue;" routerLink="add"
+            routerLinkActive="true">Add</a>
     </div>
 
     <div class="card-body">
@@ -21,33 +20,39 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Phòng ban</th>
+                        <th>Active</th>
                         <th></th>
                         <th></th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    @for (e of employeeList; track e.nhanVienId) {
-                    <tr>
-
-                        <td>{{e.nhanVienId}}</td>
-                        <td>{{e.hoTen}}</td>
-                        <td>{{e.ngaySinh}}</td>
-                        <td>{{e.soDienThoai}}</td>
-                        <td>{{e.email}}</td>
-                        <td>{{ getRoleName(e.roleId) }}</td>
-                        <td>{{e.phongBan.tenPhongBan}}</td>
-                        <td>
-                            <button class="btn btn-primary" [routerLink]="['/editEmployee', e.nhanVienId]">Edit</button>
-                        </td>
-                        <td>
+                    <tr *ngFor="let e of employeeList; trackBy: trackByEmployee">
+                      <td [class.banned-row]="e.isBanned"> {{ e.nhanVienId }} </td>
+                      <td [class.banned-row]="e.isBanned"> {{ e.hoTen }} </td>
+                      <td [class.banned-row]="e.isBanned"> {{ e.ngaySinh }} </td>
+                      <td [class.banned-row]="e.isBanned"> {{ e.soDienThoai }} </td>
+                      <td [class.banned-row]="e.isBanned"> {{ e.email }} </td>
+                      <td [class.banned-row]="e.isBanned"> {{ getRoleName(e.roleId) }} </td>
+                      <td [class.banned-row]="e.isBanned"> {{ e.phongBan.tenPhongBan }} </td>
+                      <td [class.banned-row]="e.isBanned"> {{ getActive(e.isBanned) }} </td>
+                      <td [class.banned-row]="e.isBanned">
+                        <button class="btn btn-primary" [routerLink]="['/editEmployee', e.nhanVienId]">Edit</button>
+                      </td>
+                      <td [class.banned-row]="e.isBanned" *ngIf="e.isBanned else notBanned"  >
+                        <button class="btn btn-primary" style="background-color: green;"
+                                (click)="UnbanEmployee(e.nhanVienId)">Unban</button>
+                      </td>
+                      <ng-template #notBanned>
+                        <td [class.banned-row]="e.isBanned">
                             <button class="btn btn-primary" style="background-color: crimson;"
-                                (click)="confirmDeleteEmployee(e.nhanVienId, e.roleId)">Remove</button>
-                        </td>
+                                    (click)="confirmDeleteEmployee(e.nhanVienId, e.roleId)">ban</button>
+                          </td>
+                      </ng-template>
                     </tr>
-                    }
-                </tbody>
+                  </tbody>
             </table>
         </div>
     </div>
 </div>
+

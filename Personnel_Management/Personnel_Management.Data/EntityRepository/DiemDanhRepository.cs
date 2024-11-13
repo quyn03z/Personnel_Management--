@@ -52,7 +52,7 @@ namespace Personnel_Management.Data.EntityRepository
             ILichNghiRepository lichNghiRepository = new LichNghiRepository(_context);
 
             //lay ra danh sach lich nghi
-            var ngayLe = lichNghiRepository.GetAllLichNghi(currentMonth, currentYeat);
+            var ngayLe = lichNghiRepository.GetAllLichNghi2(currentMonth, currentYeat);
             // Duyệt qua tất cả các ngày trong tháng
             DateTime firstDayOfMonth = new DateTime(currentYeat, currentMonth, 1);
             int daysInMonth = DateTime.DaysInMonth(currentYeat, currentMonth);
@@ -104,13 +104,15 @@ namespace Personnel_Management.Data.EntityRepository
         }
 
 
-        public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id, int thang, int nam)
-        {
-            return await _context.DiemDanhs
-                        .Where(d => d.NhanVienId == id
-                        && d.NgayDiemDanh.Month == thang
-                        && d.NgayDiemDanh.Year == nam)
-                        .ToListAsync();
-        }
+		public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id, int thang, int nam)
+		{
+			return await _context.DiemDanhs
+						.Where(d => d.NhanVienId == id
+						&& d.NgayDiemDanh.Month == thang
+						&& d.NgayDiemDanh.Year == nam)
+						.OrderByDescending(d => d.NgayDiemDanh)
+						.ToListAsync();
+		}
+
     }
 }

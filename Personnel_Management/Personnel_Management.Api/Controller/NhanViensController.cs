@@ -109,31 +109,46 @@ namespace Personnel_Management.Api.Controller
                     newManager.RoleId = 2; // Assign as manager
                     _context.NhanViens.Update(newManager);
                 }
-            
 
-            _context.NhanViens.Remove(employee);
+            employee.isBanned = true;
+            employee.RoleId = 3;
+            _context.NhanViens.Update(employee);
             await _context.SaveChangesAsync();
             return NoContent();
         }
+        [HttpDelete("unban/{unbanid}")]
+        public async Task<IActionResult> UnBanEmployee(int unbanid)
+        {
+            var employee = await _context.NhanViens.FindAsync(unbanid);
+
+            if (employee == null)
+                return NotFound(new { message = "Nhân viên không tồn tại." });
+
+            employee.isBanned = false;
+            _context.NhanViens.Update(employee);
+            await _context.SaveChangesAsync();
+
+            return NoContent();  // Trả về NoContent nếu thành công (HTTP 204)
+        }
 
 
-		//[HttpDelete("{id}")]
-		//public async Task<IActionResult> Delete(int id)
-		//{
-		//    try
-		//    {
-		//        await _nhanVienService.DeleteAsync(id);
-		//        return NoContent();
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        // Log the exception
-		//        return StatusCode(500, $"Error deleting employee: {ex.Message}");
-		//    }
-		//}
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    try
+        //    {
+        //        await _nhanVienService.DeleteAsync(id);
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log the exception
+        //        return StatusCode(500, $"Error deleting employee: {ex.Message}");
+        //    }
+        //}
 
 
-		[HttpPut("updateProfileEmployee/{id}")]
+        [HttpPut("updateProfileEmployee/{id}")]
 		public async Task<ActionResult<NhanVienDtto>> UpdateProfileEmployee(int id, [FromBody] NhanVienDtto nhanVienDTO)
 		{
 			var nhanVien = await _nhanVienService.GetByIdAsync(id);

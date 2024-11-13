@@ -54,6 +54,17 @@ export class EmployeesListComponent implements OnInit {
         return 'Unknown';
     }
   }
+  getActive(isBanned: boolean): string {
+    switch (isBanned) {
+      case true:
+        return 'Banned';
+      default:
+        return 'Active';
+    }
+  }
+  trackByEmployee(index: number, employee: any): number {
+    return employee.nhanVienId;
+  }
 
   deleteEmployee(id: number, isManager: boolean, newManagerId?: number): void {
     let url = `https://localhost:7182/api/NhanViens/${id}`;
@@ -75,6 +86,22 @@ export class EmployeesListComponent implements OnInit {
       }
     );
   } 
+  UnbanEmployee(id: number): void {
+    const url = `https://localhost:7182/api/NhanViens/unban/${id}`;
+
+    // Gửi PATCH request tới API
+    this.http.delete(url).subscribe(
+      (response) => {
+        console.log(response);  // In thông tin phản hồi từ server (nếu cần)
+        this.getAllEmployee();  // Gọi lại hàm để làm mới danh sách nhân viên
+        alert('Nhân viên đã được unban.');
+      },
+      (error) => {
+        console.error('Lỗi khi unban nhân viên:', error);
+        alert('Lỗi khi unban nhân viên. Vui lòng thử lại.');
+      }
+    );
+}
   
   confirmDeleteEmployee(id: number, roleId: number): void {
     if (roleId === 2) { // Kiểm tra nếu nhân viên là manager

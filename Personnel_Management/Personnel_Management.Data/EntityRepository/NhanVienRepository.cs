@@ -103,7 +103,9 @@ namespace Personnel_Management.Data.EntityRepository
 
 		public NhanVien Login(string email, string matkhau)
 		{
-			return _context.NhanViens.SingleOrDefault(u => u.Email == email && u.Matkhau == HashPassword(matkhau));
+			return _context.NhanViens.SingleOrDefault(u => u.Email == email 
+                                                        && u.Matkhau == HashPassword(matkhau)
+                                                        && u.isBanned == false);
 		}
 
 		public async Task<NhanVien> GetById(int id)

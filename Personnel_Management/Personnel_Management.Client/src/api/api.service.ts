@@ -88,18 +88,49 @@ export class ApiService {
   }
 
 
+  getAllDiemDanh(thang: number, nam: number){
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+    try {
+      const decodedToken: any = jwt_decode(token);
+      const userId = decodedToken?.NhanVienId;
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+      return this.http.get<any>(`${this.baseUrl}/DiemDanh/GetDiemDanhByNhanVienId/${userId}/${thang}/${nam}`);
+      
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      throw error;
+    }
+
+  }
+
+  diemDanhAPI(data: any): Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/DiemDanh/DiemDanhCoNhanVien`, data);
+  }
+
+
+
+
+
+
+
+
+
+
   
 }
 
 function jwt_decode(token: string): any {
   try {
-    // Split the token into its parts
+    
     const parts = token.split('.');
     if (parts.length !== 3) {
       throw new Error('Invalid JWT token format');
     }
-
-    // Decode the payload (second part of the token)
     const payload = parts[1];
     const decodedPayload = atob(payload);
     return JSON.parse(decodedPayload); 
