@@ -47,7 +47,7 @@ namespace Personnel_Management.Business.NhanVienService
                 // Phòng ban đã có nhân viên, gán RoleId là 1 (Employee)
                 nhanVien.RoleId = 3 ;
             }
-
+			nhanVien.Matkhau = HashPassword(nhanVien.Matkhau);
             await _nhanVienRepository.AddNhanVienAsync(nhanVien);
             return nhanVien;
         }
