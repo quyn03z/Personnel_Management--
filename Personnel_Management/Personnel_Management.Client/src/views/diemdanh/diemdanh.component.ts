@@ -93,10 +93,6 @@ export class DiemdanhComponent implements OnInit {
        }
       }
     );
-
-
-
-
   }
 
   selectedDate: Date | null = null;
@@ -108,9 +104,8 @@ export class DiemdanhComponent implements OnInit {
 
     this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
       (response) => {
-        console.log('Raw API response:', response);
+        console.log('Raw API response Select:', response);
         this.attendanceRecords = response?.$values || [];
-        
       },
       (error) => {
         if (error.status === 404) {
@@ -123,6 +118,7 @@ export class DiemdanhComponent implements OnInit {
     );
 
   }
+ 
 
 
   onDiemDanh(): void {
