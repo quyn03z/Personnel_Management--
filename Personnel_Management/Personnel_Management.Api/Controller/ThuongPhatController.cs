@@ -30,7 +30,7 @@ namespace Personnel_Management.Api.Controller
             //get tong phat cua nhan vien trong thang
             var tongPhat = _thuongPhatRepository.GetTongPhatThang(currentMonth,currentYear, nhanVienId);
 
-            var luongCoBan = _thuongPhatRepository.GetLuongCoBan(nhanVienId).LuongCoBan;
+            var luongCoBan = _thuongPhatRepository.GetLuongCoBan(nhanVienId)?.LuongCoBan ?? 0;
             return Ok(new
             {
                 DanhSachThuongPhat = list,

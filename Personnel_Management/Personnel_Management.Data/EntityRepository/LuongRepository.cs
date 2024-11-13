@@ -35,5 +35,16 @@ namespace Personnel_Management.Data.EntityRepository
         {
             return await _context.Luongs.FindAsync(id);
         }
+
+        public decimal GetLuongCoBanByNhanVienId(int nhanVienid)
+        {
+            decimal luongCoBan = 0;
+            var luong = _context.Luongs.FirstOrDefault(l => l.NhanVien.NhanVienId == nhanVienid);
+            if (luong != null)
+            {
+                luongCoBan = luong.LuongCoBan;
+            }
+            return luongCoBan;
+        }
     }
 }

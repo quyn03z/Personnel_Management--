@@ -14,21 +14,18 @@
                                             <th>Ngày sinh</th>
                                             <th>Số điện thoại</th>
                                             <th>Phòng ban</th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for (e of employeeList; track e.nhanVienId) {
                                             <tr [routerLink]="['/viewEmployeeDetail', e.nhanVienId]" routerLinkActive="active" style="cursor: pointer;">
                                                 
-                                                <td>{{e.nhanVienId}}</td>
-                                                <td>{{e.hoTen}}</td>
-                                                <td>{{e.ngaySinh}}</td>
-                                                <td>{{e.soDienThoai}}</td>
-                                                <td>{{e.phongBan.tenPhongBan}}</td>
-                                                <td>
-                                                    <button>Edit</button>
-                                                </td>
+                                                <td>{{e?.nhanVienId}}</td>
+                                                <td>{{e?.hoTen}}</td>
+                                                <td>{{e?.ngaySinh}}</td>
+                                                <td>{{e?.soDienThoai}}</td>
+                                                <td>{{e?.email}}</td>
+                                                <td>{{e.phongBan?.tenPhongBan}}</td>
                                             </tr>
                                         }
                                         

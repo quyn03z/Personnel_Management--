@@ -1,7 +1,7 @@
 
 
 import { RouterOutlet } from '@angular/router';
-import { ViewEmployeeListComponent } from "../view-employee-list/view-employee-list.component";
+import { ViewEmployeeListComponent } from '../manager/view-employee-list/view-employee-list.component';
 import { EmployeesListComponent } from "./EmployeesList/employeesList.component";
 
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';

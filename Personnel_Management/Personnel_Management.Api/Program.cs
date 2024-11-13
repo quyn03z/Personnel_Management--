@@ -44,6 +44,9 @@ public class Program
         builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         builder.Services.AddScoped<IDepartmentService, DepartmentService>();
         builder.Services.AddControllers();
+		builder.Services.AddScoped<IAuthService, AuthService>();
+		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();
+		builder.Services.AddScoped<ILichNghiRepository, LichNghiRepository>();
 
 
         // Authentication

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ViewEmployeeListComponent } from '../views/view-employee-list/view-employee-list.component';
+import { ViewEmployeeListComponent } from '../views/manager/view-employee-list/view-employee-list.component';
 import { LoginComponent } from '../views/login/login.component';
 import { AdminComponent } from '../views/admin/admin.component';
 import { ViewEmployeeDetailComponent } from '../views/view-employee-detail/view-employee-detail.component';
@@ -7,6 +7,7 @@ import { CreateThuongPhatComponent } from '../views/ThuongPhatService/create-thu
 import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thuong-phat/update-thuong-phat.component';
 import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
+import { AttendanceReportComponent } from '../views/manager/attendance-report/attendance-report.component';
 export const routes: Routes = [
     {
         path: '',
@@ -39,6 +40,11 @@ export const routes: Routes = [
         component: UpdateThuongPhatComponent
     },
     {
+        path: 'attendanceReport/:nhanVienId',
+        title: 'Xem điểm danh nhân viên',
+        component: AttendanceReportComponent
+    },
+    {
         path: 'admin',
         title: 'admin',
         component: AdminComponent,
@@ -55,4 +61,5 @@ export const routes: Routes = [
             }
         ] 
     }
+    
 ];

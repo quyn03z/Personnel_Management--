@@ -1,8 +1,12 @@
 <div class="container" style="width: 100%;">
     <div class="profile-section" >
         <div class="profile-picture" style="margin-bottom: 200px;">
-            <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">           
-           
+            @if (employee?.avatar == null) {
+                <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">
+            }
+            @else {
+                <img src="{{employee?.avatar}}" alt="Profile Picture">
+            }
         </div>
         <div class="rewards-penalties" style="margin-top: 40px;">
             <h3>Danh Sách Thưởng/Phạt</h3>
@@ -22,7 +26,7 @@
                         <tr>
                             <td>{{tp.ngay}}</td>
                             <td>{{tp.loai}}</td>
-                            <td>{{tp.soTien}}</td>
+                            <td>{{(tp.soTien | currency:'VND':'symbol':'1.0-0')?.replace('₫', '') + '₫'}}</td>
                             <td>{{tp.ghiChu}}</td>
                             <td class="action-buttons" style="text-align: center;">
                                 <button style="color: #4e73df;" [routerLink]="['/updateThuongPhat', employee.nhanVienId, tp.thuongPhatId]" routerLinkActive="active">
@@ -63,16 +67,22 @@
             <label>Phòng ban</label>
             <input type="text" readonly value="{{employee?.phongBan.tenPhongBan}}">
 
-            <label>Lương cơ bản</label>
-            <input type="text" readonly value="{{luongCoBan}}VND">
+            <label>Lương ước tính (đến {{today}})</label>
+            <input type="text" readonly value="{{(luong?.luongThucTe | currency:'VND':'symbol':'1.0-0')?.replace('₫', '') + '₫'}}">
 
             <label>Thưởng</label>
-            <input type="text" readonly value="{{tongThuong}}VND">
+            <input type="text" readonly value="{{(luong?.tongThuong | currency:'VND':'symbol':'1.0-0')?.replace('₫', '') + '₫'}}">
 
             <label>Phạt</label>
-            <input type="text" readonly value="{{tongPhat}}VND">
+            <input type="text" readonly  [value]="(luong?.tongPhat | currency:'VND':'symbol':'1.0-0')?.replace('₫', '') + 'đ'">
 
-            <button [routerLink]="['/createThuongPhat', employee.nhanVienId]"routerLinkActive="active">Thêm thưởng phạt</button>
+            <label>Điểm danh</label>
+            <div class="text-box" (click)="btnDiemDanh()">
+                {{luong?.soNgayDiLam}}/{{luong?.ngayCongChuan}} Ngày
+                <i style="margin-left: auto; color: #b1b3b8;" class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <button [routerLink]="['/createThuongPhat', employee?.nhanVienId]"routerLinkActive="active">Thêm thưởng phạt</button>
         </div>
     </div>
 </div>
