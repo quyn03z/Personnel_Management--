@@ -16,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AdminComponent {
   isAdminDashboard: boolean = true;
-  chartData!: ChartData<'bar'>; 
+  chartData!: ChartData<'pie'>; 
   chartOptions: any = {
     responsive: true,
   };
@@ -39,13 +39,16 @@ export class AdminComponent {
       )
       .subscribe({
         next: data => {
+          const colors = data.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
+          const borderColors = colors.map(color => color.replace('0.5', '1')); // Đổi opacity cho borderColor
+
           this.chartData = {
             labels: data.map(item => item.tenPhongBan),
             datasets: [{
               label: 'Số lượng nhân viên',
               data: data.map(item => item.totalNhanVien),
-              backgroundColor: 'rgba(75, 192, 192, 0.5)',
-              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: colors,
+              borderColor: borderColors,
               borderWidth: 1
             }]
           };
