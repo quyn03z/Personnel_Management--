@@ -7,23 +7,20 @@
       </button>
     </div>
     <div class="card-body">
-      <div class="table-responsive">
-        <table>
-          <div class="">
-            <span>Tên phòng ban</span>
-            <input type="text" [(ngModel)]="tenPhongBan" />
-          </div>
-  
-          <div class="">
-            <span>Mô tả</span>
-            <input type="text" [(ngModel)]="moTa" />
-          </div>
-  
-          <button class="btn btn-primary" style="background-color: deepskyblue;" (click)="onSubmit()">
-            Thêm Phòng Ban
-          </button>
-        </table>
+      <div class="form-container">
+        <div class="form-group">
+          <label for="tenPhongBan">Tên phòng ban</label>
+          <input type="text" id="tenPhongBan" [(ngModel)]="tenPhongBan" />
+        </div>
+    
+        <div class="form-group">
+          <label for="moTa">Mô tả</label>
+          <input type="text" id="moTa" [(ngModel)]="moTa" />
+        </div>
+    
+        <button class="btn-submit" (click)="onSubmit()">Thêm Phòng Ban</button>
       </div>
     </div>
+    
   </div>
   
