@@ -47,15 +47,13 @@ export class ProfileComponent implements OnInit {
     if (token) {
       try {
         const decodedToken: any = jwt_decode(token);
-        console.log('Decoded Token:', decodedToken); // Check token structure
-
-        // Extract RoleId and save it to localStorage
+        console.log('Decoded Token:', decodedToken);
         if (decodedToken && decodedToken.RoleId) {
-          localStorage.setItem('roleId', decodedToken.RoleId); // Store RoleId separately
+          localStorage.setItem('roleId', decodedToken.RoleId);
           console.log('RoleId saved to localStorage:', decodedToken.RoleId);
         } else {
           console.warn('RoleId not found in token');
-          localStorage.setItem('roleId', '0'); // Default if RoleId is missing
+          localStorage.setItem('roleId', '0');
         }
 
       } catch (error) {
@@ -136,14 +134,18 @@ export class ProfileComponent implements OnInit {
   previewImage(event: any) {
     const file = event.target.files[0];
     if (file) {
+      console.log("Tên của ảnh:", file.name);
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.avatarBase64 = e.target.result; // Store base64 string for preview
+        this.avatarBase64 = e.target.result;
+        if (this.avatarBase64) {
+          this.nhanVienProfileObj.avatar = this.avatarBase64;
+        }
       };
       reader.readAsDataURL(file);
-      this.nhanVienProfileObj.avatar = file.name; // Set only the filename for the avatar
     }
   }
+
 
 
   changePasswordObj = {
@@ -183,13 +185,10 @@ export class ProfileComponent implements OnInit {
 
 function jwt_decode(token: string): any {
   try {
-    // Split the token into its parts
     const parts = token.split('.');
     if (parts.length !== 3) {
       throw new Error('Invalid JWT token format');
     }
-
-    // Decode the payload (second part of the token)
     const payload = parts[1];
     const decodedPayload = atob(payload);
     return JSON.parse(decodedPayload);

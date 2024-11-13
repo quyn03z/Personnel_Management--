@@ -112,7 +112,9 @@ export class AuthService {
     return this.apiService.checkNgayDiemDanhAPI(ngay,thang,nam);
   }
 
-  
+  upLoadPhoto(file: File){
+    return this.apiService.upLoadFileAPI(file);
+  }
 
 
 }
