@@ -116,7 +116,7 @@ namespace Personnel_Management.Api.Controller
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        [HttpPatch("unban/{unbanid}")]
+        [HttpDelete("unban/{unbanid}")]
         public async Task<IActionResult> UnBanEmployee(int unbanid)
         {
             var employee = await _context.NhanViens.FindAsync(unbanid);

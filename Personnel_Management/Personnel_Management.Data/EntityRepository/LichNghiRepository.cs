@@ -9,6 +9,12 @@ public class LichNghiRepository : ILichNghiRepository
         _context = context;
     }
 
+    public List<DateTime> GetAllLichNghi2(int currentMonth, int currentYear)
+    {
+        List<DateTime> list = _context.LichNghis.Where(ln => ln.Ngay.Month == currentMonth
+                                            && ln.Ngay.Year == currentYear).Select(ln => ln.Ngay).ToList();
+        return list;
+    }
     // Lấy tất cả lịch nghỉ trong tháng với ngày và lý do
     public List<LichNghi> GetAllLichNghi(int currentMonth, int currentYear)
     {
