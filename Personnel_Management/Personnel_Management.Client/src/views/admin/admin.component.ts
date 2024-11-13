@@ -1,11 +1,13 @@
-import { RouterOutlet, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { RouterOutlet, Router, ActivatedRoute } from '@angular/router';
+import { AfterViewInit,Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartData, ChartOptions } from 'chart.js'; 
 import { Chart, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { ViewEmployeeListComponent } from '../manager/view-employee-list/view-employee-list.component';
+import { EmployeesListComponent } from "./EmployeesList/employeesList.component";
 
 @Component({
   selector: 'app-admin',

@@ -33,6 +33,11 @@ body {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.profile-section h3 {
+    color: #4e73df;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
 
 .profile-picture {
     text-align: center;
@@ -45,6 +50,11 @@ body {
     height: 200px;
     border-radius: 50%;
     margin-bottom: 5px;
+}
+.profile-picture p {
+    font-size: 25px;
+    color: #858796;
+    margin-bottom: 0;
 }
 
 .profile-picture button {

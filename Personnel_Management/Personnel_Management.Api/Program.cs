@@ -58,6 +58,8 @@ public class Program
 		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();
 		builder.Services.AddControllers();
 		builder.Services.AddScoped<IAuthService, AuthService>();
+		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();
+		builder.Services.AddScoped<ILichNghiRepository, LichNghiRepository>();
 
 
 		// Authentication

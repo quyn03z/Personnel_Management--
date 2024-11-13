@@ -1,8 +1,16 @@
 <div class="container" style="width: 100%;">
     <div class="profile-section" >
         <div class="profile-picture" style="margin-bottom: 200px;">
-            <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">           
-            <h2>ID: {{employee?.nhanVienId}} -{{employee?.hoTen}}</h2>
+            @if (employee.avatar == null) {
+                <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">
+            }
+            @else {
+                <img src="{{employee?.avatar}}" alt="Profile Picture">
+            }           
+            <h3>ID: {{employee?.nhanVienId}} - {{employee?.hoTen}}</h3>
+            <p style="font-size: 25px;
+            color: #858796;
+            margin-bottom: 0;">{{employee?.phongBan.tenPhongBan}}</p>
         </div>
         
     </div>
@@ -14,7 +22,7 @@
             <input type="date" name="ngay" [(ngModel)]="updateThuongPhat.ngay" >
 
             <label>Số tiền</label>
-            <input type="text" name="soTien" [(ngModel)]="updateThuongPhat.soTien" >
+            <input type="number" name="soTien" [(ngModel)]="updateThuongPhat.soTien" >
 
             <label for="loai">Loại:</label>
             <select id="loai" name="loai" [(ngModel)]="updateThuongPhat.loai">
