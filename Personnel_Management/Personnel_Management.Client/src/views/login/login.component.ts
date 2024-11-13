@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit{
   onLogin() { 
     this.authService.login(this.loginObj.email, this.loginObj.matKhau).subscribe(
       response => {
-        // Nếu đăng nhập thành công, điều hướng đến trang Home
         this.login.emit();
         this.router.navigate(['/viewEmployeeList']);
       },

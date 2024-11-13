@@ -1,8 +1,13 @@
 <!-- DataTales Example -->
+ <router-outlet></router-outlet>
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Department</h6>
-    </div>
+    <div class="card shadow mb-4" >
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Department</h6>
+            <a class="btn btn-primary" style="background-color: cornflowerblue;" 
+            routerLink="add-department" routerLinkActive="true"
+            >Add</a>
+        </div>
     <div class="card-body">
         <div class="table-responsive">
             <table datatable [dtOptions]="dtoptions" [dtTrigger]="dttrigger" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -18,12 +23,11 @@
                 <tbody>
                     @for (e of departmentList; track e.phongBanId) {
                         <tr>
-                            
                             <td>{{e.phongBanId}}</td>
                             <td>{{e.tenPhongBan}}</td>
                             <td>{{e.moTa}}</td>
                             <td>
-                                <a href="UpdateDepartment.html" class="buttonDe">Edit</a>
+                                <button class="buttonDe" (click)="editDepartment(e.phongBanId)">Edit</button>
                                 <style>
                                     .buttonDe {
                                       display: inline-block;
@@ -44,11 +48,10 @@
                                   </style>
                             </td>
                             <td> 
-                                <a class="buttonDe">Delate</a>
+                                <button class="buttonDe" (click)="deleteDepartment(e.phongBanId)">Delete</button>
                             </td>
                         </tr>
                     }
-                    
                 </tbody>
             </table>
         </div>

@@ -28,6 +28,25 @@ namespace Personnel_Management.Api.Controller
             _thuongPhatReopository = thuongPhatRepository;
             _luongRepository = luongRepository;
         }
+        [HttpGet("{nhanVienId}")]
+        public async Task<IActionResult> GetLuongByNhanVienId(int nhanVienId)
+        {
+            var nhanVien = await _nhanVienService.GetByIdAsync(nhanVienId);
+            if (nhanVien == null)
+            {
+                return NotFound($"Nhân viên với ID {nhanVienId} không tồn tại.");
+            }
+
+            try
+            {
+               var luong = await _luongService.GetByIdAsync(nhanVienId);
+                return Ok(luong);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Lỗi thêm lương: {ex.Message}");
+            }
+        }
 
         [HttpPost("{nhanVienId}")]
         public async Task<IActionResult> AddLuongForNhanVien(int nhanVienId, [FromBody] Luong luong)
@@ -87,7 +106,46 @@ namespace Personnel_Management.Api.Controller
                 LuongThucTe = luongThucTe
             });
         }
-    }
+        
+        [HttpPut("{nhanVienId}")]
+        public async Task<IActionResult> Update(int nhanVienId, Luong luong)
+        {
+            var nhanVien = await _nhanVienService.GetByIdAsync(nhanVienId);
+            if (nhanVien == null)
+            {
+                return NotFound($"Nhân viên với ID {nhanVienId} không tồn tại.");
+            }
 
+            if (nhanVienId != luong.NhanVienId)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var existingLuong = await _luongService.GetByIdAsync(luong.NhanVienId);
+
+                if (existingLuong != null)
+                {
+                    await _luongService.UpdateAsync(luong);
+                    return NoContent();
+
+                }
+                else
+                {
+                    luong.NhanVienId = nhanVienId;
+                    await _luongService.AddAsync(luong);
+                    return Ok(luong);
+                }
+
+               
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, $"Error updating employee: {ex.Message}");
+            }
+        }
+  
 }
 

@@ -1,0 +1,83 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+        <button class="btn btn-primary" style="background-color: cornflowerblue;"
+        [routerLink]="['/admin/employeesList']"
+        routerLinkActive="true"
+        >Back</button>
+    </div>
+    <div class="card-body">
+      <div class="container">
+          <div class="form-row">
+              <label class="col-md-3 col-form-label">Tên nhân viên</label>
+              <div class="col-md-9">
+                  <input type="text" class="form-control" [(ngModel)]="hoTen">
+              </div>
+          </div>
+          <div class="form-row">
+              <label class="col-md-3 col-form-label">Ngày sinh</label>
+              <div class="col-md-9">
+                  <input type="date" class="form-control" [(ngModel)]="ngaySinh">
+              </div>
+          </div>
+          <div class="form-row">
+              <label class="col-md-3 col-form-label">Địa chỉ</label>
+              <div class="col-md-9">
+                  <input type="text" class="form-control" [(ngModel)]="diaChi">
+              </div>
+          </div>
+          <div class="form-row">
+              <label class="col-md-3 col-form-label">Số điện thoại</label>
+              <div class="col-md-9">
+                  <input type="text" class="form-control" [(ngModel)]="soDienThoai">
+              </div>
+          </div>
+          <div class="form-row">
+              <label class="col-md-3 col-form-label">Email</label>
+              <div class="col-md-9">
+                  <input type="email" class="form-control" [(ngModel)]="email">
+              </div>
+          </div>
+          <div class="form-row">
+              <label class="col-md-3 col-form-label">Mật khẩu</label>
+              <div class="col-md-9">
+                  <input type="text" class="form-control" [(ngModel)]="matkhau">
+              </div>
+          </div>
+          <div class="form-row">
+              <label class="col-md-3 col-form-label">Phòng ban</label>
+              <div class="col-md-9">
+                  <select [(ngModel)]="selectedDepartment" class="form-control">
+                      <option *ngFor="let department of departments" [value]="department.phongBanId">
+                          {{ department.tenPhongBan }}
+                      </option>
+                  </select>
+              </div>
+          </div>
+          <button class="btn btn-primary mt-3" style="background-color: cornflowerblue; width: 150px; margin: 0 auto; display: block;"
+           (click)="onSubmit()">Thêm Nhân Viên</button>
+      </div>
+  </div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: flex;
+    margin-bottom: 15px; /* Khoảng cách giữa các ô */
+}
+
+.col-md-3 {
+    flex: 0 0 25%; /* 3/12 */
+    text-align: right;
+    padding-right: 10px;
+}
+
+.col-md-9 {
+    flex: 0 0 50%; /* 9/12 */
+}
+</style>

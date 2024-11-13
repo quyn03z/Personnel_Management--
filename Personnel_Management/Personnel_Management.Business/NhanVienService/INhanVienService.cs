@@ -18,6 +18,12 @@ namespace Personnel_Management.Business.NhanVienService
         Task<NhanVien> AddAsync(NhanVien nhanVien);
         Task UpdateAsync(NhanVien nhanVien);
 
+		Task<NhanVienDtto> UpdateProfileEmployee(int id, NhanVienDtto nhanVienDTO);
+
+		Task<NhanVienDtto> GetNhanVienById(int id);
+
+		Task<bool> VerifyPasswordAsync(NhanVien nhanVien, string oldPassword);
+		Task<bool> ChangePasswordAsync(int id, string newPassword);
 
 	}
 

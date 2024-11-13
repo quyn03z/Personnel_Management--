@@ -6,8 +6,18 @@ import { ViewEmployeeDetailComponent } from '../views/view-employee-detail/view-
 import { CreateThuongPhatComponent } from '../views/ThuongPhatService/create-thuong-phat/create-thuong-phat.component';
 import { UpdateThuongPhatComponent } from '../views/ThuongPhatService/update-thuong-phat/update-thuong-phat.component';
 import { EmployeesListComponent } from '../views/admin/EmployeesList/employeesList.component';
+import { AddEmployeesComponent } from '../views/admin/EmployeesList/Add/addEmployee.component';
+import { EditEmployeesComponent } from '../views/admin/EmployeesList/Edit/editEmployee.component';
 import { DeparmentListComponent } from '../views/admin/DepartmentList/deparment-list.component';
 import { AttendanceReportComponent } from '../views/manager/attendance-report/attendance-report.component';
+import { ForgotPasswordComponent } from '../views/forgot-password/forgot-password.component';
+import { ConfirmOtpComponent } from '../views/confirm-otp/confirm-otp.component';
+
+import { ChangePasswordComponent } from '../views/change-password/change-password.component';
+import { ProfileComponent } from '../views/profile/profile.component';
+import { AddDepartmentComponent } from '../views/admin/DepartmentList/add-department/add-department.component';
+import { EditDepartmentComponent } from '../views/admin/DepartmentList/edit-department/edit-department.component';
+import { DiemdanhComponent } from '../views/diemdanh/diemdanh.component';
 export const routes: Routes = [
     {
         path: '',
@@ -52,14 +62,47 @@ export const routes: Routes = [
             {
                 path: 'employeesList',
                 title: 'employeesList',
-                component: EmployeesListComponent
+                component: EmployeesListComponent,
+                children : [
+                    {
+                        path: 'add',
+                        title: 'add',
+                        component: AddEmployeesComponent
+                    }
+                ] 
             },
             {
                 path: 'departmentList',
                 title: 'departmentList',
-                component: DeparmentListComponent
+                component: DeparmentListComponent,
+                children : [
+                    {
+                        path: 'add-department',
+                        title: 'AddDepartment',
+                        component: AddDepartmentComponent,
+                    },
+                    {
+                        path: 'edit-department/:id',
+                        title: 'Chỉnh sửa phòng ban',
+                        component: EditDepartmentComponent
+                    },
+                ]
             }
         ] 
-    }
-    
+    },
+    {
+        path: 'forgot-password',
+        title: 'Forgot-Password',
+        component: ForgotPasswordComponent
+    }, 
+    { path: 'confirm-otp', title: 'Confirm-OTP', component: ConfirmOtpComponent },
+    { path: 'change-password', title: 'Change-Paassword', component: ChangePasswordComponent },
+    { path: 'profile', title: 'Profile', component: ProfileComponent },
+    {
+        path: 'editEmployee/:id',
+        title: 'Edit',
+        component: EditEmployeesComponent
+    },
+    { path: 'diemdanh', title: 'DiemDanh', component: DiemdanhComponent },
+
 ];

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Personnel_Management.Business.AuthService;
+using Personnel_Management.Business.DiemDanhService;
 using Personnel_Management.Business.LuongService;
 using Personnel_Management.Business.NhanVienService;
 using Personnel_Management.Data.BaseRepository;
@@ -53,7 +54,9 @@ public class Program
         builder.Services.AddScoped<ILuongRepository, LuongRepository>();
         builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-        builder.Services.AddControllers();
+		builder.Services.AddScoped<IDiemDanhService, DiemDanhService>();
+		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();
+		builder.Services.AddControllers();
 		builder.Services.AddScoped<IAuthService, AuthService>();
 		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();
 		builder.Services.AddScoped<ILichNghiRepository, LichNghiRepository>();
@@ -78,21 +81,6 @@ public class Program
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
             };
         });
-
-
-
-		builder.Services.AddSwaggerGen(options =>
-		{
-			options.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
-			{
-				Name = "Cookie",
-				Type = SecuritySchemeType.ApiKey,
-				In = ParameterLocation.Header,
-				Description = "Session-based authentication using cookies"
-			});
-
-			options.OperationFilter<AddRequiredHeadersParameter>(); // To add headers and cookies if necessary
-		});
 
 
 
@@ -136,24 +124,3 @@ public class Program
     }
 }
 
-public class AddRequiredHeadersParameter : IOperationFilter
-{
-	public void Apply(OpenApiOperation operation, OperationFilterContext context)
-	{
-		if (operation.Parameters == null)
-			operation.Parameters = new List<OpenApiParameter>();
-
-		// Adds a Cookie header to Swagger requests to handle session-based auth
-		operation.Parameters.Add(new OpenApiParameter
-		{
-			Name = "Cookie",
-			In = ParameterLocation.Header,
-			Description = "Session-based authentication using cookies",
-			Required = false,
-			Schema = new OpenApiSchema
-			{
-				Type = "string"
-			}
-		});
-	}
-}

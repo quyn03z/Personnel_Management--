@@ -21,9 +21,12 @@ public class DepartmentController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetDepartmentById(int id)
     {
+        if (id <= 0)
+            return BadRequest("ID không hợp lệ.");
+
         var department = await _departmentService.GetDepartmentByIdAsync(id);
         if (department == null)
-            return NotFound();
+            return NotFound(new { message = "Không tìm thấy phòng ban." });
 
         return Ok(department);
     }
@@ -42,7 +45,7 @@ public class DepartmentController : ControllerBase
     public async Task<IActionResult> AddDepartment([FromBody] DepartmentDto departmentDto)
     {
         await _departmentService.AddDepartmentAsync(departmentDto);
-        return Ok("Department added successfully.");
+        return Ok();
     }
 
     [HttpPut("{id}")]
@@ -51,7 +54,7 @@ public class DepartmentController : ControllerBase
         try
         {
             await _departmentService.UpdateDepartmentAsync(id, departmentDto);
-            return Ok("Cập nhật thành công.");
+            return Ok();
         }
         catch (KeyNotFoundException ex)
         {
@@ -65,11 +68,16 @@ public class DepartmentController : ControllerBase
         try
         {
             await _departmentService.DeleteDepartmentAsync(id);
-            return Ok("Department deleted.");
+            return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (KeyNotFoundException ex)
         {
             return NotFound(ex.Message);
         }
     }
+
 }

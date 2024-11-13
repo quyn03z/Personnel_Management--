@@ -62,4 +62,31 @@ export class AuthService {
     }
   }
 
+
+  sendMailOTP(data: any) {
+    return this.apiService.sendOtp(data);
+  }
+
+
+  confirmOTP(data: any) {
+    return this.apiService.confirmOtp(data);
+  }
+
+  changeNewPassWord(data: any) {
+    return this.apiService.changePassWord(data);
+  }
+
+  getNhanVien() {
+    return this.apiService.getUserById();
+  }
+
+  updateNewProfile(data: any) {
+    return this.apiService.updateProfile(data);
+  }
+
+  changePassWordProfileNew(data: any){
+    return this.apiService.changePassWordProfile(data);
+  }
+
+
 }
