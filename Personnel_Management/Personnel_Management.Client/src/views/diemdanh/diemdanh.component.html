@@ -25,9 +25,22 @@
 
     <br>
 
-       <div class="button-container">
+    <form (ngSubmit)="onDiemDanh()">
+      <div class="button-container">
         <button class="btn btn-primary profile-button" type="submit">Điểm Danh</button>
       </div>
+    </form>
+    
+    <ng-template #attendanceDialog let-data>
+      <h2 mat-dialog-title>Điểm Danh</h2>
+      <mat-dialog-content>
+        <p>Ngày Điểm Danh: {{ data.date | date: 'fullDate' }}</p>
+        <p>Trạng Thái: {{ data.status ? 'Có Mặt' : 'Vắng' }}</p>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Đóng</button>
+      </mat-dialog-actions>
+    </ng-template>
 
     <ng-template #noRecords>
       <p>No attendance records found for the selected period.</p>

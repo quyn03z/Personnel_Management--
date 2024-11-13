@@ -31,6 +31,14 @@ export class AuthService {
       tap(response => {
         if (response.token) {
           localStorage.setItem("token", response.token);
+          const token = localStorage.getItem('token');
+          if (token) {
+            const decodedToken: any = jwt_decode(token);
+            const PhongBanId = decodedToken?.PhongBanId;
+            localStorage.setItem("phongBanId",PhongBanId);
+          } else {
+            console.error('Token not found in localStorage.');
+          }
         } else {
           console.error('Không nhận được token hợp lệ từ phản hồi.');
         }
@@ -94,5 +102,27 @@ export class AuthService {
   }
 
 
+  diemDanhNhanVien(data: any){
+    return this.apiService.diemDanhAPI(data);
+  }
+  
 
+
+}
+
+
+function jwt_decode(token: string): any {
+  try {
+    
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('Invalid JWT token format');
+    }
+    const payload = parts[1];
+    const decodedPayload = atob(payload);
+    return JSON.parse(decodedPayload); 
+  } catch (error) {
+    console.error('Failed to decode JWT:', error);
+    return null;
+  }
 }

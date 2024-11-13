@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit{
         this.router.navigate(['/viewEmployeeList']);
       },
       error => {
-        this.loginFailed = true; // Hiển thị thông báo đăng nhập thất bại
+        this.loginFailed = true;
         console.error('Lỗi khi đăng nhập', error);
       }
     );

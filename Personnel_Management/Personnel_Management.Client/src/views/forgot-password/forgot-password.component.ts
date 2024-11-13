@@ -34,7 +34,7 @@ export class ForgotPasswordComponent {
         this.authService.sendMailOTP(this.emailSendOtp).subscribe({
             next: (data: any) => {
                 this.errorMessage = '';
-                if (data && data.token) { // Use `data.token` to match the API response
+                if (data && data.token) { 
                     localStorage.setItem('otpToken', data.token);
                 }
                 alert('Send OTP successful! Redirecting to Confirm OTP.');

@@ -1,24 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MatDialog,MatDialogModule  } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-diemdanh',
   standalone: true,
-  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule],
+  imports: [MatDatepickerModule, CommonModule, MatInputModule, MatNativeDateModule,MatDialogModule],
   templateUrl: './diemdanh.component.html',
   styleUrls: ['./diemdanh.component.scss'],
 })
 export class DiemdanhComponent implements OnInit {
 
+  @ViewChild('attendanceDialog') attendanceDialogTemplate!: TemplateRef<any>;
+  
   attendanceRecords: any[] = [];
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService,private dialog: MatDialog) { }
 
+  currentAttendance = {
+    date: new Date(),
+    status: true
+  };
 
 
   ngOnInit(): void {
@@ -27,7 +34,6 @@ export class DiemdanhComponent implements OnInit {
     const nam = currentDate.getFullYear();
 
     console.log(`Fetching attendance data for month: ${thang}, year: ${nam}`);
-
     this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
       (response) => {
         console.log('Raw API response:', response);
@@ -47,10 +53,7 @@ export class DiemdanhComponent implements OnInit {
     );
   }
 
-
-
   selectedDate: Date | null = null;
-
 
   onDateSelected(event: Date): void {
     this.selectedDate = event;
@@ -79,7 +82,14 @@ export class DiemdanhComponent implements OnInit {
   }
 
 
-
+  onDiemDanh(): void {
+    this.dialog.open(this.attendanceDialogTemplate, {
+      data: {
+        date: this.currentAttendance.date,
+        status: this.currentAttendance.status
+      }
+    });
+  }
 
 
 }

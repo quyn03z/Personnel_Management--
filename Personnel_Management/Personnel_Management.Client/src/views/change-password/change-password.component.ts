@@ -29,13 +29,13 @@ export class ChangePasswordComponent implements OnInit {
       this.changePassWordObj.email = storedEmail;
     }
   
-    const token = localStorage.getItem('PasswordResetToken');  // Retrieve token from localStorage
+    const token = localStorage.getItem('PasswordResetToken');  
     if (token) {
       console.log('Token retrieved from localStorage in change-password component:', token);
       this.changePassWordObj.passwordResetToken = token;
     } else {
       this.errorMessage = 'Token not found. Please verify OTP again.';
-      this.router.navigate(['/confirm-otp']); // Redirect if token is missing
+      this.router.navigate(['/confirm-otp']); 
     }
   }
 

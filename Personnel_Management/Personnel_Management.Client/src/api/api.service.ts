@@ -108,7 +108,9 @@ export class ApiService {
 
   }
 
-
+  diemDanhAPI(data: any): Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/DiemDanh/DiemDanhCoNhanVien`, data);
+  }
 
 
 
