@@ -10,7 +10,7 @@ namespace Personnel_Management.Data.EntityRepository
 {
 	public interface IDiemDanhRepository 
 	{
-		Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id);
+		Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id, int thang, int nam);
 
 		Task<DiemDanh> AddDiemDanhNhanVienCo(DiemDanhDTO diemDanh);
 		Task<DiemDanh> AddDiemDanhNhanVienVang(DiemDanhDTO diemDanh);

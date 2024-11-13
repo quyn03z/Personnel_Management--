@@ -19,9 +19,9 @@ namespace Personnel_Management.Api.Controller
 
 
 		[HttpGet("GetDiemDanhByNhanVienId/{id}")]
-		public async Task<ActionResult<IEnumerable<DiemDanh>>> GetDiemDanhByNhanVienId(int id)
+		public async Task<ActionResult<IEnumerable<DiemDanh>>> GetDiemDanhByNhanVienId(int id, int thang, int nam)
 		{
-			var diemDanhList = await _diemDanhService.GetAllDiemDanhNhanVienByIdAsync(id);
+			var diemDanhList = await _diemDanhService.GetAllDiemDanhNhanVienByIdAsync(id,thang,nam);
 
 			if (diemDanhList == null || !diemDanhList.Any())
 			{

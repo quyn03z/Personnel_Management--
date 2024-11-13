@@ -53,10 +53,12 @@ namespace Personnel_Management.Data.EntityRepository
 		}
 
 
-		public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id)
+		public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id, int thang, int nam)
 		{
 			return await _context.DiemDanhs
-						.Where(d => d.NhanVienId == id) 
+						.Where(d => d.NhanVienId == id
+						&& d.NgayDiemDanh.Month == thang
+						&& d.NgayDiemDanh.Year == nam) 
 						.ToListAsync();
 		}
 
