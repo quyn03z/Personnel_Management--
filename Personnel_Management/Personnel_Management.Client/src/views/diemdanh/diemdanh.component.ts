@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-diemdanh',
@@ -11,20 +13,42 @@ import { MatNativeDateModule } from '@angular/material/core';
   templateUrl: './diemdanh.component.html',
   styleUrls: ['./diemdanh.component.scss'],
 })
-export class DiemdanhComponent {
+export class DiemdanhComponent implements OnInit{
+  
+  attendanceRecords: any[] = [];
+
+  constructor(private router: Router, private authService: AuthService) {}
+
+
+
+  ngOnInit(): void {
+    const currentDate = new Date();
+    const thang = currentDate.getMonth() + 1;
+    const nam = currentDate.getFullYear();
+  
+    console.log(`Fetching attendance data for month: ${thang}, year: ${nam}`);
+  
+    this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
+      (response) => {
+        this.attendanceRecords = response;
+        console.log('API response:', this.attendanceRecords);
+      },
+      (error) => {
+        console.error('Error fetching attendance records:', error);
+      }
+    );
+  }
+  
+
   selectedDate: Date | null = null;
 
-  // Sample attendance records
-  attendanceRecords = [
-    { date: new Date(2023, 10, 1), status: 'Present' },
-    { date: new Date(2023, 10, 2), status: 'Absent' },
-    { date: new Date(2023, 10, 3), status: 'Present' },
-    { date: new Date(2023, 10, 4), status: 'Present' },
-    { date: new Date(2023, 10, 5), status: 'Absent' },
-    // Add more records as needed
-  ];
 
   onDateSelected(event: Date): void {
     this.selectedDate = event;
   }
+
+
+
+
+
 }

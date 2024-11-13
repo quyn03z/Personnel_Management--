@@ -89,4 +89,10 @@ export class AuthService {
   }
 
 
+  getDiemDanhNhanVien(thang: number, nam: number){
+    return this.apiService.getAllDiemDanh(thang,nam);
+  }
+
+
+
 }

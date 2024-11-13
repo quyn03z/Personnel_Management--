@@ -88,6 +88,35 @@ export class ApiService {
   }
 
 
+  getAllDiemDanh(thang: number, nam: number){
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+    try {
+      const decodedToken: any = jwt_decode(token);
+      const userId = decodedToken?.NhanVienId;
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+      return this.http.get<any>(`${this.baseUrl}/DiemDanh/GetDiemDanhByNhanVienId/${userId}/${thang}/${nam}`);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      throw error;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   
 }
 

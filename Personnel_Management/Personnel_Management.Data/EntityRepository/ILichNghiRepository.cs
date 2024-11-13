@@ -1,14 +1,8 @@
 ﻿using Personnel_Management.Models.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Personnel_Management.Data.EntityRepository
+public interface ILichNghiRepository
 {
-    public interface ILichNghiRepository
-    {
-        List<DateTime> GetAllLichNghi(int currentMonth, int currentYear);
-    }
+    List<LichNghi> GetAllLichNghi(int currentMonth, int currentYear); // Trả về đối tượng LichNghi
+    void AddLichNghi(LichNghi lichNghi); // Thêm một lịch nghỉ
+    void DeleteLichNghi(int lichNghiId); // Xóa lịch nghỉ theo ID
 }
