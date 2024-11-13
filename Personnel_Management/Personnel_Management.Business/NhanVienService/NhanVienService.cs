@@ -41,7 +41,7 @@ namespace Personnel_Management.Business.NhanVienService
             else
             {
                 // Phòng ban đã có nhân viên, gán RoleId là 1 (Employee)
-                nhanVien.RoleId = 1;
+                nhanVien.RoleId = 3 ;
             }
 
             await _nhanVienRepository.AddNhanVienAsync(nhanVien);
@@ -80,5 +80,13 @@ namespace Personnel_Management.Business.NhanVienService
         {
             throw new NotImplementedException();
         }
+
+
+
+
+      
+
+
+
     }
 }
