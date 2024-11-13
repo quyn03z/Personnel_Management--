@@ -48,7 +48,7 @@ namespace Personnel_Management.Api.Controllers
 			var user = _authService.Login(loginDto.Email, loginDto.MatKhau);
 			if (user == null)
 			{
-				return Unauthorized();
+				return BadRequest("Tài khoản không tồn tại.");
 			}
 
 			// Create JWT token for the user

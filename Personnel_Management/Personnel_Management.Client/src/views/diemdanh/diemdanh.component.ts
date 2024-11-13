@@ -23,12 +23,22 @@ export class DiemdanhComponent implements OnInit{
 
   ngOnInit(): void {
     const currentDate = new Date();
-    const thang = currentDate.getMonth() + 1; 
+    const thang = currentDate.getMonth() + 1;
     const nam = currentDate.getFullYear();
-
-    this.authService.getDiemDanhNhanVien(thang,nam);
-
+  
+    console.log(`Fetching attendance data for month: ${thang}, year: ${nam}`);
+  
+    this.authService.getDiemDanhNhanVien(thang, nam).subscribe(
+      (response) => {
+        this.attendanceRecords = response;
+        console.log('API response:', this.attendanceRecords);
+      },
+      (error) => {
+        console.error('Error fetching attendance records:', error);
+      }
+    );
   }
+  
 
   selectedDate: Date | null = null;
 
