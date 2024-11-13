@@ -19,6 +19,11 @@ namespace Personnel_Management.Data.EntityRepository
         public ThuongPhat AddThuongPhat(ThuongPhatAddModel thuongPhatAdd, int nhanVienId)
         {
             ThuongPhat thuong;
+            NhanVien nhanVien = _context.NhanViens.FirstOrDefault(nv => nv.NhanVienId == nhanVienId && nv.isBanned == false);
+            if (nhanVien == null)
+            {
+                return null;
+            }
             if (!thuongPhatAdd.Loai.Trim().ToLower().Equals("thuong") && !thuongPhatAdd.Loai.Trim().ToLower().Equals("phat"))
             {
                 return null;
@@ -72,7 +77,10 @@ namespace Personnel_Management.Data.EntityRepository
             try
             {
                 list = _context.ThuongPhats
-            .Where(tp => tp.NhanVienId == nhanVienId && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear)
+            .Where(tp => tp.NhanVienId == nhanVienId 
+            && tp.NhanVien.isBanned == false 
+            && tp.Ngay.Month == currentMonth 
+            && tp.Ngay.Year == currentYear)
             .ToList();
                 if (!list.Any())
                 {
@@ -90,7 +98,8 @@ namespace Personnel_Management.Data.EntityRepository
 
         public Luong GetLuongCoBan(int nhanVienId)
         {
-            var luong = _context.Luongs.FirstOrDefault(l => l.NhanVienId == nhanVienId);
+            
+            var luong = _context.Luongs.FirstOrDefault(l => l.NhanVienId == nhanVienId && l.NhanVien.isBanned == false);
 
             return luong;
         }
@@ -106,7 +115,7 @@ namespace Personnel_Management.Data.EntityRepository
             try
             {
                 list = _context.ThuongPhats
-                    .Where(tp => tp.NhanVienId == nhanVienId).Include(tp => tp.NhanVien)
+                    .Where(tp => tp.NhanVienId == nhanVienId && tp.NhanVien.isBanned == false).Include(tp => tp.NhanVien)
                     .ToList();
             }
             catch (Exception ex)
@@ -121,7 +130,7 @@ namespace Personnel_Management.Data.EntityRepository
         public decimal GetTongPhatThang(int currentMonth, int currentYear, int nhanVienId)
         {
             var tongPhat = _context.ThuongPhats
-            .Where(tp => tp.NhanVienId == nhanVienId && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear && tp.Loai.Trim().ToLower() == "phat")
+            .Where(tp => tp.NhanVienId == nhanVienId && tp.NhanVien.isBanned == false && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear && tp.Loai.Trim().ToLower() == "phat")
             .Sum(tp => tp.SoTien);
 
             return tongPhat;
@@ -130,7 +139,7 @@ namespace Personnel_Management.Data.EntityRepository
         public decimal GetTongThuongThang(int currentMonth, int currentYear, int nhanVienId)
         {
             var tongThuong = _context.ThuongPhats
-            .Where(tp => tp.NhanVienId == nhanVienId && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear && tp.Loai.Trim().ToLower() == "thuong")
+            .Where(tp => tp.NhanVienId == nhanVienId && tp.NhanVien.isBanned == false && tp.Ngay.Month == currentMonth && tp.Ngay.Year == currentYear && tp.Loai.Trim().ToLower() == "thuong")
             .Sum(tp => tp.SoTien);
 
             return tongThuong;

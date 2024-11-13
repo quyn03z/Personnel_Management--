@@ -16,15 +16,16 @@ namespace Personnel_Management.Data.EntityRepository
     {
         private readonly QuanLyNhanSuContext _context;
         private readonly IMapper _mapper;
-        public DiemDanhRepository(QuanLyNhanSuContext context, IMapper mapper): base(context)
+        public DiemDanhRepository(QuanLyNhanSuContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
-			_context = context;
+            _context = context;
         }
         public List<DiemDanh> GetAllDiemDanhById(int currentMonth, int currentYear, int nhanVienId)
         {
             var danhSachDiemDanh = _context.DiemDanhs
                 .Where(dd => dd.NhanVienId == nhanVienId &&
+                 dd.NhanVien.isBanned == false &&
                  dd.NgayDiemDanh.Month == currentMonth &&
                  dd.NgayDiemDanh.Year == currentYear &&
                  dd.TrangThai == true)
@@ -37,6 +38,7 @@ namespace Personnel_Management.Data.EntityRepository
         {
             var soNgayDiLam = _context.DiemDanhs
                  .Count(dd => dd.NhanVienId == nhanVienId &&
+                 dd.NhanVien.isBanned == false &&
                  dd.NgayDiemDanh.Month == currentMonth &&
                  dd.NgayDiemDanh.Year == currentYear &&
                  dd.TrangThai == true);
@@ -54,6 +56,7 @@ namespace Personnel_Management.Data.EntityRepository
             // Duyệt qua tất cả các ngày trong tháng
             DateTime firstDayOfMonth = new DateTime(currentYeat, currentMonth, 1);
             int daysInMonth = DateTime.DaysInMonth(currentYeat, currentMonth);
+
             for (int i = 0; i < daysInMonth; i++)
             {
                 DateTime currentDay = firstDayOfMonth.AddDays(i);
@@ -70,44 +73,44 @@ namespace Personnel_Management.Data.EntityRepository
         }
 
         public async Task<DiemDanh> AddDiemDanhNhanVienCo(DiemDanhDTO diemDanhDTO)
-		{
-			var diemDanh = new DiemDanh
-			{
-				NhanVienId = diemDanhDTO.NhanVienId,
-				NgayDiemDanh = diemDanhDTO.NgayDiemDanh,
-				TrangThai = diemDanhDTO.TrangThai,
-				ThoiGianVao = diemDanhDTO.ThoiGianVao,
-				ThoiGianRa = diemDanhDTO.ThoiGianRa,
-			};
+        {
+            var diemDanh = new DiemDanh
+            {
+                NhanVienId = diemDanhDTO.NhanVienId,
+                NgayDiemDanh = diemDanhDTO.NgayDiemDanh,
+                TrangThai = diemDanhDTO.TrangThai,
+                ThoiGianVao = diemDanhDTO.ThoiGianVao,
+                ThoiGianRa = diemDanhDTO.ThoiGianRa,
+            };
 
-			_context.DiemDanhs.Add(diemDanh);
-			await _context.SaveChangesAsync();
-			return diemDanh;
-		}
+            _context.DiemDanhs.Add(diemDanh);
+            await _context.SaveChangesAsync();
+            return diemDanh;
+        }
 
-		public async Task<DiemDanh> AddDiemDanhNhanVienVang(DiemDanhDTO diemDanhDTO)
-		{
-			var diemDanh = new DiemDanh
-			{
-				NhanVienId = diemDanhDTO.NhanVienId,
-				NgayDiemDanh = diemDanhDTO.NgayDiemDanh,
-				TrangThai = diemDanhDTO.TrangThai,
-				LyDoVangMat = diemDanhDTO.LyDoVangMat,
-			};
+        public async Task<DiemDanh> AddDiemDanhNhanVienVang(DiemDanhDTO diemDanhDTO)
+        {
+            var diemDanh = new DiemDanh
+            {
+                NhanVienId = diemDanhDTO.NhanVienId,
+                NgayDiemDanh = diemDanhDTO.NgayDiemDanh,
+                TrangThai = diemDanhDTO.TrangThai,
+                LyDoVangMat = diemDanhDTO.LyDoVangMat,
+            };
 
-			_context.DiemDanhs.Add(diemDanh);
-			await _context.SaveChangesAsync();
-			return diemDanh;
-		}
+            _context.DiemDanhs.Add(diemDanh);
+            await _context.SaveChangesAsync();
+            return diemDanh;
+        }
 
 
-		public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id, int thang, int nam)
-		{
-			return await _context.DiemDanhs
-						.Where(d => d.NhanVienId == id
-						&& d.NgayDiemDanh.Month == thang
-						&& d.NgayDiemDanh.Year == nam) 
-						.ToListAsync();
-		}
+        public async Task<List<DiemDanh>> GetAllDiemDanhNhanVienByIdAsync(int id, int thang, int nam)
+        {
+            return await _context.DiemDanhs
+                        .Where(d => d.NhanVienId == id
+                        && d.NgayDiemDanh.Month == thang
+                        && d.NgayDiemDanh.Year == nam)
+                        .ToListAsync();
+        }
     }
 }

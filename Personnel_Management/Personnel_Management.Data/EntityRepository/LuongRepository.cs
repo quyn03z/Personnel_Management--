@@ -43,8 +43,9 @@ namespace Personnel_Management.Data.EntityRepository
 
         public decimal GetLuongCoBanByNhanVienId(int nhanVienid)
         {
+
             decimal luongCoBan = 0;
-            var luong = _context.Luongs.FirstOrDefault(l => l.NhanVien.NhanVienId == nhanVienid);
+            var luong = _context.Luongs.FirstOrDefault(l => l.NhanVien.NhanVienId == nhanVienid && l.NhanVien.isBanned == false);
             if (luong != null)
             {
                 luongCoBan = luong.LuongCoBan;

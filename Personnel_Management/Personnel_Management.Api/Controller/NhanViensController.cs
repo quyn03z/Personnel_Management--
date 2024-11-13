@@ -31,9 +31,9 @@ namespace Personnel_Management.Api.Controller
         }
 
         [HttpGet("GetAllManagerFunction")]
-        public  IActionResult GetAllManagerFunction()
+        public  IActionResult GetAllManagerFunction(int phongBanId)
         {
-            var nhanViens = _nhanVienRepository.GetAllManagerFunction();
+            var nhanViens = _nhanVienRepository.GetAllManagerFunction(phongBanId);
             return Ok(nhanViens);
         }
 
@@ -49,9 +49,9 @@ namespace Personnel_Management.Api.Controller
         }
 
         [HttpGet("GetByIdManagerFunction")]
-        public IActionResult GetByIdManagerFunction(int id)
+        public IActionResult GetByIdManagerFunction(int id, int phongBanId)
         {
-            var nhanVien =  _nhanVienRepository.GetByIdManagerFunction(id);
+            var nhanVien =  _nhanVienRepository.GetByIdManagerFunction(id,phongBanId);
             if (nhanVien == null)
             {
                 return NotFound();

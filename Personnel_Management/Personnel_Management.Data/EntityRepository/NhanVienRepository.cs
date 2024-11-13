@@ -64,16 +64,13 @@ namespace Personnel_Management.Data.EntityRepository
         }
 
         
-        public List<NhanVien> GetAllManagerFunction()
+        public List<NhanVien> GetAllManagerFunction(int phongBanId)
         {
             List<NhanVien> list = new List<NhanVien>();
             try
             {
-                list = _context.NhanViens.Where(nv => nv.RoleId == 3)
+                list = _context.NhanViens.Where(nv => nv.RoleId == 3 && nv.isBanned == false && nv.PhongBanId == phongBanId)
                     .Include(nv => nv.PhongBan)
-                    .Include(nv => nv.DiemDanhs)
-                    .Include(nv => nv.Luongs)
-                    .Include(nv => nv.ThuongPhats)
                     .ToList();
             }
             catch (Exception e)
@@ -84,17 +81,14 @@ namespace Personnel_Management.Data.EntityRepository
             return list;
         }
 
-        public NhanVien GetByIdManagerFunction(int id)
+        public NhanVien GetByIdManagerFunction(int id, int phongBanId)
         {
             NhanVien nhanVien = null;
             try
             {
                 nhanVien = _context.NhanViens
-        .Where(nv => nv.NhanVienId == id)
+        .Where(nv => nv.NhanVienId == id && nv.isBanned == false && nv.PhongBanId == phongBanId)
         .Include(nv => nv.PhongBan)
-        .Include(nv => nv.DiemDanhs)
-        .Include(nv => nv.Luongs)
-        .Include(nv => nv.ThuongPhats)
         .FirstOrDefault();
             }
             catch (Exception)
