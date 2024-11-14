@@ -42,5 +42,10 @@ export class LoginComponent implements OnInit{
     );
   }
 
+
+
+  imagePath: string | null = null;
+
+
   
 }

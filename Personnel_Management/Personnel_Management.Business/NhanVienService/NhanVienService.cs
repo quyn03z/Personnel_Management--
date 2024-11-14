@@ -151,8 +151,11 @@ namespace Personnel_Management.Business.NhanVienService
 
 			return nhanVienDto;
 		}
-
-		public async Task<bool> VerifyPasswordAsync(NhanVien nhanVien, string oldPassword)
+        public async Task<int> GetTotalEmployeesAsync()
+        {
+            return await _nhanVienRepository.GetQuery().CountAsync();
+        }
+        public async Task<bool> VerifyPasswordAsync(NhanVien nhanVien, string oldPassword)
 		{
 			// Giả sử mật khẩu đã lưu trong cơ sở dữ liệu là phiên bản đã mã hóa của mật khẩu
 			string hashedOldPassword = HashPassword(oldPassword); // Mã hóa mật khẩu cũ để so sánh
@@ -173,6 +176,7 @@ namespace Personnel_Management.Business.NhanVienService
 			await _nhanVienRepository.Update(nhanVien);
 			return true;
 		}
+
 
 		public string HashPassword(string password)
 		{

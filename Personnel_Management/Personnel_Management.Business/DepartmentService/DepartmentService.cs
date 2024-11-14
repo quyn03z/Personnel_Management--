@@ -1,4 +1,5 @@
-﻿using Personnel_Management.Models.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,8 +71,16 @@ public class DepartmentService : IDepartmentService
         await _departmentRepository.DeleteDepartmentAsync(department);
     }
 
+    public async Task<List<TotalNhanVienInPhongBanDto>> GetTopTotalNhanVienInPhongBanAsync(int count)
+    {
+        return await _departmentRepository.GetTopTotalNhanVienInPhongBanAsync(count);
+    }
     public async Task<List<TotalNhanVienInPhongBanDto>> GetTotalNhanVienInPhongBanAsync()
     {
         return await _departmentRepository.GetTotalNhanVienInPhongBanAsync();
+    }
+    public async Task<int> GetTotalDepartmentAsync()
+    {
+        return await _departmentRepository.GetQuery().CountAsync();
     }
 }

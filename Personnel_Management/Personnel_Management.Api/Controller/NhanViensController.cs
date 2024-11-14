@@ -176,11 +176,23 @@ namespace Personnel_Management.Api.Controller
 				return StatusCode(500, new { message = "Đã xảy ra lỗi không xác định.", details = ex.Message });
 			}
 		}
+        [HttpGet("total-employees")]
+        public async Task<IActionResult> GetTotalEmployees()
+        {
+            try
+            {
+                int totalEmployees = await _nhanVienService.GetTotalEmployeesAsync();
+                return Ok(totalEmployees);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
 
 
-
-		[HttpGet("GetById/{id}")]
+        [HttpGet("GetById/{id}")]
 		public async Task<ActionResult<NhanVienDtto>> GetCustomer(int id)
 		{
 			var nhanVien = await _nhanVienService.GetNhanVienById(id);

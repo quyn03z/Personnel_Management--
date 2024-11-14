@@ -1,12 +1,9 @@
 <div class="container" style="width: 100%;">
     <div class="profile-section" >
         <div class="profile-picture" style="margin-bottom: 200px;">
-            @if (employee?.avatar == null) {
-                <img src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7" alt="Profile Picture">
-            }
-            @else {
-                <img src="{{employee?.avatar}}" alt="Profile Picture">
-            }           
+            <img class="img-profile rounded-circle" width="80px" height="100"
+            [src]="'assets' +'/' +employee.avatar">
+                     
             <h3 style="font-size: 30px;">ID: {{employee?.nhanVienId}} - {{employee?.hoTen}}</h3>
             <p style="font-size: 25px;
             color: #858796;

@@ -25,7 +25,7 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Tổng số nhân viên -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -33,7 +33,12 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Tổng số nhân viên</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" *ngIf="totalEmployee !== null"> 
+                                                {{ totalEmployee }}
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" *ngIf="totalEmployee === null"> 
+                                                Đang tải dữ liệu...
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -43,25 +48,26 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Tổng số phòng ban -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1" >
                                                 Tổng số phòng ban</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" *ngIf="totalDepartment !== null">{{totalDepartment}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"*ngIf="totalDepartment === null">Đang tải dữ liệu...</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Task -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
@@ -90,7 +96,7 @@
                             </div>
                         </div>
 
-                        <!-- Pending Requests Card Example -->
+                        <!-- Pending Requests  -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
@@ -98,7 +104,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -113,44 +119,38 @@
 
                     <div class="row">
 
-                        <!-- Area Chart -->
+                        <!-- Số lượng nhân viên mỗi phòng ban -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+                                    <h4 class="m-0 font-weight-bold text-primary">Số lượng nhân viên mỗi phòng ban</h4>
+                                    <div class="dropdown no-arrow" >
+                                        <form class="d-flex " >
+                                            <input type="text" class="form-control  w-25" style="margin-left: auto;"
+                                            [(ngModel)]="numberOfDepartments" name="numberOfDepartments">
+                                            <button class="btn btn-primary" (click)="getDepartments()"> Sumbit</button>
+                                        </form>
                                     </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                        <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'bar'">
+                                        </canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Pie Chart -->
+                        <!-- Phòng ban -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Phòng ban</h6>
+                                    <h4 class="m-0 font-weight-bold text-primary">Phòng ban</h4>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -169,8 +169,22 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
-                                        <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'pie'">
-                                        </canvas>
+                                        <table  class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Tên phòng ban</th>
+                                                    <th>Số lượng </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                <tr *ngFor="let d of departmentList">
+                                                    <td>{{ d.phongBanId }}</td>
+                                                    <td>{{ d.tenPhongBan }}</td>
+                                                    <td>{{ d.totalNhanVien }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
                                     </div>
                                     <div class="mt-4 text-center small">
                                     </div>
@@ -342,7 +356,6 @@
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
+<a class="scroll-to-top rounded" href="#">
     <i class="fas fa-angle-up"></i>
 </a>
-

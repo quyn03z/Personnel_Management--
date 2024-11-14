@@ -14,6 +14,8 @@ public interface IDepartmentService
     Task UpdateDepartmentAsync(int id, DepartmentDto departmentDto);
     Task DeleteDepartmentAsync(int id);
     Task<bool> HasEmployeesAsync(int departmentId);
+    Task<int> GetTotalDepartmentAsync();
     Task<List<TotalNhanVienInPhongBanDto>> GetTotalNhanVienInPhongBanAsync();
+    Task<List<TotalNhanVienInPhongBanDto>> GetTopTotalNhanVienInPhongBanAsync(int count);
 }
 

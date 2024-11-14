@@ -6,6 +6,7 @@ using Personnel_Management.Business.AuthService;
 using Personnel_Management.Business.DiemDanhService;
 using Personnel_Management.Business.LuongService;
 using Personnel_Management.Business.NhanVienService;
+using Personnel_Management.Business.UploadFileService;
 using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Data.EntityRepository;
 using Personnel_Management.Models.Models;
@@ -56,6 +57,7 @@ public class Program
         builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 		builder.Services.AddScoped<IDiemDanhService, DiemDanhService>();
 		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();
+		builder.Services.AddScoped<UploadService>();
 		builder.Services.AddControllers();
 		builder.Services.AddScoped<IAuthService, AuthService>();
 		builder.Services.AddScoped<IDiemDanhRepository, DiemDanhRepository>();

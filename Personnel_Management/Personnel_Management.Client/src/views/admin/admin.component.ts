@@ -6,17 +6,20 @@ import { Chart, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { ViewEmployeeListComponent } from '../manager/view-employee-list/view-employee-list.component';
-import { EmployeesListComponent } from "./EmployeesList/employeesList.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterOutlet, CommonModule,BaseChartDirective ],
+  imports: [RouterOutlet, CommonModule,BaseChartDirective ,FormsModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
+  totalEmployee:number |null=null;
+  totalDepartment:number|null=null;
+  numberOfDepartments: number = 5;
+  departmentList: any[] = [];
   isAdminDashboard: boolean = true;
   chartData!: ChartData<'pie'>; 
   chartOptions: any = {
@@ -32,10 +35,13 @@ export class AdminComponent {
   ngOnInit(): void {
     Chart.register(...registerables);
     this.getDepartmentData();
+    this.getTotalEmployees();
+    this.getTotalDepartments();
+    this.getAllDepartment();
   }
 
   getDepartmentData() {
-    this.http.get<{ $values: { phongBanId: number; tenPhongBan: string; totalNhanVien: number }[] }>('https://localhost:7182/api/Department/TotalNhanVienInPhongBan')
+    this.http.get<{ $values: { phongBanId: number; tenPhongBan: string; totalNhanVien: number }[] }>(`https://localhost:7182/api/Department/TopTotalNhanVienInPhongBan?count=${this.numberOfDepartments}`)
       .pipe(
         map(response => response.$values)
       )
@@ -59,5 +65,38 @@ export class AdminComponent {
           console.error('Lỗi khi lấy dữ liệu từ API:', error);
         }
       });
+  }
+  getTotalEmployees() {
+    this.http.get<number>('https://localhost:7182/api/NhanViens/total-employees')
+      .subscribe({
+        next: totalEmployees => {
+          this.totalEmployee = totalEmployees;
+        },
+        error: error => {
+          console.error('Lỗi khi lấy tổng số nhân viên từ API:', error);
+        }
+      });
+  }
+  getTotalDepartments() {
+    this.http.get<number>('https://localhost:7182/api/Department/total-Department')
+      .subscribe({
+        next: totalDepartments => {
+          this.totalDepartment = totalDepartments;
+        },
+        error: error => {
+          console.error('Lỗi khi lấy tổng số nhân viên từ API:', error);
+        }
+      });
+  }
+  getDepartments() {
+    this.getDepartmentData();  // Gọi lại để lấy dữ liệu mới khi người dùng thay đổi số lượng phòng ban
+  }
+  getAllDepartment(): void {
+    this.http.get("https://localhost:7182/api/Department/TotalNhanVienInPhongBan").subscribe((res: any) => {
+
+      this.departmentList = res.$values;
+      console.log(this.departmentList);
+
+    });
   }
 }

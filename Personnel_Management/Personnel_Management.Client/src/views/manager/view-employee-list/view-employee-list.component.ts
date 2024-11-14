@@ -7,11 +7,12 @@ import { DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
 import { ApiService } from '../../../api/api.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-view-employee-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, DataTablesModule, DatePipe],
+  imports: [CommonModule, RouterLink, RouterLinkActive, DataTablesModule],
   providers: [DatePipe], // Thêm DatePipe vào providers
   templateUrl: './view-employee-list.component.html',
   styleUrls: ['./view-employee-list.component.scss']
@@ -39,6 +40,12 @@ export class ViewEmployeeListComponent implements OnInit {
       pageLength: 5
     }
   }
+
+ 
+
+ 
+
+
 
   getAllEmployee(): void {
     this.http.get("https://localhost:7182/api/NhanViens/GetAllManagerFunction?phongBanId=" + this.phongBanId).subscribe((res: any) => {

@@ -80,6 +80,20 @@ public class DepartmentController : ControllerBase
         }
     }
 
+    [HttpGet("TopTotalNhanVienInPhongBan")]
+    public async Task<IActionResult> GetTotalNhanVienInPhongBan(int count)
+    {
+        try
+        {
+            var result = await _departmentService.GetTopTotalNhanVienInPhongBanAsync(count);
+            return Ok(result); // Trả về status code 200 với dữ liệu
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex);
+            return StatusCode(500, "Đã có lỗi xảy ra khi lấy số lượng nhân viên trong phòng ban."); // Trả về lỗi 500 nếu có lỗi
+        }
+    }
     [HttpGet("TotalNhanVienInPhongBan")]
     public async Task<IActionResult> GetTotalNhanVienInPhongBan()
     {
@@ -94,5 +108,19 @@ public class DepartmentController : ControllerBase
             return StatusCode(500, "Đã có lỗi xảy ra khi lấy số lượng nhân viên trong phòng ban."); // Trả về lỗi 500 nếu có lỗi
         }
     }
+    [HttpGet("total-Department")]
+    public async Task<IActionResult> GetTotalDepartment()
+    {
+        try
+        {
+            int totalDepartment = await _departmentService.GetTotalDepartmentAsync();
+            return Ok(totalDepartment);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
 
 }

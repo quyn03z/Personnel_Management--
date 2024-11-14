@@ -53,7 +53,7 @@ namespace Personnel_Management.Business.AuthService
 				_ => "Unknown"
 				})
 				}),
-				Expires = DateTime.UtcNow.AddMinutes(20),
+				Expires = DateTime.UtcNow.AddMinutes(10),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature),
 				Audience = _jwtAudience,
 				Issuer = _jwtIssuer

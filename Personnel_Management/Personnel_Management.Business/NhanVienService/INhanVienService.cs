@@ -21,8 +21,9 @@ namespace Personnel_Management.Business.NhanVienService
 		Task<NhanVienDtto> UpdateProfileEmployee(int id, NhanVienDtto nhanVienDTO);
 
 		Task<NhanVienDtto> GetNhanVienById(int id);
+		Task<int> GetTotalEmployeesAsync();
 
-		Task<bool> VerifyPasswordAsync(NhanVien nhanVien, string oldPassword);
+        Task<bool> VerifyPasswordAsync(NhanVien nhanVien, string oldPassword);
 		Task<bool> ChangePasswordAsync(int id, string newPassword);
 
 	}

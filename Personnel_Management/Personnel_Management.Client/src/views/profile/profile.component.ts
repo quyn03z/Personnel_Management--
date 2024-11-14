@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {
 
   }
+  
   ngOnInit(): void {
     this.getProfileNhanVien();
     this.setRoleIdFromToken();
@@ -40,6 +41,7 @@ export class ProfileComponent implements OnInit {
     this.nhanVienProfileObj.roleId = storedRoleId;
     console.log('Assigned roleId from localStorage to profile object:', this.nhanVienProfileObj.roleId);
   }
+
   profileImageUrl: string | ArrayBuffer | null = '';
 
   setRoleIdFromToken() {
@@ -47,15 +49,13 @@ export class ProfileComponent implements OnInit {
     if (token) {
       try {
         const decodedToken: any = jwt_decode(token);
-        console.log('Decoded Token:', decodedToken); // Check token structure
-
-        // Extract RoleId and save it to localStorage
+        console.log('Decoded Token:', decodedToken);
         if (decodedToken && decodedToken.RoleId) {
-          localStorage.setItem('roleId', decodedToken.RoleId); // Store RoleId separately
+          localStorage.setItem('roleId', decodedToken.RoleId);
           console.log('RoleId saved to localStorage:', decodedToken.RoleId);
         } else {
           console.warn('RoleId not found in token');
-          localStorage.setItem('roleId', '0'); // Default if RoleId is missing
+          localStorage.setItem('roleId', '0');
         }
 
       } catch (error) {
@@ -84,7 +84,7 @@ export class ProfileComponent implements OnInit {
           soDienThoai: nhanVien.soDienThoai,
           phongBanName: nhanVien.phongBanName || 'No Department',
           roleName: nhanVien.roleName || 'No Role',
-          avatar: nhanVien.avatar && !nhanVien.avatar.startsWith('assets/')
+          avatar: nhanVien.avatar && !nhanVien.avatar.startsWith('assets\\')
             ? `assets/${nhanVien.avatar}`
             : nhanVien.avatar
         };
@@ -95,14 +95,36 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-
-
+  selectedFile: File | null = null; 
 
   onUpdateProfile() {
     if (!this.nhanVienProfileObj.hoTen || this.nhanVienProfileObj.hoTen.trim() === '') {
       alert('Vui lòng nhập Họ và Tên.');
       return;
     }
+    if (this.selectedFile) {
+      this.authService.upLoadPhoto(this.selectedFile).subscribe({
+        next: (uploadResponse) => {
+          console.log('Upload response:', uploadResponse);
+          if (uploadResponse && uploadResponse.fileName) {
+            this.nhanVienProfileObj.avatar = "img" +"/" + uploadResponse.fileName; 
+            this.updateProfile(); 
+          } else {
+            console.error('No FileName in upload response');
+            alert('Failed to upload image. FileName is missing.');
+          }
+        },
+        error: (error) => {
+          console.error('Upload error:', error);
+          alert('Failed to upload image. Please try again.');
+        }
+      });
+    } else {
+      this.updateProfile();
+    }
+  }
+
+  updateProfile() {
     const updateData = {
       hoTen: this.nhanVienProfileObj.hoTen,
       ngaySinh: this.nhanVienProfileObj.ngaySinh,
@@ -110,6 +132,7 @@ export class ProfileComponent implements OnInit {
       soDienThoai: this.nhanVienProfileObj.soDienThoai,
       email: this.nhanVienProfileObj.email,
       roleId: this.nhanVienProfileObj.roleId,
+      phongBanId: localStorage.getItem('phongBanId'),
       avatar: this.nhanVienProfileObj.avatar
     };
     console.log('Sending update data:', updateData);
@@ -129,21 +152,29 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
-
   }
 
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
 
   previewImage(event: any) {
     const file = event.target.files[0];
     if (file) {
+      console.log("Tên của ảnh:", file.name);
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.avatarBase64 = e.target.result; // Store base64 string for preview
+        this.avatarBase64 = e.target.result;
       };
       reader.readAsDataURL(file);
-      this.nhanVienProfileObj.avatar = file.name; // Set only the filename for the avatar
     }
   }
+
 
 
   changePasswordObj = {
@@ -183,13 +214,10 @@ export class ProfileComponent implements OnInit {
 
 function jwt_decode(token: string): any {
   try {
-    // Split the token into its parts
     const parts = token.split('.');
     if (parts.length !== 3) {
       throw new Error('Invalid JWT token format');
     }
-
-    // Decode the payload (second part of the token)
     const payload = parts[1];
     const decodedPayload = atob(payload);
     return JSON.parse(decodedPayload);

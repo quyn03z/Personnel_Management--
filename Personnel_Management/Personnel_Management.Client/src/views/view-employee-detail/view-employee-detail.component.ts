@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
 import { DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 import { Subject } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-view-employee-detail',
   standalone: true,
@@ -30,6 +31,8 @@ export class ViewEmployeeDetailComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
 
   check = false;
+  
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     this.phongBanId = localStorage.getItem('phongBanId');
@@ -46,6 +49,9 @@ export class ViewEmployeeDetailComponent implements OnInit {
       lengthChange: false
     }
   }
+
+  
+
 
   getEmployeeById() {
     this.nhanVienId = this.activatedRoute.snapshot.paramMap.get('nhanVienId');
@@ -104,4 +110,5 @@ export class ViewEmployeeDetailComponent implements OnInit {
   btnDiemDanh(){
     this.router.navigateByUrl(`attendanceReport/${this.nhanVienId}`);
   }
+  
 }
