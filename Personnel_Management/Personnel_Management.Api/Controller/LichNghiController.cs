@@ -42,16 +42,36 @@ public class LichNghiController : ControllerBase
     }
 
     [HttpPut("UpdateLichNghiByExactDate")]
-    //id
-    public IActionResult UpdateLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year, [FromBody] string lichnghi)
+
+    //public IActionResult UpdateLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year, [FromBody] string lichnghi)
+
+    public IActionResult UpdateLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year, [FromBody] LichNghi lichnghi)
+
     {
-        //if (string.IsNullOrEmpty(newLyDo))
-        //{
-        //    return BadRequest("Lý do không hợp lệ.");
-        //}
-        _lichNghiRepository.UpdateLichNghiByExactDate(day, month, year, lichnghi);
-        return Ok();
+        // Tìm kiếm LichNghi theo ngày chính xác
+        var existingLichNghi = _lichNghiRepository.searchLichNghiByExactDate(day, month, year);
+        if (existingLichNghi == null)
+        {
+            lichnghi.Ngay = new DateTime(year, month, day); // Tạo ngày mới cho đối tượng lichnghi
+            _lichNghiRepository.AddLichNghi(lichnghi);
+            return Ok(existingLichNghi);
+        }
+        else
+        {
+            try
+            {
+                existingLichNghi.LyDo = lichnghi.LyDo;
+                _lichNghiRepository.UpdateLichNghiByExactDate(existingLichNghi);
+                return Ok(existingLichNghi); // Trả về đối tượng đã được cập nhật
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (có thể thêm chi tiết về lỗi vào log)
+                return StatusCode(500, $"Error updating: {ex.Message}");
+            }
+        }
     }
+
 
 
 

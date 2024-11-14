@@ -14,7 +14,6 @@ import { Observable } from 'rxjs';
     phongBanId: number;
     avatar: string | null;
     matkhau:string;
-    
   }
   @Injectable({
     providedIn: 'root'

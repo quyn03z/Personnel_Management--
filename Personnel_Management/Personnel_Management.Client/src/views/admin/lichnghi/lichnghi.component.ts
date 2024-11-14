@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { LichNghiService } from './lichnghi.service';
-import { AbsenceDialogComponent } from './absence-dialog-component/absence-dialog-component.component';  // Create this dialog component
+import { LichNghi, LichNghiService } from './lichnghi.service';
+import { AbsenceDialogComponent } from './absence-dialog-component/absence-dialog-component.component';
 
 @Component({
   selector: 'app-lichnghi',
@@ -19,7 +19,7 @@ export class LichnghiComponent implements OnInit {
 
   constructor(
     private lichNghiService: LichNghiService,
-    private dialog: MatDialog  // Inject MatDialog
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -28,8 +28,8 @@ export class LichnghiComponent implements OnInit {
 
   loadAbsences(): void {
     this.lichNghiService.getAllLichNghiOnMonth().subscribe(data => {
-      data.forEach((item: any) => {
-        this.absenceReasons[new Date(item.ngay).toISOString().split('T')[0]] = item.lyDo;
+      data.forEach((item: LichNghi) => {
+        this.absenceReasons[new Date(item.Ngay).toISOString().split('T')[0]] = item.Lydo;
       });
     });
   }
@@ -38,25 +38,35 @@ export class LichnghiComponent implements OnInit {
     this.selectedDate = date;
     const dateKey = date.toISOString().split('T')[0];
     const reason = this.absenceReasons[dateKey] || 'No absence reason';
-    
+
     // Open the dialog with the selected date and reason
-    this.dialog.open(AbsenceDialogComponent, {
-      data: { date: date, reason: reason }
+    const dialogRef = this.dialog.open(AbsenceDialogComponent, {
+      data: { 
+        date: date, 
+        lichNghi: { lichNghiId: 0, Ngay: date, Lydo: reason }  // Initialize with a new LichNghi object
+      }
+    });
+
+    // After the dialog closes, reload the absences to reflect any updates
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadAbsences();
     });
   }
 
-  addAbsence(date: Date, reason: string): void {
-    this.lichNghiService.addLichNghi({ ngay: date, lyDo: reason }).subscribe(() => {
-      this.absenceReasons[date.toISOString().split('T')[0]] = reason;
-    });
-  }
+  // addAbsence(date: Date, reason: string): void {
+  //   this.lichNghiService.addLichNghi({ ngay: date, lyDo: reason }).subscribe(() => {
+  //     this.absenceReasons[date.toISOString().split('T')[0]] = reason;
+  //   });
+  // }
 
   updateAbsence(date: Date, newReason: string): void {
     const [day, month, year] = [date.getDate(), date.getMonth() + 1, date.getFullYear()];
-    this.lichNghiService.updateLichNghi(day, month, year, newReason).subscribe(() => {
+    const updatedLichNghi: LichNghi = { lichNghiId: 0, Ngay: date, Lydo: newReason };
+
+    this.lichNghiService.updateLichNghi(day, month, year, updatedLichNghi).subscribe(() => {
       this.absenceReasons[date.toISOString().split('T')[0]] = newReason;
     });
-    console.log(newReason);
+    console.log(`Updated reason: ${newReason}`);
   }
 
   deleteAbsence(date: Date): void {
