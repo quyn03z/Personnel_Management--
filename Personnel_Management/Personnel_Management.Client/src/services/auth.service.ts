@@ -8,7 +8,11 @@ import { tap } from 'rxjs';
 })
 export class AuthService {
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private apiService: ApiService, private router: Router) {
+    setInterval(() => {
+      this.isLoggedIn();
+    }, 30000);
+  }
 
 
   isLoggedIn(): boolean {
@@ -19,11 +23,12 @@ export class AuthService {
       if (tokenData && tokenData.exp > currentTime) {
         return true;
       } else {
-        this.logout();
+        this.logout(); 
       }
     }
     return false;
   }
+  
 
   login(email: string, matKhau: string) {
     const payload = { email, matKhau };
@@ -36,8 +41,8 @@ export class AuthService {
             const decodedToken: any = jwt_decode(token);
             const PhongBanId = decodedToken?.PhongBanId;
             const NhanVienId = decodedToken?.NhanVienId;
-            localStorage.setItem("phongBanId",PhongBanId);
-            localStorage.setItem("NhanVienId",NhanVienId);
+            localStorage.setItem("phongBanId", PhongBanId);
+            localStorage.setItem("NhanVienId", NhanVienId);
           } else {
             console.error('Token not found in localStorage.');
           }
@@ -50,6 +55,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   getRoles() {
@@ -94,25 +100,25 @@ export class AuthService {
     return this.apiService.updateProfile(data);
   }
 
-  changePassWordProfileNew(data: any){
+  changePassWordProfileNew(data: any) {
     return this.apiService.changePassWordProfile(data);
   }
 
 
-  getDiemDanhNhanVien(thang: number, nam: number){
-    return this.apiService.getAllDiemDanh(thang,nam);
+  getDiemDanhNhanVien(thang: number, nam: number) {
+    return this.apiService.getAllDiemDanh(thang, nam);
   }
 
 
-  diemDanhNhanVien(data: any){
+  diemDanhNhanVien(data: any) {
     return this.apiService.diemDanhAPI(data);
   }
-  
-  checkNgayDiemDanh(ngay: number,thang: number, nam: number){
-    return this.apiService.checkNgayDiemDanhAPI(ngay,thang,nam);
+
+  checkNgayDiemDanh(ngay: number, thang: number, nam: number) {
+    return this.apiService.checkNgayDiemDanhAPI(ngay, thang, nam);
   }
 
-  upLoadPhoto(file: File){
+  upLoadPhoto(file: File) {
     return this.apiService.upLoadFileAPI(file);
   }
 
@@ -122,14 +128,14 @@ export class AuthService {
 
 function jwt_decode(token: string): any {
   try {
-    
+
     const parts = token.split('.');
     if (parts.length !== 3) {
       throw new Error('Invalid JWT token format');
     }
     const payload = parts[1];
     const decodedPayload = atob(payload);
-    return JSON.parse(decodedPayload); 
+    return JSON.parse(decodedPayload);
   } catch (error) {
     console.error('Failed to decode JWT:', error);
     return null;
