@@ -23,6 +23,7 @@
                         <th>Active</th>
                         <th></th>
                         <th></th>
+                        <th></th>
 
                     </tr>
                 </thead>
@@ -36,6 +37,9 @@
                       <td [class.banned-row]="e.isBanned"> {{ getRoleName(e.roleId) }} </td>
                       <td [class.banned-row]="e.isBanned"> {{ e.phongBan.tenPhongBan }} </td>
                       <td [class.banned-row]="e.isBanned"> {{ getActive(e.isBanned) }} </td>
+                      <td [class.banned-row]="e.isBanned">
+                        <button class="btn btn-primary" [routerLink]="['/viewEmployeeDetail/', e.nhanVienId]">View</button>
+                      </td>
                       <td [class.banned-row]="e.isBanned">
                         <button class="btn btn-primary" [routerLink]="['/editEmployee', e.nhanVienId]">Edit</button>
                       </td>
