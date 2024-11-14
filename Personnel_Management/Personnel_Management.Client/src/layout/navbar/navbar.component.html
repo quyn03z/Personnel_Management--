@@ -155,10 +155,12 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Duc Anh Bo Doi Qua</span>
-                <img class="img-profile rounded-circle"
-                    src="https://th.bing.com/th/id/OIP.vetPR8Q7sSk3H3LtVe5OSwHaLi?w=126&h=197&c=7&r=0&o=5&dpr=1.4&pid=1.7">
+                <h4 class="mr-2 d-none d-lg-inline text-gray-600 small">{{ nhanVienProfileObj.hoTen }}</h4>
+                <img class="img-profile rounded-circle" width="80px" height="100"
+                [src]="nhanVienProfileObj.avatar">
+                    
             </a>
+
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">

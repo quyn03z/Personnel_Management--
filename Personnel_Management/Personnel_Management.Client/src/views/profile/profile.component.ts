@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {
 
   }
+  
   ngOnInit(): void {
     this.getProfileNhanVien();
     this.setRoleIdFromToken();
@@ -40,6 +41,7 @@ export class ProfileComponent implements OnInit {
     this.nhanVienProfileObj.roleId = storedRoleId;
     console.log('Assigned roleId from localStorage to profile object:', this.nhanVienProfileObj.roleId);
   }
+
   profileImageUrl: string | ArrayBuffer | null = '';
 
   setRoleIdFromToken() {
