@@ -42,6 +42,7 @@ public class LichNghiController : ControllerBase
     }
 
     [HttpPut("UpdateLichNghiByExactDate")]
+    //id
     public IActionResult UpdateLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year, [FromBody] string lichnghi)
     {
         //if (string.IsNullOrEmpty(newLyDo))
