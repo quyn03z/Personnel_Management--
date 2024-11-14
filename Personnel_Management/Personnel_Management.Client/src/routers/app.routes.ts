@@ -19,6 +19,8 @@ import { AddDepartmentComponent } from '../views/admin/DepartmentList/add-depart
 import { EditDepartmentComponent } from '../views/admin/DepartmentList/edit-department/edit-department.component';
 import { ViewDepartmentEmployeeComponent } from '../views/admin/DepartmentList/view-department-employee/view-department-employee.component';
 import { DiemdanhComponent } from '../views/diemdanh/diemdanh.component';
+import { LichnghiComponent } from '../views/admin/lichnghi/lichnghi.component';
+
 export const routes: Routes = [
     {
         path: '',
@@ -110,5 +112,6 @@ export const routes: Routes = [
         component: EditEmployeesComponent
     },
     { path: 'diemdanh', title: 'DiemDanh', component: DiemdanhComponent },
+    {path:"lichnghi", title:'lich  nghi', component: LichnghiComponent},
 
 ];

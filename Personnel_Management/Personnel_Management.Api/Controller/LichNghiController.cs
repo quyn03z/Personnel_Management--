@@ -41,11 +41,25 @@ public class LichNghiController : ControllerBase
         return Ok("Lịch nghỉ đã được thêm thành công.");
     }
 
-    // Xóa lịch nghỉ theo id
-    [HttpDelete("DeleteLichNghi/{id}")]
-    public IActionResult DeleteLichNghi(int id)
+    [HttpPut("UpdateLichNghiByExactDate")]
+    public IActionResult UpdateLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year, [FromBody] string lichnghi)
     {
-        _lichNghiRepository.DeleteLichNghi(id);
-        return Ok("Lịch nghỉ đã được xóa.");
+        //if (string.IsNullOrEmpty(newLyDo))
+        //{
+        //    return BadRequest("Lý do không hợp lệ.");
+        //}
+        _lichNghiRepository.UpdateLichNghiByExactDate(day, month, year, lichnghi);
+        return Ok();
     }
+
+
+
+    // Xóa lịch nghỉ theo id
+    [HttpDelete("DeleteLichNghiByExactDate")]
+    public IActionResult DeleteLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year)
+    {
+        _lichNghiRepository.DeleteLichNghiByExactDate(day, month, year);
+        return Ok("Lịch nghỉ đã được xóa theo ngày cụ thể.");
+    }
+
 }

@@ -3,7 +3,8 @@
 public interface ILichNghiRepository
 {
     List<DateTime> GetAllLichNghi2(int currentMonth, int currentYear);
-    List<LichNghi> GetAllLichNghi(); // Trả về đối tượng LichNghi
-    void AddLichNghi(LichNghi lichNghi); // Thêm một lịch nghỉ
-    void DeleteLichNghi(int lichNghiId); // Xóa lịch nghỉ theo ID
+    List<LichNghi> GetAllLichNghi();
+    void AddLichNghi(LichNghi lichNghi);
+    void DeleteLichNghiByExactDate(int day, int month, int year); // Delete by exact date
+    void UpdateLichNghiByExactDate(int day, int month, int year, string newLyDo); // Update by exact date
 }

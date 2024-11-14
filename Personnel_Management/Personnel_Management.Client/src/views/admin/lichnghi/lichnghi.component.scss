@@ -1,0 +1,21 @@
+.calendar-sectionss {
+    width: 50%; /* Half the width of the container */
+    max-width: 600px;
+
+    mat-calendar {
+      width: 100%;
+      font-size: 1.2rem;
+
+      .mat-calendar-body-cell {
+        height: 50px;
+        width: 50px;
+      }
+      
+      .mat-calendar-period-button,
+      .mat-calendar-previous-button,
+      .mat-calendar-next-button {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  

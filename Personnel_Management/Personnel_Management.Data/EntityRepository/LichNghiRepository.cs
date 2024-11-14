@@ -29,13 +29,22 @@ public class LichNghiRepository : ILichNghiRepository
         _context.SaveChanges();
     }
 
-    // Xóa lịch nghỉ
-    public void DeleteLichNghi(int lichNghiId)
+    public void DeleteLichNghiByExactDate(int day, int month, int year)
     {
-        var lichNghi = _context.LichNghis.Find(lichNghiId);
+        var lichNghi = _context.LichNghis.FirstOrDefault(ln => ln.Ngay.Day == day && ln.Ngay.Month == month && ln.Ngay.Year == year);
         if (lichNghi != null)
         {
             _context.LichNghis.Remove(lichNghi);
+            _context.SaveChanges();
+        }
+    }
+
+    public void UpdateLichNghiByExactDate(int day, int month, int year, string newLyDo)
+    {
+        var lichNghi = _context.LichNghis.FirstOrDefault(ln => ln.Ngay.Day == day && ln.Ngay.Month == month && ln.Ngay.Year == year);
+        if (lichNghi != null)
+        {
+            lichNghi.LyDo = newLyDo;
             _context.SaveChanges();
         }
     }
