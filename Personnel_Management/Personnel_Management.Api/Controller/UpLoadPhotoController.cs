@@ -29,20 +29,25 @@ namespace Personnel_Management.Api.Controller
 		}
 
 
-
-		[HttpGet("GetImage/{fileName}")]
-		public IActionResult GetImage(string fileName)
+		[HttpGet("GetImagePath/{fileName}")]
+		public IActionResult GetImagePath(string fileName)
 		{
+			// Xác định đường dẫn đầy đủ của tệp
 			var filePath = Path.Combine(@"D:\Merger Personnel\Personnel_Management\Personnel_Management.Client\src\assets\img", fileName);
 
+			// Kiểm tra xem tệp có tồn tại không
 			if (!System.IO.File.Exists(filePath))
 			{
-				return NotFound();
+				return NotFound(new { Message = "File not found" });
 			}
 
-			var image = System.IO.File.ReadAllBytes(filePath);
-			return File(image, "image/jpeg"); // Thay đổi MIME type nếu cần
+			// Tạo đường dẫn tương đối để trả về cho Angular
+			var relativePath = Path.Combine("assets/img", fileName).Replace("\\", "/"); // Thay thế \ thành / cho URL
+			return Ok(new { ImagePath = relativePath });
 		}
+
+
+
 
 
 	}
