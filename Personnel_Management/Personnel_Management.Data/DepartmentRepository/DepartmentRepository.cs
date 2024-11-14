@@ -1,20 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Personnel_Management.Data.BaseRepository;
 using Personnel_Management.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-public class DepartmentRepository : IDepartmentRepository
+public class DepartmentRepository : BaseRepository<PhongBan>, IDepartmentRepository
 {
     private readonly QuanLyNhanSuContext _context;
 
-    public DepartmentRepository(QuanLyNhanSuContext context)
+    public DepartmentRepository(QuanLyNhanSuContext context) : base(context)
     {
         _context = context;
     }
+    public IQueryable<PhongBan> GetQuery()
+    {
+        return _dbSet; // hoặc _context.NhanViens.AsQueryable()
+    }
 
+    public IQueryable<PhongBan> GetQuery(Expression<Func<PhongBan, bool>> predicate)
+    {
+        return _dbSet.Where(predicate);
+    }
     public async Task<List<PhongBan>> GetAllDepartmentsAsync()
     {
         return await _context.PhongBans.ToListAsync();
@@ -57,7 +67,19 @@ public class DepartmentRepository : IDepartmentRepository
                 PhongBanId = pb.PhongBanId,
                 TenPhongBan = pb.TenPhongBan,
                 TotalNhanVien = _context.NhanViens.Count(nv => nv.PhongBanId == pb.PhongBanId)
-            })
+            }).OrderByDescending(d => d.TotalNhanVien)
+            .ToListAsync();
+    }
+    public async Task<List<TotalNhanVienInPhongBanDto>> GetTopTotalNhanVienInPhongBanAsync(int count)
+    {
+        return await _context.PhongBans
+            .Select(pb => new TotalNhanVienInPhongBanDto
+            {
+                PhongBanId = pb.PhongBanId,
+                TenPhongBan = pb.TenPhongBan,
+                TotalNhanVien = _context.NhanViens.Count(nv => nv.PhongBanId == pb.PhongBanId)
+            }).OrderByDescending(d => d.TotalNhanVien)
+            .Take(count)
             .ToListAsync();
     }
 }

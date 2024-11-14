@@ -33,7 +33,12 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Tổng số nhân viên</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" *ngIf="totalEmployee !== null"> 
+                                                {{ totalEmployee }}
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" *ngIf="totalEmployee === null"> 
+                                                Đang tải dữ liệu...
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -49,9 +54,10 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1" >
                                                 Tổng số phòng ban</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" *ngIf="totalDepartment !== null">{{totalDepartment}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"*ngIf="totalDepartment === null">Đang tải dữ liệu...</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -119,26 +125,20 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+                                    <h4 class="m-0 font-weight-bold text-primary">Số lượng nhân viên mỗi phòng ban</h4>
+                                    <div class="dropdown no-arrow" >
+                                        <form class="d-flex " >
+                                            <input type="text" class="form-control  w-25" style="margin-left: auto;"
+                                            [(ngModel)]="numberOfDepartments" name="numberOfDepartments">
+                                            <button class="btn btn-primary" (click)="getDepartments()"> Sumbit</button>
+                                        </form>
                                     </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                        <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'bar'">
+                                        </canvas>
                                     </div>
                                 </div>
                             </div>
@@ -169,8 +169,22 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
-                                        <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'pie'">
-                                        </canvas>
+                                        <table  class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Tên phòng ban</th>
+                                                    <th>Số lượng </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                <tr *ngFor="let d of departmentList">
+                                                    <td>{{ d.phongBanId }}</td>
+                                                    <td>{{ d.tenPhongBan }}</td>
+                                                    <td>{{ d.totalNhanVien }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
                                     </div>
                                     <div class="mt-4 text-center small">
                                     </div>
@@ -345,4 +359,3 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
