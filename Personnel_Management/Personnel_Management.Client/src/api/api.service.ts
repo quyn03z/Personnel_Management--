@@ -149,6 +149,7 @@ export class ApiService {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      console.error('Full error response:', error);
     }
     return throwError(errorMessage);
   }

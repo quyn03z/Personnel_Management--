@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {
 
   }
+  
   ngOnInit(): void {
     this.getProfileNhanVien();
     this.setRoleIdFromToken();
@@ -40,6 +41,7 @@ export class ProfileComponent implements OnInit {
     this.nhanVienProfileObj.roleId = storedRoleId;
     console.log('Assigned roleId from localStorage to profile object:', this.nhanVienProfileObj.roleId);
   }
+
   profileImageUrl: string | ArrayBuffer | null = '';
 
   setRoleIdFromToken() {
@@ -82,7 +84,7 @@ export class ProfileComponent implements OnInit {
           soDienThoai: nhanVien.soDienThoai,
           phongBanName: nhanVien.phongBanName || 'No Department',
           roleName: nhanVien.roleName || 'No Role',
-          avatar: nhanVien.avatar && !nhanVien.avatar.startsWith('assets/')
+          avatar: nhanVien.avatar && !nhanVien.avatar.startsWith('assets\\')
             ? `assets/${nhanVien.avatar}`
             : nhanVien.avatar
         };
@@ -93,14 +95,36 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-
-
+  selectedFile: File | null = null; 
 
   onUpdateProfile() {
     if (!this.nhanVienProfileObj.hoTen || this.nhanVienProfileObj.hoTen.trim() === '') {
       alert('Vui lòng nhập Họ và Tên.');
       return;
     }
+    if (this.selectedFile) {
+      this.authService.upLoadPhoto(this.selectedFile).subscribe({
+        next: (uploadResponse) => {
+          console.log('Upload response:', uploadResponse);
+          if (uploadResponse && uploadResponse.fileName) {
+            this.nhanVienProfileObj.avatar = "img" +"/" + uploadResponse.fileName; 
+            this.updateProfile(); 
+          } else {
+            console.error('No FileName in upload response');
+            alert('Failed to upload image. FileName is missing.');
+          }
+        },
+        error: (error) => {
+          console.error('Upload error:', error);
+          alert('Failed to upload image. Please try again.');
+        }
+      });
+    } else {
+      this.updateProfile();
+    }
+  }
+
+  updateProfile() {
     const updateData = {
       hoTen: this.nhanVienProfileObj.hoTen,
       ngaySinh: this.nhanVienProfileObj.ngaySinh,
@@ -127,20 +151,24 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
-
   }
 
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
 
   previewImage(event: any) {
     const file = event.target.files[0];
     if (file) {
       console.log("Tên của ảnh:", file.name);
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.avatarBase64 = e.target.result;
-        if (this.avatarBase64) {
-          this.nhanVienProfileObj.avatar = this.avatarBase64;
-        }
       };
       reader.readAsDataURL(file);
     }
