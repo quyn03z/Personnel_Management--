@@ -132,6 +132,7 @@ export class ProfileComponent implements OnInit {
       soDienThoai: this.nhanVienProfileObj.soDienThoai,
       email: this.nhanVienProfileObj.email,
       roleId: this.nhanVienProfileObj.roleId,
+      phongBanId: localStorage.getItem('phongBanId'),
       avatar: this.nhanVienProfileObj.avatar
     };
     console.log('Sending update data:', updateData);
