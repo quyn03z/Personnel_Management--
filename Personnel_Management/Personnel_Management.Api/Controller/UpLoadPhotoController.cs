@@ -20,7 +20,28 @@ namespace Personnel_Management.Api.Controller
 		public IActionResult UploadFile(IFormFile file)
 		{
 			var result = _uploadService.Upload(file);
-			return Ok(result);
+
+			if (result.StartsWith("Extension is not valid") || result == "Maximum file size can be 5MB")
+			{
+				return BadRequest(new { Message = result });
+			}
+			return Ok(new { FileName = result, Message = "File uploaded successfully" });
+		}
+
+
+
+		[HttpGet("GetImage/{fileName}")]
+		public IActionResult GetImage(string fileName)
+		{
+			var filePath = Path.Combine(@"D:\Merger Personnel\Personnel_Management\Personnel_Management.Client\src\assets\img", fileName);
+
+			if (!System.IO.File.Exists(filePath))
+			{
+				return NotFound();
+			}
+
+			var image = System.IO.File.ReadAllBytes(filePath);
+			return File(image, "image/jpeg"); // Thay đổi MIME type nếu cần
 		}
 
 
