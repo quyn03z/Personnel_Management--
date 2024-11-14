@@ -7,7 +7,7 @@ import { catchError, of } from 'rxjs';
 @Component({
   selector: 'app-create-thuong-phat',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule],
   templateUrl: './create-thuong-phat.component.html',
   styleUrls: ['./create-thuong-phat.component.scss']
 })
