@@ -1,6 +1,6 @@
 import { Component, inject, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { LichNghiService } from '../lichnghi.service';
+import { LichNghi, LichNghiService } from '../lichnghi.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
@@ -15,8 +15,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./absence-dialog-component.component.scss']  // Optional: Add styles for the dialog
 })
 export class AbsenceDialogComponent {
-  reason: string;
-
+  
+  lichNghi:LichNghi = { lichNghiId: 0, Ngay: new Date(), Lydo: '' };;
   http = inject(HttpClient)
 
   constructor(
@@ -24,35 +24,34 @@ export class AbsenceDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,  // Data passed to the dialog (date and reason)
     private lichNghiService: LichNghiService  // Service to handle API requests
   ) {
-    this.reason = data.reason;  // Initialize the reason field with the passed data
+    this.lichNghi = data.lichNghi;  // Initialize the reason field with the passed data
   }
 
   // Save the updated reason
-  // onSave(): void {
-  //   const date = this.data.date;
-  //   console.log(date +''+ this.reason); 
-  //   if (this.reason) {
-  //     this.lichNghiService.updateLichNghi(date.getDate(), date.getMonth() + 1, date.getFullYear(), this.reason)
-  //       .subscribe((res: any) => {
-  //         if(res){
-  //           this.dialogRef.close();  // Close the dialog after saving
-  //         }  
-  //       });
-  //   }
-  // }
-
   onSave(): void {
     const date = this.data.date;
-    console.log(date +''+ this.reason); 
-    if (this.reason) {
-      this.http.put(`https://localhost:7182/api/LichNghi/UpdateLichNghiByExactDate?day=14&month=11&year=2024`, "a").subscribe((res:any) =>{
-        if(res){
-          this.dialogRef.close();  // Close the dialog after saving
-        }
-      })
-      
+    
+    if (!date || !this.lichNghi) {
+      console.error("Date or lichNghi is missing.");
+      return;
     }
+  
+    console.log(`Saving LichNghi for date: ${date}, data:`, this.lichNghi);
+    
+    this.lichNghiService.updateLichNghi(date.getDate(), date.getMonth() + 1, date.getFullYear(), this.lichNghi)
+      .subscribe(
+        (res: any) => {
+          if (res) {
+            this.dialogRef.close();  // Đóng dialog sau khi lưu thành công
+          }
+        },
+        (error) => {
+          console.error("Error updating LichNghi:", error);
+          // Optional: You could show an error message to the user here
+        }
+      );
   }
+
 
   // Delete the absence record
   onDelete(): void {

@@ -6,5 +6,6 @@ public interface ILichNghiRepository
     List<LichNghi> GetAllLichNghi();
     void AddLichNghi(LichNghi lichNghi);
     void DeleteLichNghiByExactDate(int day, int month, int year); // Delete by exact date
-    void UpdateLichNghiByExactDate(int day, int month, int year, string newLyDo); // Update by exact date
+    void UpdateLichNghiByExactDate(LichNghi lichnghi); // Update by exact date
+    LichNghi searchLichNghiByExactDate(int day, int month, int year);
 }

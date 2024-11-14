@@ -39,13 +39,16 @@ public class LichNghiRepository : ILichNghiRepository
         }
     }
 
-    public void UpdateLichNghiByExactDate(int day, int month, int year, string newLyDo)
+    public void UpdateLichNghiByExactDate(LichNghi lichNghi)
     {
-        var lichNghi = _context.LichNghis.FirstOrDefault(ln => ln.Ngay.Day == day && ln.Ngay.Month == month && ln.Ngay.Year == year);
-        if (lichNghi != null)
-        {
-            lichNghi.LyDo = newLyDo;
+
+            _context.LichNghis.Update(lichNghi);
             _context.SaveChanges();
-        }
+
+    }
+    public LichNghi searchLichNghiByExactDate(int day, int month, int year)
+    {
+
+        return _context.LichNghis.FirstOrDefault(ln => ln.Ngay.Day == day && ln.Ngay.Month == month && ln.Ngay.Year == year);
     }
 }
