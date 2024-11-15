@@ -1,3 +1,24 @@
-<div class="calendar-sectionss">
-  <mat-calendar (selectedChange)="onSelect($event)"></mat-calendar>
+
+<div class="calendar-container">
+  <!-- Calendar Section -->
+  <div class="calendar-section">
+    <mat-calendar (selectedChange)="onSelect($event)"></mat-calendar>
+  </div>
+  <div class="table-section">
+    <table >
+      <thead>
+        <tr>
+          <th>Ngày Nghỉ lễ</th>
+          <th>Ngày Nghỉ lễ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let day of absenceDaysArray">
+          <td>{{ day }}</td>
+          <td>{{ absenceReasons[day] }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
 </div>

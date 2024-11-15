@@ -1,4 +1,11 @@
-.calendar-sectionss {
+.calendar-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px; /* Space between calendar and table */
+  margin-top: 20px;
+
+  .calendar-section {
     width: 50%; /* Half the width of the container */
     max-width: 600px;
 
@@ -18,4 +25,87 @@
       }
     }
   }
-  
+
+  .table-section {
+    width: 50%; /* Half the width of the container */
+    max-width: 600px;
+
+    p {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+
+
+
+.dialog-title {
+  color: #3f51b5;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.dialog-content {
+  font-size: 1rem;
+  color: #333;
+  padding: 10px 20px;
+  text-align: center;
+
+  p {
+    margin: 0 0 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    strong {
+      color: #3f51b5;
+    }
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.action-button {
+  color: #ffffff;
+  background-color: #4e73df;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #4e73df;
+  }
+}

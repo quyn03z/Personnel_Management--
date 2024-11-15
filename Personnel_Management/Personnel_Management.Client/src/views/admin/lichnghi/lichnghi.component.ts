@@ -5,20 +5,36 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { LichNghi, LichNghiService } from './lichnghi.service';
 import { AbsenceDialogComponent } from './absence-dialog-component/absence-dialog-component.component';
+import { CommonModule } from '@angular/common';
+
+
+import { ChangeDetectorRef } from '@angular/core';
+
+
+interface ApiLichNghiResponse {
+  $id: string;
+  $values: {
+    lichNghiId: number;
+    ngay: string;
+    lyDo: string;
+  }[];
+}
 @Component({
   selector: 'app-lichnghi',
   standalone: true,
-  imports: [MatInputModule, MatDatepickerModule, MatNativeDateModule, AbsenceDialogComponent],
+  imports: [MatInputModule, MatDatepickerModule, MatNativeDateModule, AbsenceDialogComponent,CommonModule],
   templateUrl: './lichnghi.component.html',
   styleUrls: ['./lichnghi.component.scss']
 })
 export class LichnghiComponent implements OnInit {
   selectedDate: Date | null = null;
   absenceReasons: { [date: string]: string } = {};  // Track reasons by date
-
+  absenceDays: Set<string> = new Set();
+  absenceDaysArray: string[] = [];
   constructor(
     private lichNghiService: LichNghiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -26,10 +42,21 @@ export class LichnghiComponent implements OnInit {
   }
 
   loadAbsences(): void {
-    this.lichNghiService.getAllLichNghiOnMonth().subscribe(data => {
-      data.forEach((item: LichNghi) => {
-        this.absenceReasons[new Date(item.ngay).toISOString().split('T')[0]] = item.lyDo;
-      });
+    this.lichNghiService.getAllLichNghiOnMonth().subscribe((data: ApiLichNghiResponse) => {
+      if (data && data.$values) {
+        this.absenceDays.clear();
+        this.absenceDaysArray = [];
+        data.$values.forEach((item) => {
+          const dateKey = item.ngay.substring(0, 10);
+          this.absenceDays.add(dateKey);
+          this.absenceReasons[dateKey] = item.lyDo;
+          this.absenceDaysArray.push(dateKey);
+          console.log(`${dateKey}: ${this.absenceReasons[dateKey]}`);
+        });
+        this.cdr.detectChanges(); // Thêm dòng này
+      } else {
+        console.error("Dữ liệu trả về từ API không đúng định dạng.");
+      }
     });
   }
 
