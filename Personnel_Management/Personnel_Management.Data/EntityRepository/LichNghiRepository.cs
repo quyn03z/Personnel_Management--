@@ -15,6 +15,11 @@ public class LichNghiRepository : ILichNghiRepository
                                             && ln.Ngay.Year == currentYear).Select(ln => ln.Ngay).ToList();
         return list;
     }
+    public LichNghi GetLichNghiByExactedDay(int currentDay,int currentMonth, int currentYear)
+    {
+        var lichNghi = searchLichNghiByExactDate(currentDay, currentMonth, currentYear);
+        return lichNghi;
+    }
     // Lấy tất cả lịch nghỉ trong tháng với ngày và lý do
     public List<LichNghi> GetAllLichNghi()
     {

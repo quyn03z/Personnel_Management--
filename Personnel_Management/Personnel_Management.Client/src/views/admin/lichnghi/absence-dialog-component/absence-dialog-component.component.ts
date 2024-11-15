@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+
 @Component({
   selector: 'app-absence-dialog',
   standalone:true,
@@ -15,8 +17,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./absence-dialog-component.component.scss']  // Optional: Add styles for the dialog
 })
 export class AbsenceDialogComponent {
-  
-  lichNghi:LichNghi = { lichNghiId: 0, Ngay: new Date(), Lydo: '' };;
+  selectedDate: Date;
+  lichNghi$: Observable<LichNghi | null> = of(null);
+  lichNghi:LichNghi = { lichNghiId: 0, ngay: new Date(), lyDo: 'Chưa có dữ liệu' };;
   http = inject(HttpClient)
 
   constructor(
@@ -24,7 +27,16 @@ export class AbsenceDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,  // Data passed to the dialog (date and reason)
     private lichNghiService: LichNghiService  // Service to handle API requests
   ) {
-    this.lichNghi = data.lichNghi;  // Initialize the reason field with the passed data
+    this.selectedDate = data.date;
+    this.lichNghi$ = this.lichNghiService.getLichNghiByDay(
+      this.selectedDate.getDate(),
+      this.selectedDate.getMonth() + 1,
+      this.selectedDate.getFullYear(),
+    ); 
+    this.lichNghi$.subscribe(_lichNghi => {
+      this.lichNghi = _lichNghi || { lichNghiId: 0, ngay: this.selectedDate, lyDo: 'Chưa có dữ liệu' };
+      console.log(_lichNghi);
+    });
   }
 
   // Save the updated reason
@@ -39,7 +51,7 @@ export class AbsenceDialogComponent {
       .subscribe(
         (res: any) => {
           if (res) {
-            alert(`Save day: ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} with LyDo:${this.lichNghi.Lydo}`);
+            alert(`Save day: ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} with LyDo:${this.lichNghi.lyDo}`);
             this.dialogRef.close();
           }
         },

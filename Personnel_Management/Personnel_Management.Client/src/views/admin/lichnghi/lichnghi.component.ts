@@ -5,11 +5,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { LichNghi, LichNghiService } from './lichnghi.service';
 import { AbsenceDialogComponent } from './absence-dialog-component/absence-dialog-component.component';
-
 @Component({
   selector: 'app-lichnghi',
   standalone: true,
-  imports: [MatInputModule, MatDatepickerModule, MatNativeDateModule],
+  imports: [MatInputModule, MatDatepickerModule, MatNativeDateModule, AbsenceDialogComponent],
   templateUrl: './lichnghi.component.html',
   styleUrls: ['./lichnghi.component.scss']
 })
@@ -29,7 +28,7 @@ export class LichnghiComponent implements OnInit {
   loadAbsences(): void {
     this.lichNghiService.getAllLichNghiOnMonth().subscribe(data => {
       data.forEach((item: LichNghi) => {
-        this.absenceReasons[new Date(item.Ngay).toISOString().split('T')[0]] = item.Lydo;
+        this.absenceReasons[new Date(item.ngay).toISOString().split('T')[0]] = item.lyDo;
       });
     });
   }
@@ -46,22 +45,15 @@ export class LichnghiComponent implements OnInit {
         lichNghi: { lichNghiId: 0, Ngay: date, Lydo: reason }  // Initialize with a new LichNghi object
       }
     });
-
     // After the dialog closes, reload the absences to reflect any updates
     dialogRef.afterClosed().subscribe(() => {
       this.loadAbsences();
     });
   }
 
-  // addAbsence(date: Date, reason: string): void {
-  //   this.lichNghiService.addLichNghi({ ngay: date, lyDo: reason }).subscribe(() => {
-  //     this.absenceReasons[date.toISOString().split('T')[0]] = reason;
-  //   });
-  // }
-
   updateAbsence(date: Date, newReason: string): void {
     const [day, month, year] = [date.getDate(), date.getMonth() + 1, date.getFullYear()];
-    const updatedLichNghi: LichNghi = { lichNghiId: 0, Ngay: date, Lydo: newReason };
+    const updatedLichNghi: LichNghi = { lichNghiId: 0, ngay: date, lyDo: newReason };
 
     this.lichNghiService.updateLichNghi(day, month, year, updatedLichNghi).subscribe(() => {
       this.absenceReasons[date.toISOString().split('T')[0]] = newReason;

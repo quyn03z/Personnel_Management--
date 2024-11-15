@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable,of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 export interface LichNghi {
   lichNghiId: number;
-  Ngay:Date;
-  Lydo:string;
+  ngay:Date;
+  lyDo:string;
 }
 
 @Injectable({
@@ -20,10 +21,20 @@ export class LichNghiService {
     return this.http.get(`${this.baseUrl}/GetAllLichNghiOnMonth`);
   }
 
-  // addLichNghi(data: { ngay: Date, lyDo: string }): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/AddLichNghi`, data);
-  // }
+  getLichNghiByDay(day: number, month: number, year: number): Observable<LichNghi | null> {
+    const params = new HttpParams()
+      .set('day', day.toString())
+      .set('month', month.toString())
+      .set('year', year.toString());
 
+    return this.http.get<LichNghi>(`${this.baseUrl}/GetLichNghiByExactedDay`, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Error getting LichNghi:', error);
+          return of(null); 
+        })
+      );
+  }
   updateLichNghi(day: number, month: number, year: number, lichnghi: LichNghi): Observable<any> {
     const params = new HttpParams()
       .set('day', day.toString())
@@ -38,12 +49,6 @@ export class LichNghiService {
         })
       );
   }
-
-  // deleteLichNghi(day: number, month: number, year: number): Observable<any> {
-  //   return this.http.delete(`${this.baseUrl}/DeleteLichNghiByExactDate`, {
-  //     params: { day: day.toString(), month: month.toString(), year: year.toString() }
-  //   });
-  // }
   deleteLichNghi(day: number, month: number, year: number): Observable<any> {
     const params = new HttpParams()
       .set('day', day.toString())

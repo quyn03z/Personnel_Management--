@@ -22,6 +22,7 @@ public class LichNghiController : ControllerBase
         return Ok(list);
     }
 
+
     [HttpPut("UpdateLichNghiByExactDate")]
 
     //public IActionResult UpdateLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year, [FromBody] string lichnghi)
@@ -71,6 +72,27 @@ public class LichNghiController : ControllerBase
             {
                 _lichNghiRepository.DeleteLichNghiByExactDate(day,month,year);
                 return Ok(existingLichNghi); // Trả về đối tượng đã được cập nhật
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (có thể thêm chi tiết về lỗi vào log)
+                return StatusCode(500, $"Error updating: {ex.Message}");
+            }
+        }
+    }
+    [HttpGet("GetLichNghiByExactedDay")]
+    public IActionResult GetLichNghiByExactedDay([FromQuery] int day, [FromQuery] int month, [FromQuery] int year)
+    {
+        var existingLichNghi = _lichNghiRepository.searchLichNghiByExactDate(day, month, year);
+        if (existingLichNghi == null)
+        {
+            return NotFound("Couldn't find LichNghi");
+        }
+        else
+        {
+            try
+            {
+                return Ok(existingLichNghi); 
             }
             catch (Exception ex)
             {
