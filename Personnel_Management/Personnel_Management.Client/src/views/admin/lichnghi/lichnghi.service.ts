@@ -39,9 +39,23 @@ export class LichNghiService {
       );
   }
 
+  // deleteLichNghi(day: number, month: number, year: number): Observable<any> {
+  //   return this.http.delete(`${this.baseUrl}/DeleteLichNghiByExactDate`, {
+  //     params: { day: day.toString(), month: month.toString(), year: year.toString() }
+  //   });
+  // }
   deleteLichNghi(day: number, month: number, year: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/DeleteLichNghiByExactDate`, {
-      params: { day: day.toString(), month: month.toString(), year: year.toString() }
-    });
+    const params = new HttpParams()
+      .set('day', day.toString())
+      .set('month', month.toString())
+      .set('year', year.toString());
+
+    return this.http.delete<any>(`${this.baseUrl}/DeleteLichNghiByExactDate`, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Error Delete LichNghi:', error);
+          throw error;
+        })
+      );
   }
 }

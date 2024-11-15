@@ -31,19 +31,15 @@ public class LichNghiRepository : ILichNghiRepository
 
     public void DeleteLichNghiByExactDate(int day, int month, int year)
     {
-        var lichNghi = _context.LichNghis.FirstOrDefault(ln => ln.Ngay.Day == day && ln.Ngay.Month == month && ln.Ngay.Year == year);
-        if (lichNghi != null)
-        {
-            _context.LichNghis.Remove(lichNghi);
-            _context.SaveChanges();
-        }
-    }
 
+        _context.LichNghis.Remove(searchLichNghiByExactDate(day,month,year));
+        _context.SaveChanges();
+    }
     public void UpdateLichNghiByExactDate(LichNghi lichNghi)
     {
 
-            _context.LichNghis.Update(lichNghi);
-            _context.SaveChanges();
+        _context.LichNghis.Update(lichNghi);
+        _context.SaveChanges();
 
     }
     public LichNghi searchLichNghiByExactDate(int day, int month, int year)

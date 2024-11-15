@@ -22,25 +22,6 @@ public class LichNghiController : ControllerBase
         return Ok(list);
     }
 
-    // Thêm lịch nghỉ với ngày và lý do
-    [HttpPost("AddLichNghi")]
-    public IActionResult AddLichNghi([FromBody] LichNghiInput model)
-    {
-        if (model == null || model.Ngay == default(DateTime) || string.IsNullOrEmpty(model.LyDo))
-        {
-            return BadRequest("Ngày và lý do không hợp lệ.");
-        }
-
-        var lichNghi = new LichNghi
-        {
-            Ngay = model.Ngay,
-            LyDo = model.LyDo
-        };
-
-        _lichNghiRepository.AddLichNghi(lichNghi);
-        return Ok("Lịch nghỉ đã được thêm thành công.");
-    }
-
     [HttpPut("UpdateLichNghiByExactDate")]
 
     //public IActionResult UpdateLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year, [FromBody] string lichnghi)
@@ -79,8 +60,24 @@ public class LichNghiController : ControllerBase
     [HttpDelete("DeleteLichNghiByExactDate")]
     public IActionResult DeleteLichNghiByExactDate([FromQuery] int day, [FromQuery] int month, [FromQuery] int year)
     {
-        _lichNghiRepository.DeleteLichNghiByExactDate(day, month, year);
-        return Ok("Lịch nghỉ đã được xóa theo ngày cụ thể.");
+        var existingLichNghi = _lichNghiRepository.searchLichNghiByExactDate(day, month, year);
+        if (existingLichNghi == null)
+        {
+            return NotFound("Couldn't find LichNghi");
+        }
+        else
+        {
+            try
+            {
+                _lichNghiRepository.DeleteLichNghiByExactDate(day,month,year);
+                return Ok(existingLichNghi); // Trả về đối tượng đã được cập nhật
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (có thể thêm chi tiết về lỗi vào log)
+                return StatusCode(500, $"Error updating: {ex.Message}");
+            }
+        }
     }
 
 }

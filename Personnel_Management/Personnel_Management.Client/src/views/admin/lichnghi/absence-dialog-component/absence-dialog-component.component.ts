@@ -30,36 +30,53 @@ export class AbsenceDialogComponent {
   // Save the updated reason
   onSave(): void {
     const date = this.data.date;
-    
     if (!date || !this.lichNghi) {
       console.error("Date or lichNghi is missing.");
       return;
     }
-  
     console.log(`Saving LichNghi for date: ${date}, data:`, this.lichNghi);
-    
     this.lichNghiService.updateLichNghi(date.getDate(), date.getMonth() + 1, date.getFullYear(), this.lichNghi)
       .subscribe(
         (res: any) => {
           if (res) {
-            this.dialogRef.close();  // Đóng dialog sau khi lưu thành công
+            alert(`Save day: ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} with LyDo:${this.lichNghi.Lydo}`);
+            this.dialogRef.close();
           }
         },
         (error) => {
           console.error("Error updating LichNghi:", error);
-          // Optional: You could show an error message to the user here
         }
       );
   }
 
 
   // Delete the absence record
+  // onDelete(): void {
+  //   const date = this.data.date;
+  //   this.lichNghiService.deleteLichNghi(date.getDate(), date.getMonth() + 1, date.getFullYear())
+  //     .subscribe(() => {
+  //       this.dialogRef.close();  // Close the dialog after deleting
+  //     });
+  // }
   onDelete(): void {
     const date = this.data.date;
+    if (!date || !this.lichNghi) {
+      console.error("Date or lichNghi is missing.");
+      return;
+    }
+    console.log(`Delete LichNghi for date: ${date}, data:`, this.lichNghi);
     this.lichNghiService.deleteLichNghi(date.getDate(), date.getMonth() + 1, date.getFullYear())
-      .subscribe(() => {
-        this.dialogRef.close();  // Close the dialog after deleting
-      });
+      .subscribe(
+        (res: any) => {
+          if (res) {
+            alert(`Deleted day: ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`);
+            this.dialogRef.close();
+          }
+        },
+        (error) => {
+          console.error("Error delete LichNghi:", error);
+        }
+      );
   }
 
   // Close the dialog without making any changes
