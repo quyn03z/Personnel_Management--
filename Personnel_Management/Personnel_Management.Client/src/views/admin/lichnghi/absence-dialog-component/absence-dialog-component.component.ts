@@ -48,16 +48,6 @@ export class AbsenceDialogComponent {
         }
       );
   }
-
-
-  // Delete the absence record
-  // onDelete(): void {
-  //   const date = this.data.date;
-  //   this.lichNghiService.deleteLichNghi(date.getDate(), date.getMonth() + 1, date.getFullYear())
-  //     .subscribe(() => {
-  //       this.dialogRef.close();  // Close the dialog after deleting
-  //     });
-  // }
   onDelete(): void {
     const date = this.data.date;
     if (!date || !this.lichNghi) {
