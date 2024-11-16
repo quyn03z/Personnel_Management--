@@ -171,10 +171,6 @@ export class DiemdanhComponent implements OnInit {
     );
   }
 
-  navigateToLichNghi(): void {
-    this.router.navigate(['/lichnghi']); // Thay '/lichnghi' bằng route tương ứng trong ứng dụng của bạn
-  }
-
 
 
 }
