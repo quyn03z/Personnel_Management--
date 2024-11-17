@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class AuthService {
       if (tokenData && tokenData.exp > currentTime) {
         return true;
       } else {
-        this.logout(); 
+        this.logout();  
       }
     }
     return false;
@@ -58,10 +58,30 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  getRoles() {
+  getRoles(): string[] {
     const token = localStorage.getItem('token');
     const decodedToken = this.parseJwt(token ?? "");
-    return decodedToken?.role;
+    const roles = decodedToken?.role || [];
+    return Array.isArray(roles) ? roles : [roles];
+  }
+
+  setRoles(roles: string[]): void {
+    this.rolesSubject.next(roles);
+  }
+  
+  private rolesSubject = new BehaviorSubject<string[]>([]);
+  roles$ = this.rolesSubject.asObservable();
+
+  loadRolesFromToken(): void {
+    const token = localStorage.getItem('token');
+    const decodedToken = this.parseJwt(token ?? "");
+    const roles = decodedToken?.role || [];
+    this.setRoles(Array.isArray(roles) ? roles : [roles]);
+  }
+
+  hasRole(requiredRoles: string[]): boolean {
+    const userRoles = this.getRoles();
+    return requiredRoles.some(role => userRoles.includes(role));
   }
 
   parseJwt(token: string) {

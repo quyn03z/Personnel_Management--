@@ -39,18 +39,18 @@ namespace Personnel_Management.Business.AuthService
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-			new Claim(JwtRegisteredClaimNames.Name, user.HoTen),
-			new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-			new Claim("NhanVienId", user.NhanVienId.ToString()),
-			new Claim("PhongBanId", user.PhongBanId.ToString()),
-			new Claim("RoleId", user.RoleId.ToString()),
-			new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-			new Claim(ClaimTypes.Role, user.RoleId switch
+					new Claim(JwtRegisteredClaimNames.Name, user.HoTen),
+					new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+					new Claim("NhanVienId", user.NhanVienId.ToString()),
+					new Claim("PhongBanId", user.PhongBanId.ToString()),
+					new Claim("RoleId", user.RoleId.ToString()),
+					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+					new Claim(ClaimTypes.Role, user.RoleId switch
 				{
-				1 => "Admin",
-				2 => "Manager",
-				3 => "Employee",
-				_ => "Unknown"
+						1 => "Admin",
+						2 => "Manager",
+						3 => "Employee",
+						_ => "Unknown"
 				})
 				}),
 				Expires = DateTime.UtcNow.AddMinutes(10),

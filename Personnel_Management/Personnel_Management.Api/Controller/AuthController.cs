@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity.Data;
 
 namespace Personnel_Management.Api.Controllers
 {
@@ -24,6 +25,7 @@ namespace Personnel_Management.Api.Controllers
 		private readonly QuanLyNhanSuContext _quanLyNhanSuContext;
 		private readonly IConfiguration _configuration;
 		public static List<ResetTokenEntry> _resetTokens = new List<ResetTokenEntry>();
+		public static List<RefreshRequest> _refreshTokens = new List<RefreshRequest>();
 
 
 

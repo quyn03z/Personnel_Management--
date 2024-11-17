@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit{
     this.authService.login(this.loginObj.email, this.loginObj.matKhau).subscribe(
       response => {
         this.login.emit();
-        this.router.navigate(['/viewEmployeeList']);
+        this.router.navigate(['/diemdanh']);
       },
       error => {
         this.loginFailed = true;
