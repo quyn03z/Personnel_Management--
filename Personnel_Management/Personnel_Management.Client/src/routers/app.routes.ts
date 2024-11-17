@@ -52,6 +52,6 @@ export const routes: Routes = [
     { path: 'profile', title: 'Profile', component: ProfileComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin', 'Employee','Manager']} },
     { path: 'editEmployee/:id',title: 'Edit', component: EditEmployeesComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']}},
     { path: 'diemdanh', title: 'DiemDanh', component: DiemdanhComponent,},
-    { path: 'lichnghi', title:'lich  nghi', component: LichnghiComponent},
+    { path: 'lichnghi', title:'lich  nghi', component: LichnghiComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']}},
 
 ];

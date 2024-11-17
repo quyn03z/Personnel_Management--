@@ -46,7 +46,7 @@
                 <a class="collapse-item" routerLink="admin/employeesList" routerLinkActive="true" *ngIf="roles.includes('Admin')"> Quản Lý Nhân viên</a>
                 <a class="collapse-item" routerLink="/viewEmployeeList" routerLinkActive="true" *ngIf="roles.includes('Admin') || roles.includes('Manager')"> Danh Sách Nhân viên</a>
                 <a class="collapse-item" routerLink="/diemdanh" routerLinkActive="true">Điểm Danh</a>
-                <a class="collapse-item" routerLink="/lichnghi" routerLinkActive="true">Lịch nghỉ</a>
+                <a class="collapse-item" routerLink="/lichnghi" routerLinkActive="true" *ngIf="roles.includes('Admin')">Lịch nghỉ</a>
             </div>
         </div>
     </li>
