@@ -40,28 +40,14 @@
             <span>Components</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner rounded" *ngIf="roles$ | async as roles">
                 <h6 class="collapse-header">Custom Components:</h6>
-                <ng-container *ngIf="roles$ | async as roles">
-                  <a *ngIf="roles.includes('Admin')" 
-                     class="collapse-item" routerLink="admin/departmentList" routerLinkActive="true">
-                     Manager Department
-                  </a>
-                  <a *ngIf="roles.includes('Admin')" 
-                     class="collapse-item" routerLink="admin/employeesList" routerLinkActive="true">
-                     Manager Employees
-                  </a>
-                  <a *ngIf="roles.includes('Admin')|| roles.includes('Manager')" 
-                  class="collapse-item" routerLink="/viewEmployeeList" routerLinkActive="true">
-                    View Employees
-               </a>
-                  <a *ngIf="roles.includes('Admin') || roles.includes('Manager') || roles.includes('Employee')" 
-                     class="collapse-item" routerLink="/diemdanh" routerLinkActive="true">
-                    DiemDanh
-                  </a>
-                </ng-container>
-              </div>
-              
+                <a class="collapse-item" routerLink="admin/departmentList" routerLinkActive="true" *ngIf="roles.includes('Admin')">Quản Lý Phòng ban</a>
+                <a class="collapse-item" routerLink="admin/employeesList" routerLinkActive="true" *ngIf="roles.includes('Admin')"> Quản Lý Nhân viên</a>
+                <a class="collapse-item" routerLink="/viewEmployeeList" routerLinkActive="true" *ngIf="roles.includes('Admin') || roles.includes('Manager')"> Danh Sách Nhân viên</a>
+                <a class="collapse-item" routerLink="/diemdanh" routerLinkActive="true">Điểm Danh</a>
+                <a class="collapse-item" routerLink="/lichnghi" routerLinkActive="true">Lịch nghỉ</a>
+            </div>
         </div>
     </li>
 
