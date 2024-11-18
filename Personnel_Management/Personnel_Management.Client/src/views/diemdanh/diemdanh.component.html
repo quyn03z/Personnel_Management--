@@ -28,6 +28,7 @@
     <form>
       <div class="button-container">
         <button [disabled]="!checkDiemDanh" class="btn btn-primary profile-button" type="button" (click)="onDiemDanh()">Điểm Danh</button>
+        <p *ngIf="locationError" class="error-message">{{ locationError }}</p>
 
       </div>
     </form>

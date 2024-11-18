@@ -87,10 +87,10 @@ export class DiemdanhComponent implements OnInit {
         if (error.status === 400) {
           console.warn('No attendance record found for today. Showing check-in button.');
           this.checkDiemDanh = true;
-       } else {
+        } else {
           console.error('Error checking attendance for today:', error);
           this.checkDiemDanh = false;
-       }
+        }
       }
     );
   }
@@ -118,16 +118,71 @@ export class DiemdanhComponent implements OnInit {
     );
 
   }
- 
 
 
+
+  // onDiemDanh(): void {
+  //   this.dialog.open(this.attendanceDialogTemplate, {
+  //     data: {
+  //       date: this.currentAttendance.date,
+  //       status: this.currentAttendance.status,
+  //     }
+  //   });
+  // }
+
+  locationError: string = '';
+  
   onDiemDanh(): void {
-    this.dialog.open(this.attendanceDialogTemplate, {
-      data: {
-        date: this.currentAttendance.date,
-        status: this.currentAttendance.status
+    this.getCurrentPosition().then(position => {
+      const userLat = position.coords.latitude;
+      const userLng = position.coords.longitude;
+      const officeLat = 21.012606973074384 /* Vĩ độ công ty */; // Ví dụ: 10.762622
+      const officeLng = 105.52568616310265/* Kinh độ công ty */; // Ví dụ: 106.660172
+      const distance = this.calculateDistance(userLat, userLng, officeLat, officeLng);
+      const allowedDistance = 25; // Khoảng cách cho phép (km)
+
+      if (distance <= allowedDistance) {
+        // Người dùng trong phạm vi cho phép, mở dialog điểm danh
+        this.dialog.open(this.attendanceDialogTemplate, {
+          data: {
+            date: this.currentAttendance.date,
+            status: this.currentAttendance.status
+          }
+        });
+      } else {
+        // Người dùng ngoài phạm vi cho phép
+        alert('Bạn không ở trong phạm vi cho phép để điểm danh.');
+      }
+    }).catch(error => {
+      console.error('Error getting user position:', error);
+      alert('Không thể lấy vị trí của bạn.');
+    });
+  }
+  getCurrentPosition(): Promise<GeolocationPosition> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true });
+      } else {
+        reject('Trình duyệt không hỗ trợ Geolocation');
       }
     });
+  }
+  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371; // Bán kính Trái Đất (km)
+    const dLat = this.deg2rad(lat2 - lat1);
+    const dLon = this.deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) *
+      Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+    return distance;
+  }
+  deg2rad(deg: number): number {
+    return deg * (Math.PI / 180);
   }
 
   onUpdateDiemDanh(): void {
@@ -148,7 +203,7 @@ export class DiemdanhComponent implements OnInit {
     }
   }
 
-  loadTableDiemDanh(){
+  loadTableDiemDanh() {
     const currentDate = new Date();
     const thang = currentDate.getMonth() + 1;
     const nam = currentDate.getFullYear();
