@@ -18,7 +18,7 @@
             <span>Danh sách nhân viên</span></a>
     </li>
     <li class="nav-item active" *ngIf="roles$ | async as roles">
-        <a class="nav-link" routerLink="admin" routerLinkActive="true" *ngIf="roles.includes('Admin')|| roles.includes('Manager')" >
+        <a class="nav-link" routerLink="admin" routerLinkActive="true" *ngIf="roles.includes('Admin')" >
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Admin Dashboard</span></a>
     </li>
@@ -80,7 +80,7 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item" *ngIf="roles$ | async as roles">
-        <a class="nav-link" href="/admin" *ngIf="roles.includes('Admin')|| roles.includes('Manager')" >
+        <a class="nav-link" href="/admin" *ngIf="roles.includes('Admin')" >
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Charts Admin</span></a>
     </li>

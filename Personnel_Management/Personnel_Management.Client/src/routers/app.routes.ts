@@ -28,11 +28,11 @@ export const routes: Routes = [
     { path: 'login',title: 'Login',component: LoginComponent},
     { path: 'viewEmployeeDetail/:nhanVienId',title: 'Xem thông tin nhân viên',component: ViewEmployeeDetailComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin','Manager']}},
     { path: 'viewEmployeeList',title: 'Xem Danh Sach Nhan Vien',component: ViewEmployeeListComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin','Manager']}},
-    { path: 'createThuongPhat/:nhanVienId',title: 'Tao thưởng phạt cho nhân viên',component: CreateThuongPhatComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']} },
-    { path: 'updateThuongPhat/:nhanVienId/:thuongPhatId',title: 'Cập nhật thưởng phạt',component: UpdateThuongPhatComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']}},
-    { path: 'attendanceReport/:nhanVienId',title: 'Xem điểm danh nhân viên',component: AttendanceReportComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']}},
+    { path: 'createThuongPhat/:nhanVienId',title: 'Tao thưởng phạt cho nhân viên',component: CreateThuongPhatComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin','Manager']} },
+    { path: 'updateThuongPhat/:nhanVienId/:thuongPhatId',title: 'Cập nhật thưởng phạt',component: UpdateThuongPhatComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin','Manager']}},
+    { path: 'attendanceReport/:nhanVienId',title: 'Xem điểm danh nhân viên',component: AttendanceReportComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin','Manager']}},
 
-    { path: 'admin',title: 'admin',component: AdminComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin','Manager']},
+    { path: 'admin',title: 'admin',component: AdminComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']},
         children : [
             { path: 'employeesList',title: 'employeesList',component: EmployeesListComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']},
                 children : [{ path: 'add',title: 'add', component: AddEmployeesComponent,canActivate: [AuthGuard, RoleGuard],data:{roles: ['Admin']}},] 

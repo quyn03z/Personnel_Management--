@@ -69,7 +69,7 @@ namespace Personnel_Management.Data.EntityRepository
             List<NhanVien> list = new List<NhanVien>();
             try
             {
-                list = _context.NhanViens.Where(nv => nv.RoleId == 3 && nv.isBanned == false && nv.PhongBanId == phongBanId)
+                list = _context.NhanViens.Where(nv => nv.isBanned == false && nv.PhongBanId == phongBanId)
                     .ToList();
             }
             catch (Exception e)
