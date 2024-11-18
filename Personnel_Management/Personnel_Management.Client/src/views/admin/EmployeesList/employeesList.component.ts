@@ -79,6 +79,7 @@ export class EmployeesListComponent implements OnInit {
         console.log(response); // In ra "Employee deleted."
         this.getAllEmployee();
         alert('Nhân viên đã được xóa.');
+        
       },
       (error) => {
         console.error('Lỗi khi xóa nhân viên:', error);

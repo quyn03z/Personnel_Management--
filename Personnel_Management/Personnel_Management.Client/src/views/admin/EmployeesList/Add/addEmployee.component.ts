@@ -74,7 +74,12 @@ export class AddEmployeesComponent implements  OnInit {
     this.http.post("https://localhost:7182/api/NhanViens", formData).subscribe({
       next: (response) => {
         alert("Thêm nhân viên thành công:");
-        this.router.navigate(['/admin/employeesList']);
+        // this.router.navigate(['/admin/employeesList']);
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate([
+            `/admin/employeesList`
+          ]);
+        });
       },
       error: (error) => {
         console.error("Lỗi khi thêm nhân viên:", error);

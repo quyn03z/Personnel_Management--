@@ -35,7 +35,12 @@ export class AddDepartmentComponent {
         this.departmentList.refreshListSubject.next();
 
         // Điều hướng về danh sách phòng ban
-        this.router.navigate(['/admin/departmentList']);
+        // this.router.navigate(['/admin/departmentList']);
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate([
+            `/admin/departmentList`
+          ]);
+        });
       },
       error: (error) => {
         alert('Lỗi khi thêm phòng ban. Vui lòng thử lại sau.');
