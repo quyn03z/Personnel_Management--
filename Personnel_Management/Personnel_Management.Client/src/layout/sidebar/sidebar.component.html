@@ -44,7 +44,7 @@
                 <h6 class="collapse-header">Custom Components:</h6>
                 <a class="collapse-item" routerLink="admin/departmentList" routerLinkActive="true" *ngIf="roles.includes('Admin')">Quản Lý Phòng ban</a>
                 <a class="collapse-item" routerLink="admin/employeesList" routerLinkActive="true" *ngIf="roles.includes('Admin')"> Quản Lý Nhân viên</a>
-                <a class="collapse-item" routerLink="/viewEmployeeList" routerLinkActive="true" *ngIf="roles.includes('Admin') || roles.includes('Manager')"> Danh Sách Nhân viên</a>
+                <!-- <a class="collapse-item" routerLink="/viewEmployeeList" routerLinkActive="true" *ngIf="roles.includes('Admin') || roles.includes('Manager')"> Danh Sách Nhân viên</a> -->
                 <a class="collapse-item" routerLink="/diemdanh" routerLinkActive="true">Điểm Danh</a>
                 <a class="collapse-item" routerLink="/lichnghi" routerLinkActive="true" *ngIf="roles.includes('Admin')">Lịch nghỉ</a>
             </div>
@@ -79,11 +79,11 @@
     </li>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item" *ngIf="roles$ | async as roles">
+    <!-- <li class="nav-item" *ngIf="roles$ | async as roles">
         <a class="nav-link" href="/admin" *ngIf="roles.includes('Admin')" >
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Charts Admin</span></a>
-    </li>
+    </li> -->
 
 
     <!-- Divider -->
