@@ -169,26 +169,29 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
-                                        <table  class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Tên phòng ban</th>
-                                                    <th>Số lượng </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody >
-                                                <tr *ngFor="let d of departmentList">
-                                                    <td>{{ d.phongBanId }}</td>
-                                                    <td>{{ d.tenPhongBan }}</td>
-                                                    <td>{{ d.totalNhanVien }} </td>
-                                                </tr>
-                                            </tbody>
-                                        </table> 
+                                        <div style="max-height: 270px; overflow-y: auto;">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <th>Tên phòng ban</th>
+                                                        <th>Số lượng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let d of departmentList">
+                                                        <td>{{ d.phongBanId }}</td>
+                                                        <td>{{ d.tenPhongBan }}</td>
+                                                        <td>{{ d.totalNhanVien }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div class="mt-4 text-center small">
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
