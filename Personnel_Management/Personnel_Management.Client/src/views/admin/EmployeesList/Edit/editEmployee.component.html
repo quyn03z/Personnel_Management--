@@ -1,5 +1,5 @@
 <a class="col-md-6 text-center" href="/admin/employeesList">
-  <div><button class="btn btn-primary profile-button" type="button">Back to Home</button></div>
+  <div><button class="btn btn-primary profile-button" type="button">Quay lại</button></div>
 </a>
 <div class="container rounded bg-white mt-5 mb-5" *ngIf="employee else emptyEmployee">
   <div class="row">
@@ -7,7 +7,7 @@
       <form>
         <div class="p-3 py-5" *ngIf="luong; else emptyLuong">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-right">Salary Settings</h4>
+            <h4 class="text-right" style="font-size: 20px; color: black;">Lương nhân viên:</h4>
           </div>
 
           <div class="row mt-2">
@@ -30,8 +30,7 @@
 
           <div class="row mt-3">
             <a class="col-md-12 text-center">
-              <div><button class="btn btn-primary profile-button" type="button" (click)="submitLuongUpdate()">Save
-                  Salary</button></div>
+              <div><button class="btn btn-primary profile-button" type="button" (click)="submitLuongUpdate()">Lưu thay đổi</button></div>
             </a>
           </div>
         </div>
@@ -71,7 +70,7 @@
       <form>
         <div class="p-3 py-5">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-right">Profile Settings</h4>
+            <h4 class="text-right" style="font-size: 20px; color: black;">Hồ sơ:</h4>
           </div>
 
           <div class="row mt-2">
@@ -97,7 +96,7 @@
               <input type="text" class="form-control" name="email" [(ngModel)]="employee.email ">
             </div>
             <div class="col-md-12">
-              <label class="labels">Role</label>
+              <label class="labels">Chức vụ</label>
               <select [(ngModel)]="selectedRoleId" class="form-control" [ngModelOptions]="{standalone: true}">
                 <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
               </select>
@@ -116,8 +115,7 @@
 
           <div class="row mt-3">
             <a class="col-md-12 text-center">
-              <div><button class="btn btn-primary profile-button" type="button" (click)="submitProfileUpdate()">Save
-                  Profile</button></div>
+              <div><button class="btn btn-primary profile-button" type="button" (click)="submitProfileUpdate()">Lưu thay đổi</button></div>
             </a>
           </div>
         </div>

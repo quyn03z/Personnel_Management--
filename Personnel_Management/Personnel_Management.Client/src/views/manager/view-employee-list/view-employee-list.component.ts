@@ -68,6 +68,19 @@ export class ViewEmployeeListComponent implements OnInit {
 
   }
 
+  getRoleName(roleId: number): string {
+    switch (roleId) {
+      case 1:
+        return 'Admin';
+      case 2:
+        return 'Manager';
+      case 3:
+        return 'Employee';
+      default:
+        return 'Unknown';
+    }
+  }
+
   NavigateToEmployeeDetail(nhanVienId: any) {
     this.router.navigate(['/viewEmployeeList', nhanVienId]);
   }

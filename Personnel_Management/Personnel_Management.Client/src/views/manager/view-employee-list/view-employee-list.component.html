@@ -9,8 +9,9 @@
                                 <table datatable [dtOptions]="dtoptions" [dtTrigger]="dttrigger" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
+                                            <th>Nhân viên Id</th>
                                             <th>Họ tên</th>
+                                            <th>Chức vụ</th>
                                             <th>Ngày sinh</th>
                                             <th>Số điện thoại</th>
                                             <th>Email</th>
@@ -22,6 +23,7 @@
                                                 
                                                 <td>{{e?.nhanVienId}}</td>
                                                 <td>{{e?.hoTen}}</td>
+                                                <td>{{ getRoleName(e.roleId) }}</td>
                                                 <td>{{e?.ngaySinh}}</td>
                                                 <td>{{e?.soDienThoai}}</td>
                                                 <td>{{e?.email}}</td>

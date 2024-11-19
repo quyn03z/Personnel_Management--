@@ -2,9 +2,9 @@
 <router-outlet></router-outlet>
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+        <h6 class="m-0 font-weight-bold text-primary" style="font-size: 25px;">Danh sách nhân viên</h6>
         <a class="btn btn-primary" style="background-color: cornflowerblue;" routerLink="add"
-            routerLinkActive="true">Add</a>
+            routerLinkActive="true">Thêm mới nhân viên</a>
     </div>
 
     <div class="card-body">
@@ -18,9 +18,9 @@
                         <th>Ngày sinh</th>
                         <th>Số điện thoại</th>
                         <th>Email</th>
-                        <th>Role</th>
+                        <th>Chức vụ</th>
                         <th>Phòng ban</th>
-                        <th>Active</th>
+                        <th>Trạng thái</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -38,10 +38,10 @@
                       <td [class.banned-row]="e.isBanned"> {{ e.phongBan.tenPhongBan }} </td>
                       <td [class.banned-row]="e.isBanned"> {{ getActive(e.isBanned) }} </td>
                       <td [class.banned-row]="e.isBanned">
-                        <button class="btn btn-primary" [routerLink]="['/viewEmployeeDetail/', e.nhanVienId]">View</button>
+                        <button class="btn btn-primary" [routerLink]="['/viewEmployeeDetail/', e.nhanVienId]">Xem</button>
                       </td>
                       <td [class.banned-row]="e.isBanned">
-                        <button class="btn btn-primary" [routerLink]="['/editEmployee', e.nhanVienId]">Edit</button>
+                        <button class="btn btn-primary" [routerLink]="['/editEmployee', e.nhanVienId]">Chỉnh sửa</button>
                       </td>
                       <td [class.banned-row]="e.isBanned" *ngIf="e.isBanned else notBanned"  >
                         <button class="btn btn-primary" style="background-color: green;"
@@ -50,7 +50,7 @@
                       <ng-template #notBanned>
                         <td [class.banned-row]="e.isBanned">
                             <button class="btn btn-primary" style="background-color: crimson;"
-                                    (click)="confirmDeleteEmployee(e.nhanVienId, e.roleId)">ban</button>
+                                    (click)="confirmDeleteEmployee(e.nhanVienId, e.roleId)">Ban</button>
                           </td>
                       </ng-template>
                     </tr>

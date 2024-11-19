@@ -1,21 +1,21 @@
-<h1 mat-dialog-title>Manage Absence</h1>
+<h1 mat-dialog-title>Lịch nghỉ</h1>
 
 <div mat-dialog-content>
-  <p><strong>Date:</strong> {{ selectedDate | date }}</p>
+  <p><strong>Ngày:</strong> {{ selectedDate | date }}</p>
   <!-- Input field for the absence reason -->
   <mat-form-field appearance="fill">
-    <mat-label>Absence Reason</mat-label>
+    <mat-label>Ghi chú</mat-label>
     <input matInput [(ngModel)]="lichNghi.lyDo" placeholder="Enter absence reason">
   </mat-form-field>
 </div>
 
 <div mat-dialog-actions>
   <!-- Save button to save the updated reason -->
-  <button mat-button (click)="onSave()">Save</button>
+  <button mat-button (click)="onSave()">Lưu</button>
   
   <!-- Delete button to delete the absence record -->
-  <button mat-button (click)="onDelete()">Delete</button>
+  <button mat-button (click)="onDelete()">Xóa</button>
   
   <!-- Cancel button to close the dialog without making any changes -->
-  <button mat-button (click)="onClose()">Cancel</button>
+  <button mat-button (click)="onClose()">Hủy</button>
 </div>

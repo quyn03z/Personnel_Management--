@@ -3,9 +3,9 @@
 <div class="card shadow mb-4">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Department</h6>
+            <h6 class="m-0 font-weight-bold text-primary" style="font-size: 25px;">Phòng ban</h6>
             <a class="btn btn-primary" style="background-color: cornflowerblue;" routerLink="add-department"
-                routerLinkActive="true">Add</a>
+                routerLinkActive="true">Tạo mới phòng ban</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -29,8 +29,7 @@
                             <td>{{e.moTa}}</td>
                             <td>
                                 <a class="buttonVe"
-                                    [routerLink]="['/admin/departmentList/view-department-employee', e.phongBanId]">View
-                                    Employees</a>
+                                    [routerLink]="['/admin/departmentList/view-department-employee', e.phongBanId]">Danh sách nhân viên</a>
                                     <style>
                                         .buttonVe {
                                           display: inline-block;
@@ -51,7 +50,7 @@
                                       </style>
                             </td>
                             <td>
-                                <button class="buttonEd" (click)="editDepartment(e.phongBanId)">Edit</button>
+                                <button class="buttonEd" (click)="editDepartment(e.phongBanId)">Chỉnh sửa</button>
                                 <style>
                                     .buttonEd {
                                         display: inline-block;
@@ -84,7 +83,7 @@
                                 </style>
                             </td>
                             <td>
-                                <button class="buttonDe" (click)="deleteDepartment(e.phongBanId)">Delete</button>
+                                <button class="buttonDe" (click)="deleteDepartment(e.phongBanId)">Xóa</button>
                                 <style>
                                     .buttonDe {
                                         display: inline-block;
