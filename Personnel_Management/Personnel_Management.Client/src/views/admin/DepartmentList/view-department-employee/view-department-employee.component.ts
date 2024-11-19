@@ -27,6 +27,7 @@ interface NhanVien {
 export class ViewDepartmentEmployeeComponent implements OnInit, OnDestroy {
   employees: NhanVien[] = [];
   departmentId: number = 0;
+  phongBan: any;
   haveData: boolean = false;
   private routeSubscription: Subscription | undefined;
   private navigationSubscription: Subscription | undefined;
@@ -52,6 +53,7 @@ export class ViewDepartmentEmployeeComponent implements OnInit, OnDestroy {
   loadData(): void {
     // Lấy `departmentId` từ URL
     this.departmentId = +this.route.snapshot.params['id'];
+    this.getPhongBan();
     this.fetchEmployees();
   }
 
@@ -68,7 +70,14 @@ export class ViewDepartmentEmployeeComponent implements OnInit, OnDestroy {
       }
     );
   }
+  getPhongBan() {
+    if (this.departmentId) {
+      this.http.get(`https://localhost:7182/api/Department/${this.departmentId}`).subscribe((res: any) => {
+        this.phongBan = res;
+      })
+    }
 
+  }
   ngOnDestroy(): void {
     // Hủy đăng ký khi component bị hủy
     this.routeSubscription?.unsubscribe();
